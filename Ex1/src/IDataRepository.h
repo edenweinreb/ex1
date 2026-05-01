@@ -1,3 +1,5 @@
+#ifndef IDATA_REPOSITORY_H
+#define IDATA_REPOSITORY_H
 #include <string>
 #include <vector>
 
@@ -25,3 +27,5 @@ class IDataRepository {
         //on startup, the system loads all existing data from the files into memory.
         virtual void loadAll() = 0;
 };
+
+#endif
