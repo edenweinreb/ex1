@@ -9,10 +9,10 @@ using namespace std;
 class App {
 private:
     IMenu* menu;
-    map<int, ICommand*> commands;
+    map<string, ICommand*> commands;
 
 public:
-    App(IMenu* menu, map<int, ICommand*> commands);
+    App(IMenu* menu, map<string, ICommand*> commands);
     void run();
 };
 

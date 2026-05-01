@@ -17,6 +17,7 @@ struct Command {
     vector<string> productIds;
 };
 
+// TODO: Implement parsing logic
 class CommandParser {
 public:
     static Command parse(const string& input);

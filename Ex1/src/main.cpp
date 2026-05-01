@@ -4,20 +4,23 @@ using namespace std;
 #include "AddCommand.h"
 #include "RecommendCommand.h"
 #include "HelpCommand.h"
+#include "ConsoleMenu.h"
+
 
 int main() {
     map<string, ICommand*> commands;
 
     ICommand* add = new AddCommand();
-    commands["1"] =add;
+    commands["add"] =add;
  
     ICommand* recommend = new RecommendCommand();
-    commands["2"] = recommend;
+    commands["recommend"] = recommend;
 
     ICommand* help = new HelpCommand();
-    commands["3"] = help;
+    commands["help"] = help;
  
-    App app(commands);
+    IMenu* menu = new ConsoleMenu();
+    App app(menu, commands);
     app.run();
   
     delete add;
