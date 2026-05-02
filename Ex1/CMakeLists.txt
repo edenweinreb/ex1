@@ -1,4 +1,4 @@
-# Define the minimum CMake version required to process this file
+# Define the minimum CMake version required to process this file 
 cmake_minimum_required(VERSION 3.14)
 
 # Define the project name and the language used (CXX stands for C++)
