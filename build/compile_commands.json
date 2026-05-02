@@ -1,6 +1,24 @@
 [
 {
   "directory": "C:/cs - study/year 2/Advenced Programing/REX1/ex1/build",
+  "command": "C:\\PROGRA~1\\JETBRA~1\\CLION2~1.2\\bin\\mingw\\bin\\G__~1.EXE   -g -std=gnu++17 -o CMakeFiles\\myapp.dir\\src\\Main.cpp.obj -c \"C:\\cs - study\\year 2\\Advenced Programing\\REX1\\ex1\\Ex1\\src\\Main.cpp\"",
+  "file": "C:/cs - study/year 2/Advenced Programing/REX1/ex1/Ex1/src/Main.cpp",
+  "output": "CMakeFiles/myapp.dir/src/Main.cpp.obj"
+},
+{
+  "directory": "C:/cs - study/year 2/Advenced Programing/REX1/ex1/build",
+  "command": "C:\\PROGRA~1\\JETBRA~1\\CLION2~1.2\\bin\\mingw\\bin\\G__~1.EXE   -g -std=gnu++17 -o CMakeFiles\\myapp.dir\\src\\CommandParser.cpp.obj -c \"C:\\cs - study\\year 2\\Advenced Programing\\REX1\\ex1\\Ex1\\src\\CommandParser.cpp\"",
+  "file": "C:/cs - study/year 2/Advenced Programing/REX1/ex1/Ex1/src/CommandParser.cpp",
+  "output": "CMakeFiles/myapp.dir/src/CommandParser.cpp.obj"
+},
+{
+  "directory": "C:/cs - study/year 2/Advenced Programing/REX1/ex1/build",
+  "command": "C:\\PROGRA~1\\JETBRA~1\\CLION2~1.2\\bin\\mingw\\bin\\G__~1.EXE   -g -std=gnu++17 -o CMakeFiles\\myapp.dir\\src\\RecommendationEngine.cpp.obj -c \"C:\\cs - study\\year 2\\Advenced Programing\\REX1\\ex1\\Ex1\\src\\RecommendationEngine.cpp\"",
+  "file": "C:/cs - study/year 2/Advenced Programing/REX1/ex1/Ex1/src/RecommendationEngine.cpp",
+  "output": "CMakeFiles/myapp.dir/src/RecommendationEngine.cpp.obj"
+},
+{
+  "directory": "C:/cs - study/year 2/Advenced Programing/REX1/ex1/build",
   "command": "C:\\PROGRA~1\\JETBRA~1\\CLION2~1.2\\bin\\mingw\\bin\\G__~1.EXE  @CMakeFiles/run_tests.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\run_tests.dir\\src\\tests\\SimilarityTest.cpp.obj -c \"C:\\cs - study\\year 2\\Advenced Programing\\REX1\\ex1\\Ex1\\src\\tests\\SimilarityTest.cpp\"",
   "file": "C:/cs - study/year 2/Advenced Programing/REX1/ex1/Ex1/src/tests/SimilarityTest.cpp",
   "output": "CMakeFiles/run_tests.dir/src/tests/SimilarityTest.cpp.obj"

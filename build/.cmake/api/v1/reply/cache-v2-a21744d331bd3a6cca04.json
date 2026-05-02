@@ -1183,7 +1183,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "RecommendationEngine"
+			"value" : "ex1"
 		},
 		{
 			"name" : "CMAKE_PROJECT_SPDX_LICENSE",
@@ -1900,6 +1900,42 @@
 			],
 			"type" : "INTERNAL",
 			"value" : "GTest"
+		},
+		{
+			"name" : "ex1_BINARY_DIR",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "Value Computed by CMake"
+				}
+			],
+			"type" : "STATIC",
+			"value" : "C:/cs - study/year 2/Advenced Programing/REX1/ex1/build"
+		},
+		{
+			"name" : "ex1_IS_TOP_LEVEL",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "Value Computed by CMake"
+				}
+			],
+			"type" : "STATIC",
+			"value" : "ON"
+		},
+		{
+			"name" : "ex1_SOURCE_DIR",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "Value Computed by CMake"
+				}
+			],
+			"type" : "STATIC",
+			"value" : "C:/cs - study/year 2/Advenced Programing/REX1/ex1/Ex1"
 		},
 		{
 			"name" : "generated_dir",

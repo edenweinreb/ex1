@@ -37,7 +37,8 @@
 					"source" : ".",
 					"targetIndexes" : 
 					[
-						4
+						4,
+						5
 					]
 				},
 				{
@@ -112,10 +113,11 @@
 					[
 						0
 					],
-					"name" : "RecommendationEngine",
+					"name" : "ex1",
 					"targetIndexes" : 
 					[
-						4
+						4,
+						5
 					]
 				},
 				{
@@ -198,8 +200,15 @@
 				},
 				{
 					"directoryIndex" : 0,
+					"id" : "myapp::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-myapp-Debug-369b631a95d86da2730a.json",
+					"name" : "myapp",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
 					"id" : "run_tests::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-run_tests-Debug-53e1d234e05d671da989.json",
+					"jsonFile" : "target-run_tests-Debug-087e626d513de9ebbe53.json",
 					"name" : "run_tests",
 					"projectIndex" : 0
 				}

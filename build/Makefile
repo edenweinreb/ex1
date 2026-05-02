@@ -171,6 +171,19 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named myapp
+
+# Build rule for target.
+myapp: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 myapp
+.PHONY : myapp
+
+# fast build rule for target.
+myapp/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\myapp.dir\build.make CMakeFiles/myapp.dir/build
+.PHONY : myapp/fast
+
+#=============================================================================
 # Target rules for targets named run_tests
 
 # Build rule for target.
@@ -240,6 +253,7 @@ src/CommandParser.obj: src/CommandParser.cpp.obj
 
 # target to build an object file
 src/CommandParser.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\myapp.dir\build.make CMakeFiles/myapp.dir/src/CommandParser.cpp.obj
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\run_tests.dir\build.make CMakeFiles/run_tests.dir/src/CommandParser.cpp.obj
 .PHONY : src/CommandParser.cpp.obj
 
@@ -248,6 +262,7 @@ src/CommandParser.i: src/CommandParser.cpp.i
 
 # target to preprocess a source file
 src/CommandParser.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\myapp.dir\build.make CMakeFiles/myapp.dir/src/CommandParser.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\run_tests.dir\build.make CMakeFiles/run_tests.dir/src/CommandParser.cpp.i
 .PHONY : src/CommandParser.cpp.i
 
@@ -256,14 +271,40 @@ src/CommandParser.s: src/CommandParser.cpp.s
 
 # target to generate assembly for a file
 src/CommandParser.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\myapp.dir\build.make CMakeFiles/myapp.dir/src/CommandParser.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\run_tests.dir\build.make CMakeFiles/run_tests.dir/src/CommandParser.cpp.s
 .PHONY : src/CommandParser.cpp.s
+
+src/Main.obj: src/Main.cpp.obj
+.PHONY : src/Main.obj
+
+# target to build an object file
+src/Main.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\myapp.dir\build.make CMakeFiles/myapp.dir/src/Main.cpp.obj
+.PHONY : src/Main.cpp.obj
+
+src/Main.i: src/Main.cpp.i
+.PHONY : src/Main.i
+
+# target to preprocess a source file
+src/Main.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\myapp.dir\build.make CMakeFiles/myapp.dir/src/Main.cpp.i
+.PHONY : src/Main.cpp.i
+
+src/Main.s: src/Main.cpp.s
+.PHONY : src/Main.s
+
+# target to generate assembly for a file
+src/Main.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\myapp.dir\build.make CMakeFiles/myapp.dir/src/Main.cpp.s
+.PHONY : src/Main.cpp.s
 
 src/RecommendationEngine.obj: src/RecommendationEngine.cpp.obj
 .PHONY : src/RecommendationEngine.obj
 
 # target to build an object file
 src/RecommendationEngine.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\myapp.dir\build.make CMakeFiles/myapp.dir/src/RecommendationEngine.cpp.obj
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\run_tests.dir\build.make CMakeFiles/run_tests.dir/src/RecommendationEngine.cpp.obj
 .PHONY : src/RecommendationEngine.cpp.obj
 
@@ -272,6 +313,7 @@ src/RecommendationEngine.i: src/RecommendationEngine.cpp.i
 
 # target to preprocess a source file
 src/RecommendationEngine.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\myapp.dir\build.make CMakeFiles/myapp.dir/src/RecommendationEngine.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\run_tests.dir\build.make CMakeFiles/run_tests.dir/src/RecommendationEngine.cpp.i
 .PHONY : src/RecommendationEngine.cpp.i
 
@@ -280,6 +322,7 @@ src/RecommendationEngine.s: src/RecommendationEngine.cpp.s
 
 # target to generate assembly for a file
 src/RecommendationEngine.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\myapp.dir\build.make CMakeFiles/myapp.dir/src/RecommendationEngine.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\run_tests.dir\build.make CMakeFiles/run_tests.dir/src/RecommendationEngine.cpp.s
 .PHONY : src/RecommendationEngine.cpp.s
 
@@ -348,10 +391,14 @@ help:
 	@echo ... gmock_main
 	@echo ... gtest
 	@echo ... gtest_main
+	@echo ... myapp
 	@echo ... run_tests
 	@echo ... src/CommandParser.obj
 	@echo ... src/CommandParser.i
 	@echo ... src/CommandParser.s
+	@echo ... src/Main.obj
+	@echo ... src/Main.i
+	@echo ... src/Main.s
 	@echo ... src/RecommendationEngine.obj
 	@echo ... src/RecommendationEngine.i
 	@echo ... src/RecommendationEngine.s

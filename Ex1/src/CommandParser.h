@@ -1,5 +1,20 @@
-#pragma once
+//try
 #include <string>
+#include <vector>
+#pragma once
+
+enum class CommandType {
+    ADD,
+    RECOMMEND,
+    HELP,
+    INVALID
+};
+
+struct Command {
+    CommandType type;
+    std::string userId;
+    std::vector<std::string> productIds;
+};
 
 class CommandParser {
 public:

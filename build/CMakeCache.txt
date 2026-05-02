@@ -210,7 +210,7 @@ CMAKE_PROJECT_DESCRIPTION:STATIC=
 CMAKE_PROJECT_HOMEPAGE_URL:STATIC=
 
 //Value Computed by CMake
-CMAKE_PROJECT_NAME:STATIC=RecommendationEngine
+CMAKE_PROJECT_NAME:STATIC=ex1
 
 //Value Computed by CMake
 CMAKE_PROJECT_SPDX_LICENSE:STATIC=
@@ -349,6 +349,15 @@ RecommendationEngine_IS_TOP_LEVEL:STATIC=ON
 
 //Value Computed by CMake
 RecommendationEngine_SOURCE_DIR:STATIC=C:/cs - study/year 2/Advenced Programing/REX1/ex1/Ex1
+
+//Value Computed by CMake
+ex1_BINARY_DIR:STATIC=C:/cs - study/year 2/Advenced Programing/REX1/ex1/build
+
+//Value Computed by CMake
+ex1_IS_TOP_LEVEL:STATIC=ON
+
+//Value Computed by CMake
+ex1_SOURCE_DIR:STATIC=C:/cs - study/year 2/Advenced Programing/REX1/ex1/Ex1
 
 //Value Computed by CMake
 gmock_BINARY_DIR:STATIC=C:/cs - study/year 2/Advenced Programing/REX1/ex1/build/_deps/googletest-build/googlemock
