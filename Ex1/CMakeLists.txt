@@ -20,8 +20,12 @@ enable_testing()
 
 # === Here we define the executable for our tests ===
 # We tell CMake to create a program called run_tests from the cpp file you created
-add_executable(run_tests src/tests/SimilarityTest.cpp)
-
+add_executable(run_tests 
+    src/tests/SimilarityTest.cpp 
+    src/tests/CommandParserTest.cpp 
+    src/CommandParser.cpp
+    src/RecommendationEngine.cpp
+)
 # We link the gtest library to our test program
 target_link_libraries(run_tests gtest_main)
 

@@ -5,7 +5,6 @@
 #include <vector>
 #include <set>
 #include <unordered_map>
-#include <set>
 
 
 int RecommendationEngine::calculateSimilarity(const std::set<int>& userA, const std::set<int>& userB) {
@@ -22,7 +21,7 @@ int RecommendationEngine::calculateSimilarity(const std::set<int>& userA, const 
     return (int)intersection.size();
 }
 
-std::vector<int> RecommendationEngine::getSortedRecommendations(int user_id, const unordered_map<int, std::set<int>> user_products, const std ::unordered_map<int,int> dictionaryOfSimilarities)
-{
-
+std::vector<int> RecommendationEngine::getSortedRecommendations(int user_id, const std::unordered_map<int, std::set<int>>& user_products, const std::unordered_map<int,int>& dictionaryOfSimilarities) {
+    
+    return {}; // מחזיר וקטור ריק בינתיים
 }
