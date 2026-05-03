@@ -20,10 +20,12 @@ class App
                     continue;
                 }
                 try {
-                    commands[task]->execute();
+                    // need to add all the varaibles that declered
+                    Command cmd = parseRecommendCommand(task);
+                    commands[task]->execute(cmd);
                 }
                 catch(...){
-                    menu->displayError("Sorry, no can do");
+                    menu->displayError("");
                 }
             }
         }
