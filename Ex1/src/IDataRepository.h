@@ -22,7 +22,7 @@ class IDataRepository {
         virtual void addViewedProduct(int userId, const Product& product) = 0;
 
         //Retrieves all data associated with a specific user.
-        virtual void getUserData(int userId) = 0;
+        virtual std::vector<Product> getUserData(int userId) = 0;
 
         //on startup, the system loads all existing data from the files into memory.
         virtual void loadAll() = 0;
