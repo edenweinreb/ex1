@@ -1,6 +1,7 @@
-using namespace std;
 #ifndef COMMANDPARSER_H
 #define COMMANDPARSER_H
+
+#include "IDataRepository.h"
 #include <string>
 #include <vector>
 
@@ -13,13 +14,13 @@ enum class CommandType {
 
 struct Command {
     CommandType type;
-    string userId;
-    vector<string> productIds;
+    std::string userId;
+    std::vector<std::string> productIds;
 };
 
-// TODO: Implement parsing logic
 class CommandParser {
 public:
-    static Command parse(const string& input);
+    //Parses a raw input string and creates the corresponding Command object
+    static ICommand* parse(const std::string& input, IDataRepository& repo);
 };
 #endif
