@@ -15,6 +15,15 @@ FileRepository::FileRepository(const std::string& path) : filePath(path) {
 }
 
 void FileRepository::addViewedProduct(int userId, const Product& product) {
+    //Checking that there are no duplicates of the same productId
+    if (userData.find(userId) != userData.end()) {
+        for (const auto& existingProduct : userData[userId].viewedProducts) {
+            if (existingProduct.productId == product.productId) {
+                return; 
+            }
+        }
+    }
+
     //Update the in-memory map for fast access during runtime
     userData[userId].userId = userId;
     userData[userId].viewedProducts.push_back(product);
@@ -22,7 +31,7 @@ void FileRepository::addViewedProduct(int userId, const Product& product) {
     // Immediate save to file (Output File Stream in Append mode)
     std::ofstream outFile(filePath, std::ios::app);
     if (outFile.is_open()) {
-        outFile << userId << "," << product.productId << "," << product.name << "\n";
+        outFile << userId << "," << product.productId << "\n";
         outFile.close();
     }
 }
@@ -44,19 +53,18 @@ void FileRepository::loadAll() {
     // Read the file line by line
     while (std::getline(inFile, line)) {
         std::stringstream ss(line);
-        std::string uId_str, pId_str, pName;
+        std::string uId_str, pId_str;
 
         // Parse CSV format: userId,productId,productName
         if (std::getline(ss, uId_str, ',') && 
-            std::getline(ss, pId_str, ',') && 
-            std::getline(ss, pName)) {
+            std::getline(ss, pId_str, ',') ) {
             
             int uId = std::stoi(uId_str);
             int pId = std::stoi(pId_str);
             
             // Store the data in the in-memory map
             userData[uId].userId = uId;
-            userData[uId].viewedProducts.push_back({pId, pName});
+            userData[uId].viewedProducts.push_back({pId});
         }
 
     }

@@ -5,7 +5,6 @@
 
 struct Product {
     int productId;
-    std::string name;
 };
 
 struct User {

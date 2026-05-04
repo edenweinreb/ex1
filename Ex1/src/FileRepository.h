@@ -19,6 +19,6 @@ public:
     void loadAll() override;
 
     virtual ~FileRepository() {}
-}
+};
 
 #endif

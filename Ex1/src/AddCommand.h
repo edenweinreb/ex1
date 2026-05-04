@@ -1,11 +1,22 @@
 #ifndef ADD_COMMAND_H
 #define ADD_COMMAND_H
 
+#include "ICommand.h"
+#include "IDataRepository.h"
+#include <vector>
+
 class AddCommand: public ICommand {
-// TODO: Implement the interface logic 
+private:
+    IDataRepository& repo;
+    int userId;
+    std::vector<int> productIds;
+
+
 public:
-void execute() override;
-virtual ~AddCommand() {}
+    AddCommand(IDataRepository& r, int uId, const std::vector<int>& pIds);
+    AddCommand(IDataRepository& r);
+    void execute() override;
+    virtual ~AddCommand() {}
 
 };
 
