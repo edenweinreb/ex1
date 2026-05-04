@@ -1,4 +1,5 @@
 using namespace std;
+#include "FileRepository.h"
 #include "app.h"
 #include "ICommand.h"
 #include "AddCommand.h"
@@ -8,9 +9,13 @@ using namespace std;
 
 
 int main() {
+    //load the data from RAM
+    FileRepository* repo = new FileRepository("database.csv");
+    repo->loadAll();
+
     map<string, ICommand*> commands;
 
-    ICommand* add = new AddCommand();
+    ICommand* add = new AddCommand(*repo);
     commands["add"] =add;
  
     ICommand* recommend = new RecommendCommand();
