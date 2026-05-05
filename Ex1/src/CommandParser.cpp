@@ -7,8 +7,11 @@
 #include "CommandParser.h"
 
 
-bool CommandParser::parseRecommendCommand(const std::string& line, int& out_userid, int& out_productid)
+Command CommandParser::parseRecommendCommand(const std::string& line)
 {
+    Command resultCmd;
+    resultCmd.type = CommandType::INVALID;
+
     std::istringstream iss(line);
     std::string command;
     //read the first word
@@ -24,13 +27,15 @@ bool CommandParser::parseRecommendCommand(const std::string& line, int& out_user
             std::string extra;
                 if (!(iss >> extra)) 
                 {
-                    // if it is just the command return true
-                    out_userid = userid;
-                    out_productid = productid;
-                    return true; 
+                    //parsing succed then update the value of the var
+                    resultCmd.type = CommandType::RECOMMEND;
+
+                    // update the command struct values
+                    resultCmd.userId = std::to_string(userid);
+                    resultCmd.productIds.push_back(std::to_string(productid));
                 }
            }
         }
-        return false;
+       return resultCmd;
     }
     

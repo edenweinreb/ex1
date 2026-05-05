@@ -18,15 +18,16 @@ int main() {
 
     // 2. Inject the database reference into the commands that need it
     // . TO DO: shiraz -need to implement constructor
-    ICommand* add = new AddCommand(userProducts);
+    ICommand* add = new AddCommand();
     commands["add"] = add;
  
-    ICommand* recommend = new RecommendCommand(userProducts);
+    ICommand* recommend = new RecommendCommand();
     commands["recommend"] = recommend;
+    recommend.SetArgs(userProducts,userid);
 
     // Help doesn't need the database, so we don't pass it
     //. TO DO: EDEN -need to implement constructor
-    ICommand* help = new HelpCommand(userProducts);
+    ICommand* help = new HelpCommand();
     commands["help"] = help;
  
     IMenu* menu = new ConsoleMenu();

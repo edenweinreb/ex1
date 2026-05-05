@@ -4,7 +4,7 @@
 class HelpCommand: public ICommand {
 // TODO: Implement the interface logic 
 public:
-void execute() override;
+void execute(const Command& cmd) override;
 virtual ~HelpCommand() {}
 
 };

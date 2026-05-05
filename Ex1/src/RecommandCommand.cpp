@@ -7,21 +7,20 @@
 
 using std::cout;
 
-// Constructor implementation
-RecommendCommand::RecommendCommand(std::unordered_map<int, std::set<int>>& db) 
+RecommendCommand::RecommendCommand(std::unordered_map<int, std::set<int>>& db)
     : userProducts(db) {}
 
+
 // Execute function implementation
-void RecommendCommand::execute(const Command& cmd) {
+void RecommendCommand::execute() {
     
-    // שליפת הנתונים ישירות מהמבנה של הפקודה שהתקבלה כפרמטר
-    int userid = std::stoi(cmd.userId);
-    int productid = std::stoi(cmd.productIds[0]); 
+    // getting the parameters from the command struct in the ICommand interface
+    int userid = std::stoi(currentCmd.userId);
+    int productid = std::stoi(currentCmd.productIds[0]);
     
     std::unordered_map<int,int> dictionaryOfSimilarities;
     
-    // the user exist in list
-    // שימי לב: אנחנו משתמשים ב-userProducts של המחלקה (שהגיעה מהבנאי)
+    // check wheter the user exist in list
     if(userProducts.find(userid) != userProducts.end()) {
         const std::set<int>& userVector = userProducts[userid];
         

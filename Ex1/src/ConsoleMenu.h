@@ -1,15 +1,17 @@
-using namespace std;
-#ifndef CONSOLE_MENU_H
-#define CONSOLE_MENU_H
-
+#pragma once
 #include "IMenu.h"
 #include <string>
+#include <iostream>
+#include <string>
+#include <algorithm>
+#include <vector>
+#include <set>
+#include <unordered_map>
 
 class ConsoleMenu : public IMenu {
     public:
-    string nextCommand() override;
-    void displayError(string message) override;
+        //void executeRecommendCommand(const std::string& line, const std::unordered_map<int, std::set<int>>& userProducts) override;
+        std::string nextCommand();
+        void displayError(std::string message) override;
 };
-
-#endif
 

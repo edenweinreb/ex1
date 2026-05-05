@@ -1,5 +1,4 @@
-#ifndef ADD_COMMAND_H
-#define ADD_COMMAND_H
+#pragma once
 
 class AddCommand: public ICommand {
 // TODO: Implement the interface logic 
@@ -9,5 +8,4 @@ virtual ~AddCommand() {}
 
 };
 
-#endif
 

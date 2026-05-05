@@ -9,9 +9,10 @@ private:
     std::unordered_map<int, std::set<int>>& userProducts;
 
 public:
-    // The constructor receives only the database reference.
-    RecommendCommand(std::unordered_map<int, std::set<int>>& db);
 
     // The execute function receives the parsed Command struct
-    void execute(const Command& cmd) override;
+    void execute() override;
+
+    RecommendCommand(std::unordered_map<int, std::set<int>>& db);
+
 };
