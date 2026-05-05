@@ -26,6 +26,7 @@ int main() {
     delete add;
     delete recommend;
     delete help; 
+    delete menu;
     return 0;
 }
 
