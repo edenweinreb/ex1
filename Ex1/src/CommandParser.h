@@ -20,5 +20,5 @@ class CommandParser {
 public:
     // The function receives an input line and variables to store the result.
 // Returns true if the command is valid, or false on failure (silently ignored).
-    static Command parseRecommendCommand(const std::string& line);
+    static ICommand* CommandParser::parse(const std::string& input, IDataRepository& repo);
 };

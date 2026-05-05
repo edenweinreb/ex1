@@ -10,7 +10,6 @@ TEST(SimilarityTest, ReturnsZeroForNoCommonProducts) {
     std::set<int> productList2 = {102, 106, 111};
     
     // (Act)
-    // 2. קריאה לפונקציה מתוך המחלקה שיצרת
     int score = RecommendationEngine::calculateSimilarity(productList1, productList2);
     
     // (Assert)
@@ -20,7 +19,7 @@ TEST(SimilarityTest, ReturnsZeroForNoCommonProducts) {
 // another test in case that there is an intersection
 TEST(SimilarityTest, ReturnsCorrectScoreForCommonProducts) {
     std::set<int> listA = {1, 2, 3, 4};
-    std::set<int> listB = {3, 4, 5, 6}; // חפיפה של 3 ו-4 (ציון 2)
+    std::set<int> listB = {3, 4, 5, 6}; // ret 2
     
     int score = RecommendationEngine::calculateSimilarity(listA, listB);
     

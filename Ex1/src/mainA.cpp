@@ -11,9 +11,13 @@ using namespace std;
 
 int main() {
     // 1. Create the central database that will live throughout the program's lifecycle
+    // both need to be removed and to  be initate in Shiraz class or in any design that keep all the rest logic.
+    // pay attention that your class should be static or you should make the recommendationEngine to inherit your class.
     unordered_map<int, set<int>> userProducts;
+    unordered_map<int, set<int>> ProductsUser;
 
-    //2. TO DO: upload from file - SHIRAZ
+    //2. TO DO: upload from file - SHIRAZ.
+    // I saw you have diffrent class for that, so if needed - delete.
     map<string, ICommand*> commands;
 
     // 2. Inject the database reference into the commands that need it
@@ -21,9 +25,9 @@ int main() {
     ICommand* add = new AddCommand();
     commands["add"] = add;
  
+    //after deleting the refrences at 14 15 it would be fine.
     ICommand* recommend = new RecommendCommand();
     commands["recommend"] = recommend;
-    recommend.SetArgs(userProducts,userid);
 
     // Help doesn't need the database, so we don't pass it
     //. TO DO: EDEN -need to implement constructor
@@ -41,7 +45,7 @@ int main() {
     delete add;
     delete recommend;
     delete help; 
-    delete menu; // Don't forget to delete the menu too!
+    delete menu; 
     
     return 0;
 }

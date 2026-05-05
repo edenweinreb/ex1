@@ -7,18 +7,20 @@
 
 using std::cout;
 
+RecommendCommand::RecommendCommand(){}
 RecommendCommand::RecommendCommand(std::unordered_map<int, std::set<int>>& db)
     : userProducts(db) {}
 
 
 // Execute function implementation
 void RecommendCommand::execute() {
-    
+    //Shiraz
+
     // getting the parameters from the command struct in the ICommand interface
     int userid = std::stoi(currentCmd.userId);
     int productid = std::stoi(currentCmd.productIds[0]);
     
-    std::unordered_map<int,int> dictionaryOfSimilarities;
+    std::map<int,int> dictionaryOfSimilarities;
     
     // check wheter the user exist in list
     if(userProducts.find(userid) != userProducts.end()) {
@@ -39,9 +41,15 @@ void RecommendCommand::execute() {
         }
     }
     
-    // depend on the name of function that Eden choose - the function that return the products that similar
-    std::vector<int> finalRecommendations = RecommendationEngine::getSortedRecommendations(productid, userProducts, dictionaryOfSimilarities);
+    //Shiraz TO DO:
+    const std::map<int, std::set<int>>& productToUsers;
     
+    // calc the weights based on the dict of similarities got above
+    auto weights = RecommendationEngine::getProductWeights(userid, productid, userProducts, productToUsers, dictionaryOfSimilarities);
+
+    // recommandations based on the weights
+    std::vector<int> finalRecommendations = RecommendationEngine::getSortedRecommendations(weights);   
+
     // making sure we are not over the max limit of printung Top 10 products
     int limit = std::min(10, (int)finalRecommendations.size());
     
