@@ -23,7 +23,7 @@ class App
                     commands[task]->execute();
                 }
                 catch(...){
-                    menu->displayError("Sorry, no can do");
+                    menu->displayError("");
                 }
             }
         }
