@@ -1,0 +1,41 @@
+#include <gtest/gtest.h>
+#include "FileRepository.h"
+#include "IDataRepository.h"
+#include <fstream>
+#include <vector>
+
+TEST(ParserTest, ParseValidAddCommand) {
+    CommandParser parser;
+    std::string input = "add 10 203";
+    auto result = parser.parse(input);
+
+    EXPECT_EQ(result.type, "add");
+    EXPECT_EQ(result.userId, 10);
+    EXPECT_EQ(result.productIds.size(), 1);
+    EXPECT_EQ(result.productIds[0], 203);
+}
+
+TEST(ParserTest, ParseAddCommandWithExtraSpaces) {
+    CommandParser parser;
+    std::string input = "  add   10   203";
+    auto result = parser.parse(input);
+
+    EXPECT_EQ(result.type, "add");
+    EXPECT_EQ(result.userId, 10);
+    EXPECT_EQ(result.productIds.size(), 1);
+    EXPECT_EQ(result.productIds[0], 203);
+}
+
+TEST(ParserTest, InvalidFormatMissingProductId) {
+    CommandParser parser;
+    std::string input = "add 10";
+
+    EXPECT_THROW(parser.parse(input), std::invalid_argument);
+}
+
+TEST(ParserTest, InvalidNonNumericInpu) {
+    CommandParser parser;
+    std::string input = "add aaa 203";
+
+    EXPECT_THROW(parser.parse(input), std::runtime_error);
+}
