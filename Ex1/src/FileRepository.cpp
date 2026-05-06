@@ -2,6 +2,7 @@
 #include <fstream>
 #include <sstream>
 #include <filesystem>
+#include <set>
 
 FileRepository::FileRepository(const std::string& path) : filePath(path) {
     std::filesystem::path p(path);
@@ -14,34 +15,42 @@ FileRepository::FileRepository(const std::string& path) : filePath(path) {
     std::ofstream file(filePath, std::ios::app);
 }
 
-void FileRepository::addViewedProduct(int userId, const Product& product) {
-    //Checking that there are no duplicates of the same productId
-    if (userData.find(userId) != userData.end()) {
-        for (const auto& existingProduct : userData[userId].viewedProducts) {
-            if (existingProduct.productId == product.productId) {
-                return; 
-            }
+void FileRepository::addViewedProduct(int userId, int productId) {
+    // Attempt to insert the product
+    bool inserted = userData[userId].insert(productId).second;
+
+    if (inserted) {
+        //insert userId to productToUsers
+        productToUsers[productId].insert(userId);
+
+        // Open the file in append mode to log the new entry
+        std::ofstream outFile(filePath, std::ios::app);
+        if (outFile.is_open()) {
+            outFile << userId << "," << productId << "\n";
         }
-    }
-
-    //Update the in-memory map for fast access during runtime
-    userData[userId].userId = userId;
-    userData[userId].viewedProducts.push_back(product);
-
-    // Immediate save to file (Output File Stream in Append mode)
-    std::ofstream outFile(filePath, std::ios::app);
-    if (outFile.is_open()) {
-        outFile << userId << "," << product.productId << "\n";
-        outFile.close();
     }
 }
 
-std::vector<Product> FileRepository::getUserData(int userId) {
-    // Retrieve data from memory (Map)
-    if (userData.find(userId) != userData.end()) {
-        return userData[userId].viewedProducts;
+std::set<int> FileRepository::getUserData(int userId) {
+    // Look for the user in the in-memory map
+    auto it = userData.find(userId);
+
+    // If user exists, return their set of viewed products
+    if (it != userData.end()) {
+        return it->second;
     }
     return {}; // Return empty vector if user not found
+}
+
+std::set<int> FileRepository::getProductUsers(int productId) {
+    // Look for the productId in the in-memory map
+    auto it = productToUsers.find(productId);
+
+    // If productId exists, return their set of user
+    if (it != productToUsers.end()) {
+        return it->second;
+    }
+    return {}; // Return empty vector if product not found
 }
 
 void FileRepository::loadAll() {
@@ -63,10 +72,9 @@ void FileRepository::loadAll() {
             int pId = std::stoi(pId_str);
             
             // Store the data in the in-memory map
-            userData[uId].userId = uId;
-            userData[uId].viewedProducts.push_back({pId});
+            userData[uId].insert({pId});
+            productToUsers[pId].insert({uId});
         }
 
     }
-    inFile.close();
 }

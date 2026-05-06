@@ -4,6 +4,7 @@
 #include "IDataRepository.h"
 #include <string>
 #include <vector>
+#include <set>
 
 enum class CommandType {
     ADD,
@@ -14,8 +15,8 @@ enum class CommandType {
 
 struct Command {
     CommandType type;
-    std::string userId;
-    std::vector<std::string> productIds;
+    int userId;
+    std::set<int> productIds;
 };
 
 class CommandParser {

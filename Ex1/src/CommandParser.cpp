@@ -2,6 +2,7 @@
 #include "AddCommand.h"
 #include <sstream>
 #include <vector>
+#include <set>
 
 ICommand* CommandParser::parse(const std::string& input, IDataRepository& repo) {
     std::stringstream ss(input);
@@ -15,11 +16,11 @@ ICommand* CommandParser::parse(const std::string& input, IDataRepository& repo) 
         // Attempt to read the User ID. If it's not a valid integer, return nullptr (Silent Ignore)
         if (!(ss >> uId)) return nullptr;
 
-        std::vector<int> pIds;
+        std::set<int> pIds;
         int pId;
         // Extract all subsequent integers as Product IDs
         while (ss >> pId) {
-            pIds.push_back(pId);
+            pIds.insert(pId);
         }
 
         //The 'add' command must contain at least one product ID

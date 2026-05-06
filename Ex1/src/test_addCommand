@@ -3,6 +3,7 @@
 #include "IDataRepository.h"
 #include <fstream>
 #include <vector>
+#include <set>
 
 TEST(ParserTest, ParseValidAddCommand) {
     CommandParser parser;
@@ -12,7 +13,18 @@ TEST(ParserTest, ParseValidAddCommand) {
     EXPECT_EQ(result.type, "add");
     EXPECT_EQ(result.userId, 10);
     EXPECT_EQ(result.productIds.size(), 1);
-    EXPECT_EQ(result.productIds[0], 203);
+    EXPECT_TRUE(result.productIds.count(203));
+}
+
+TEST(ParserTest, ParseSamePIdAddCommand) {
+    CommandParser parser;
+    std::string input = "add 10 203 203";
+    auto result = parser.parse(input);
+
+    EXPECT_EQ(result.type, "add");
+    EXPECT_EQ(result.userId, 10);
+    EXPECT_EQ(result.productIds.size(), 1);
+    EXPECT_TRUE(result.productIds.count(203));
 }
 
 TEST(ParserTest, ParseAddCommandWithExtraSpaces) {
@@ -23,19 +35,19 @@ TEST(ParserTest, ParseAddCommandWithExtraSpaces) {
     EXPECT_EQ(result.type, "add");
     EXPECT_EQ(result.userId, 10);
     EXPECT_EQ(result.productIds.size(), 1);
-    EXPECT_EQ(result.productIds[0], 203);
+    EXPECT_TRUE(result.productIds.count(203));
 }
 
 TEST(ParserTest, InvalidFormatMissingProductId) {
     CommandParser parser;
     std::string input = "add 10";
 
-    EXPECT_THROW(parser.parse(input), std::invalid_argument);
+    EXPECT_THROW(parser.parse(input, repo), nullptr);
 }
 
 TEST(ParserTest, InvalidNonNumericInpu) {
     CommandParser parser;
     std::string input = "add aaa 203";
 
-    EXPECT_THROW(parser.parse(input), std::runtime_error);
+    EXPECT_THROW(parser.parse(input, repo), nullptr);
 }
