@@ -3,6 +3,7 @@ using namespace std;
 #define IMENU_H
 #include <string>
 
+// Interface for handling user input and output
 class IMenu {
 public:
     virtual ~IMenu() {}

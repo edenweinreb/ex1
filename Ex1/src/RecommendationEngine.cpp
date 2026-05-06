@@ -1,6 +1,9 @@
 #include "RecommendationEngine.h"
 #include <algorithm> 
 
+// TODO: Merge with AE-12 Branch
+
+// counts how many products two users have in common
 static int calculateSimilarity(const std::set<int>& a, const std::set<int>& b) {
     int count = 0;
     for (int product : a) {
@@ -9,6 +12,7 @@ static int calculateSimilarity(const std::set<int>& a, const std::set<int>& b) {
     return count;
 }
 
+// calculates a relevance score for each product based on similar users who watched the target product
 static std::map<int, int> getProductWeights(
     int userid,
     int productid,
@@ -19,9 +23,11 @@ static std::map<int, int> getProductWeights(
     std::map<int, int> productWeights;
     const std::set<int>& userWatched = userProducts.at(userid);
 
+     // if no one watched the target product, return empty
     if (productToUsers.find(productid) == productToUsers.end())
         return productWeights;
 
+    // get only users who watched the target product
     const std::set<int>& filteredUsers = productToUsers.at(productid);
 
     for (int user : filteredUsers) {
@@ -37,9 +43,11 @@ static std::map<int, int> getProductWeights(
     return productWeights;
 }
 
+// sorts products by weight descending, ties broken by product id ascending
 static std::vector<int> getSortedRecommendations(
     const std::map<int, int>& productWeights) {
 
+    // copy to vector for sorting
     std::vector<std::pair<int,int>> products(productWeights.begin(), productWeights.end());
 
     std::sort(products.begin(), products.end(),
@@ -48,6 +56,7 @@ static std::vector<int> getSortedRecommendations(
             return a.first < b.first;
         });
 
+    // extract just the product ids
     std::vector<int> result;
     for (const auto& p : products) {
         result.push_back(p.first);

@@ -18,13 +18,13 @@ class IDataRepository {
     public:
         virtual ~IDataRepository() {}
 
-        //Adds a product to a specific user's viewed history.
+        // Adds a product to a specific user's viewed history.
         virtual void addViewedProduct(int userId, const Product& product) = 0;
 
-        //Retrieves all data associated with a specific user.
+        // Retrieves all data associated with a specific user.
         virtual void getUserData(int userId) = 0;
 
-        //on startup, the system loads all existing data from the files into memory.
+        // On startup, the system loads all existing data from the files into memory.
         virtual void loadAll() = 0;
 };
 

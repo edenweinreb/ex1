@@ -6,10 +6,12 @@ using namespace std;
 #include "HelpCommand.h"
 #include "ConsoleMenu.h"
 
-
+// TODO: Merge with AE-25 Branch
 int main() {
+    // map command names to their implementations
     map<string, ICommand*> commands;
 
+    // create each command and register it
     ICommand* add = new AddCommand();
     commands["add"] =add;
  
@@ -19,6 +21,7 @@ int main() {
     ICommand* help = new HelpCommand();
     commands["help"] = help;
  
+    
     IMenu* menu = new ConsoleMenu();
     App app(menu, commands);
     app.run();

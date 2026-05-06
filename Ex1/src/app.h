@@ -6,6 +6,7 @@ using namespace std;
 #include "IMenu.h"
 #include "ICommand.h"
 
+// Runs the main loop: reads input and executes the right command
 class App {
 private:
     IMenu* menu;

@@ -3,6 +3,7 @@
 #include "ICommand.h"
 #include <iostream>
 
+// Handles the help command: prints all available commands
 class HelpCommand : public ICommand {
 private:
     std::ostream& output;

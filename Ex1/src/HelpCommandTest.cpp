@@ -2,6 +2,7 @@ using namespace std;
 #include "gtest/gtest.h"
 #include "App.h"
 
+// Unit Test to verify that the help command prints the exact menu required
 TEST(HelpCommandTest, PrintsCorrectOutput) {
     istringstream input("help");
     ostringstream output;
