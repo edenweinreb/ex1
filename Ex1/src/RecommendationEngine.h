@@ -1,30 +1,29 @@
 #ifndef RECOMMENDATION_ENGINE_H
 #define RECOMMENDATION_ENGINE_H
 
-#include <map>
 #include <set>
+#include <map>
 #include <vector>
-#include <unordered_map>
+#include "IDataRepository.h" // Required for the IDataRepository reference
 
-// Handles all recommendation logic similarity, weighting and sorting
 class RecommendationEngine {
 public:
-    // counts common products between two users
-    static int calculateSimilarity(
-        const std::set<int>& a, 
-        const std::set<int>& b);
+    // Default constructor and destructor (no member variables to initialize or clean up)
+    RecommendationEngine() = default;
+    ~RecommendationEngine() = default;
 
-    // calculates relevance score for each product based on similar users who watched the target product
-    static std::map<int, int> getProductWeights(
+    // Counts how many products two users have in common
+    int calculateSimilarity(const std::set<int>& a, const std::set<int>& b);
+
+    // Calculates a relevance score for each product based on similar users who watched the target product
+    std::map<int, int> getProductWeights(
         int userid,
         int productid,
-        const std::unordered_map<int, std::set<int>>& userProducts,
-        const std::unordered_map<int, std::set<int>>& productToUsers,
-        const std::unordered_map<int, int>& similarities);
-        
-    // sorts products by weight descending, ties broken by product id ascending
-    static std::vector<int> getSortedRecommendations(
-        const std::map<int, int>& productWeights);
+        IDataRepository& repo,
+        const std::map<int, int>& similarities);
+
+    // Sorts products by weight descending, ties broken by product id ascending
+    std::vector<int> getSortedRecommendations(const std::map<int, int>& productWeights);
 };
 
-#endif
+#endif // RECOMMENDATION_ENGINE_H

@@ -1,7 +1,15 @@
 #include "CommandParser.h"
 #include "AddCommand.h"
+#include "RecommendCommand.h" 
+#include "HelpCommand.h"      
+#include "ICommand.h"
+#include "IDataRepository.h"
 #include <sstream>
 #include <set>
+#include <iostream>
+#include <string>
+#include <unordered_map>
+#include <vector>
 
 ICommand* CommandParser::parse(const std::string& input, IDataRepository& repo) {
     std::stringstream ss(input);
@@ -35,14 +43,21 @@ ICommand* CommandParser::parse(const std::string& input, IDataRepository& repo) 
         int uId, pId;
         // Both userId and productId must be valid integers
         if (!(ss >> uId >> pId)) return nullptr;
-
-        // Implementation for RecommendCommand would go here
-        // return new RecommendCommand(repo, uId, pId);
+            
+        // Validate that there is no trailing "trash" or extra parameters at the end of the line
+        std::string extra;
+        if (!(ss >> extra)) {
+            // Parsing succeeded. Return the appropriate command object.
+            return new RecommendCommand(repo, uId, pId);
+        }
+        
+        // Return nullptr if the format is invalid or if trailing text was found
+        return nullptr;
     }
 
     // Process "help" command
     if (commandName == "help") {
-      return new HelpCommand();
+        return new HelpCommand();
     }
 
     // Return nullptr for unrecognized commands or invalid formats (Silent Ignore)

@@ -28,5 +28,3 @@ public:
     // Virtual destructor - essential in derived classes to prevent memory leaks.
     virtual ~RecommendCommand() {}
 };
-
-#endif

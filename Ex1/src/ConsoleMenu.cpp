@@ -1,10 +1,22 @@
-using namespace std;
 #include "ConsoleMenu.h"
-#include "CommandParser.h" 
+#include "CommandParser.h"
+#include "RecommendationEngine.h"
 #include <iostream>
 #include <string>
+#include <algorithm>
+#include <vector>
+#include <set>
+#include <unordered_map>
 
-// TODO: Merge with AE-25 Branch
+using std::cout;
+using std::endl;
+using std::string;
+
+// invoking the next command
+std::string ConsoleMenu::nextCommand()
+{
+    std::string line;
+    // tring to invoke input from user
 string ConsoleMenu::nextCommand() {
     std::string input;
     std::cout << "> "; 

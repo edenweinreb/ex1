@@ -1,5 +1,4 @@
-#ifndef ADD_COMMAND_H
-#define ADD_COMMAND_H
+#pragma once
 
 #include "ICommand.h"
 #include "IDataRepository.h"
@@ -21,5 +20,4 @@ public:
 
 };
 
-#endif
 

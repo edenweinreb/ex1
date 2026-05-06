@@ -1,4 +1,3 @@
-using namespace std;
 #include <string>
 #include <map>
 #include <fstream>
@@ -7,6 +6,8 @@ using namespace std;
 #include "Icommand.h"
 #include "IMenu.h"
 #include "CommandParser.h"
+
+using namespace std;
 
 class App
 {
@@ -40,4 +41,3 @@ class App
             }
         }
 };
-
