@@ -28,7 +28,6 @@ class App
                 iss >> commandName;
 
                 if (commands.find(commandName) == commands.end()) {
-                 menu->displayError("Command not recognized.");
                     continue;
                 }
 
@@ -37,9 +36,7 @@ class App
                 if (cmdToExecute != nullptr) {
                     cmdToExecute->execute();
                     delete cmdToExecute;
-                } else {
-                    menu->displayError("Invalid parameters for this command.");
-                }
+                } 
             }
         }
 };
