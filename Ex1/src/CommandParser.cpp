@@ -42,7 +42,7 @@ ICommand* CommandParser::parse(const std::string& input, IDataRepository& repo) 
 
     // Process "help" command
     if (commandName == "help") {
-        // return new HelpCommand();
+      return new HelpCommand();
     }
 
     // Return nullptr for unrecognized commands or invalid formats (Silent Ignore)
