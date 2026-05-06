@@ -10,9 +10,10 @@ class App {
 private:
     IMenu* menu;
     map<string, ICommand*> commands;
+    IDataRepository* repo; 
 
 public:
-    App(IMenu* menu, map<string, ICommand*> commands);
+    App(IMenu* menu, map<string, ICommand*> commands, IDataRepository* repo);
     void run();
 };
 
