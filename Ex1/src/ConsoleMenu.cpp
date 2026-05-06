@@ -5,15 +5,13 @@ using namespace std;
 #include <string>
 
 string ConsoleMenu::nextCommand() {
-    string input;
-    // Display command prompt
-    cout << "> "; 
+    std::string input;
+    std::cout << "> "; 
     
-    // Read the input form the user
-    getline(cin, input);
-
-    Command cmd = CommandParser::parse(input);
-    return to_string((int)cmd.type);
+    if (std::getline(std::cin, input)) {
+        return input;
+    }
+    return "";
 }
 
 void ConsoleMenu::displayError(string message) {

@@ -25,7 +25,7 @@ int main() {
     commands["help"] = help;
  
     IMenu* menu = new ConsoleMenu();
-    App app(menu, commands);
+    App app(menu, commands, repo);
     app.run();
   
     delete add;
