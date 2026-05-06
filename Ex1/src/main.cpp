@@ -1,71 +1,51 @@
-#include <iostream>
-#include <string>
-#include <sstream>
+#include "app.h"
+#include "ICommand.h"
+#include "AddCommand.h"
+#include "RecommendCommand.h"
+#include "HelpCommand.h"
+#include "ConsoleMenu.h"
 #include <unordered_map>
-#include <vector>
 #include <set>
-#include <algorithm>
-#include "RecommendationEngine.h"
-#include "CommandParser.h"
 
-//need to be modified to the struct change
+using namespace std;
+
 int main() {
-    // need to be removed after merge with Shiraz -including the user id and the user item vector
-    std::unordered_map<int, std::set<int>> userProducts;
-    std::string line;
+    // 1. Create the central database that will live throughout the program's lifecycle
+    // both need to be removed and to  be initate in Shiraz class or in any design that keep all the rest logic.
+    // pay attention that your class should be static or you should make the recommendationEngine to inherit your class.
+    unordered_map<int, set<int>> userProducts;
+    unordered_map<int, set<int>> ProductsUser;
 
-    while(std::getline(std::cin, line)) {
-        //Command cmd = CommandParser::parse(line);
-        std::istringstream iss(line);
-        std::string command;
-        
-        // read the first word in order to know what kind of function it is
-        iss >> command;
- //after the change of the struct
-        if (cmd.type == CommandType::RECOMMEND) {
-            int userid, productid;
-            
-            // make sure that the line is correct
-            if (CommandParser::parseRecommendCommand(line, userid, productid)) {
-                
-                std::unordered_map<int,int> dictionaryOfSimilarities;
-                 //the user exist in list
-                if(userProducts.find(userid) != userProducts.end()) {
-                    const std::set<int>& userVector = userProducts[userid];
-                    // loop that goes and check all the other users vs the current user
-                    for(const auto& pair : userProducts ) {
-                        const int current_user = pair.first;
-                        const std::set<int>& current_user_vector = pair.second;
-                        // not checking the user vs itself
-                        if (current_user != userid) {
-                            int similiarityCount = RecommendationEngine::calculateSimilarity(userVector, current_user_vector);
-                            // updating in the dictionary the num of similarities if the current user vs all the others
-                            dictionaryOfSimilarities[current_user] = similiarityCount;
-                        }
-                    }
-                }
-                // depend on the name of function that Eden choose - the function that return the products that similar
-                std::vector<int> finalRecommendations = RecommendationEngine::getSortedRecommendations(productid, userProducts, dictionaryOfSimilarities);
-                
-                //making sure we are not over the max limit of printung Top 10 products
-                int limit = std::min(10, (int)finalRecommendations.size());
-                
-                for (int i=0; i < limit; i++) {
-                    std::cout << finalRecommendations[i];
-                    if (i < limit - 1) {
-                        std::cout << " ";
-                    }
-                }
-                std::cout << "\n";
-            } 
-        }
-        else if (cmd.type == CommandType::ADD) {
-            // to do : add
-        }
-        else if (cmd.type == CommandType::HELP) {
-            // to do : help
-        }
-    }
+    //2. TO DO: upload from file - SHIRAZ.
+    // I saw you have diffrent class for that, so if needed - delete.
+    map<string, ICommand*> commands;
 
+    // 2. Inject the database reference into the commands that need it
+    // . TO DO: shiraz -need to implement constructor
+    ICommand* add = new AddCommand();
+    commands["add"] = add;
+ 
+    //after deleting the refrences at 14 15 it would be fine.
+    ICommand* recommend = new RecommendCommand();
+    commands["recommend"] = recommend;
+
+    // Help doesn't need the database, so we don't pass it
+    //. TO DO: EDEN -need to implement constructor
+    ICommand* help = new HelpCommand();
+    commands["help"] = help;
+ 
+    IMenu* menu = new ConsoleMenu();
+    App app(menu, commands);
+    
+    // 3. This is where the magic happens! app.run() will loop, call your nextCommand 
+    // function, parse it, and send the 'cmd' to the right command's execute() function.
+    app.run();
+  
+    // 4. Clean up memory
+    delete add;
+    delete recommend;
+    delete help; 
+    delete menu; 
+    
     return 0;
 }

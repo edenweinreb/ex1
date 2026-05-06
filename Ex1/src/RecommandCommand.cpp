@@ -2,17 +2,6 @@
 #include "ICommand.h"
 #include "IDataRepository.h"
 #include <ostream>
-
-class RecommendCommand : public ICommand {
-private:
-    IDataRepository& repo;  // data access through interface
-    std::ostream& output;   // output stream for loose coupling
-public:
-    RecommendCommand(IDataRepository& repo, std::ostream& output);
-    void execute() override;
-    ~RecommendCommand() override {}
-};
-
 #include "RecommendCommand.h"
 #include "RecommendationEngine.h"
 #include <algorithm>
