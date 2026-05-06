@@ -4,14 +4,7 @@
 #include <vector>
 #include <set>
 
-// struct Product {
-//     int productId;
-// };
 
-// struct User {
-//     int userId;
-//     std::set<Product> viewedProducts;
-// };
 
 
 class IDataRepository {
@@ -27,7 +20,7 @@ class IDataRepository {
         //Retrieves all data associated with a specific product.
         virtual std::set<int> getProductUsers(int productId) = 0;
 
-        //on startup, the system loads all existing data from the files into memory.
+        // On startup, the system loads all existing data from the files into memory.
         virtual void loadAll() = 0;
 };
 
