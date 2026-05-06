@@ -1,7 +1,7 @@
 #include "AddCommand.h"
 
 //Construct a new Add Command object
-AddCommand::AddCommand(IDataRepository& r, int uId, const std::vector<int>& pIds)
+AddCommand::AddCommand(IDataRepository& r, int uId, const std::set<int>& pIds)
         : repo(r), userId(uId), productIds(pIds) {}
 
 
