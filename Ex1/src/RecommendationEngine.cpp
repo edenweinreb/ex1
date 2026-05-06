@@ -1,25 +1,42 @@
-
 #include "RecommendationEngine.h"
-#include <algorithm> //  set_intersection
-#include <iterator>  //  back_inserter
-#include <vector>
-#include <set>
-#include <unordered_map>
-# include <map>
+#include <algorithm>
 
-
-int RecommendationEngine::calculateSimilarity(const std::set<int>& userA, const std::set<int>& userB) {
-        // set_intersection
-    std::vector<int> intersection;
-    std::set_intersection(userA.begin(), userA.end(),
-                          userB.begin(), userB.end(),
-                          std::back_inserter(intersection));
-
-    //the nummber of values that similar
-    return (int)intersection.size();
+int RecommendationEngine::calculateSimilarity(
+    const std::set<int>& a, const std::set<int>& b) {
+    int count = 0;
+    for (int product : a) {
+        if (b.find(product) != b.end()) count++;
+    }
+    return count;
 }
 
-     std::vector<int> RecommendationEngine::getSortedRecommendations(
+std::map<int, int> RecommendationEngine::getProductWeights(
+    int userid,
+    int productid,
+    IDataRepository& repo,
+    const std::map<int, int>& similarities) {
+
+    std::map<int, int> productWeights;
+    std::set<int> userWatched = repo.getUserData(userid);
+
+    // get only users who watched the target product
+    std::set<int> filteredUsers = repo.getProductUsers(productid);
+    if (filteredUsers.empty()) return productWeights;
+
+    for (int user : filteredUsers) {
+        if (user == userid) continue;
+        if (similarities.find(user) == similarities.end()) continue;
+        int similarity = similarities.at(user);
+        for (int product : repo.getUserData(user)) {
+            if (userWatched.find(product) != userWatched.end()) continue;
+            if (product == productid) continue;
+            productWeights[product] += similarity;
+        }
+    }
+    return productWeights;
+}
+
+std::vector<int> RecommendationEngine::getSortedRecommendations(
     const std::map<int, int>& productWeights) {
 
     std::vector<std::pair<int,int>> products(productWeights.begin(), productWeights.end());
@@ -35,31 +52,4 @@ int RecommendationEngine::calculateSimilarity(const std::set<int>& userA, const 
         result.push_back(p.first);
     }
     return result;
-}
-    std::map<int, int> RecommendationEngine::getProductWeights(
-    int userid,
-    int productid,
-    const std::map<int, std::set<int>>& userProducts,
-    const std::map<int, std::set<int>>& productToUsers,
-    const std::map<int, int>& similarities) {
-
-    std::map<int, int> productWeights;
-    const std::set<int>& userWatched = userProducts.at(userid);
-
-    if (productToUsers.find(productid) == productToUsers.end())
-        return productWeights;
-
-    const std::set<int>& filteredUsers = productToUsers.at(productid);
-
-    for (int user : filteredUsers) {
-        if (user == userid) continue;
-        if (similarities.find(user) == similarities.end()) continue;
-        int similarity = similarities.at(user);
-        for (int product : userProducts.at(user)) {
-            if (userWatched.find(product) != userWatched.end()) continue;
-            if (product == productid) continue;
-            productWeights[product] += similarity;
-        }
-    }
-    return productWeights;
 }
