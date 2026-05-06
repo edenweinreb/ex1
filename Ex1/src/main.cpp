@@ -18,7 +18,7 @@ int main() {
     ICommand* add = new AddCommand(*repo);
     commands["add"] =add;
  
-    ICommand* recommend = new RecommendCommand();
+    ICommand* recommend = new RecommendCommand(*repo, cout);
     commands["recommend"] = recommend;
 
     ICommand* help = new HelpCommand();
