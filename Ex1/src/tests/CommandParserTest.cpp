@@ -8,8 +8,7 @@ protected:
     FileRepository repo{"data/test.csv"};
 };
 
-// --- Valid Cases ---
-
+// Tests for the recommend command format
 TEST_F(CommandParserTest, ParseRecommendCommand_ValidInput) {
     ICommand* cmd = CommandParser::parse("recommend 123 456", repo);
     EXPECT_NE(cmd, nullptr);
@@ -43,16 +42,18 @@ TEST_F(CommandParserTest, ParseRecommendCommand_EmptyString) {
 
 TEST_F(CommandParserTest, ParseRecommendCommand_WrongCommandName) {
     ICommand* cmd = CommandParser::parse("add 1 2", repo);
-    EXPECT_NE(cmd, nullptr);  // add is valid
+    EXPECT_NE(cmd, nullptr);  
     delete cmd;
 }
 
+// Tests for the help command
 TEST_F(CommandParserTest, ParseHelpCommand_Valid) {
     ICommand* cmd = CommandParser::parse("help", repo);
     EXPECT_NE(cmd, nullptr);
     delete cmd;
 }
 
+// Tests for the add command 
 TEST_F(CommandParserTest, ParseAddCommand_Valid) {
     ICommand* cmd = CommandParser::parse("add 1 100 101 102", repo);
     EXPECT_NE(cmd, nullptr);
@@ -64,6 +65,7 @@ TEST_F(CommandParserTest, ParseAddCommand_NoProducts) {
     EXPECT_EQ(cmd, nullptr);
 }
 
+// Test for completely unknown input
 TEST_F(CommandParserTest, UnknownCommand) {
     ICommand* cmd = CommandParser::parse("foo 1 2", repo);
     EXPECT_EQ(cmd, nullptr);

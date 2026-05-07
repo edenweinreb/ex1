@@ -9,7 +9,7 @@ TEST(HelpCommandTest, PrintsCorrectOutput) {
     App app(input, output);
     app.run();
     
-    string expected = "add [userid] [productid1] [productid2]\n"
+    string expected = "add [userid] [productid1] [productid2] …\n"
                            "recommend [userid] [productid]\n"
                            "help\n";
     EXPECT_EQ(output.str(), expected);

@@ -15,7 +15,7 @@ using std::string;
 // invoking the next command
 std::string ConsoleMenu::nextCommand() {
     std::string input;
-    std::cout << "> ";
+    std::cout << "";
     
     if (std::getline(std::cin, input)) {
         return input;

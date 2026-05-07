@@ -1,7 +1,6 @@
 #pragma once
 #include "CommandParser.h"
 
-// TODO: Merge with AE-25 Branch
 // Abstract interface for all system commands
 class ICommand {
 protected:
