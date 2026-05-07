@@ -1,4 +1,4 @@
-#pragma once
+//#pragma once
 #include "ICommand.h"
 #include "IDataRepository.h"
 #include <ostream>
@@ -10,27 +10,27 @@
 RecommendCommand::RecommendCommand(IDataRepository& repo, std::ostream& output)
     : repo(repo), output(output) {}
 
+RecommendCommand::RecommendCommand(IDataRepository& repo, std::ostream& output, int uId, int pId)
+    : repo(repo), output(output), userId(uId), productId(pId) {}
+
 void RecommendCommand::execute() {
-    // get args from currentCmd
-    int userid = std::stoi(currentCmd.userId);
-    int productid = std::stoi(currentCmd.productIds[0]);
 
     // get current user's watched products
-    std::set<int> userWatched = repo.getUserData(userid);
+    std::set<int> userWatched = repo.getUserData(userId);
 
     // calculate similarity with all users who watched target product
-    std::set<int> filteredUsers = repo.getProductUsers(productid);
+    std::set<int> filteredUsers = repo.getProductUsers(productId);
    
     std::map<int, int> similarities;
     for (int user : filteredUsers) {
-        if (user == userid) continue;
+        if (user == userId) continue;
         std::set<int> otherWatched = repo.getUserData(user);
         similarities[user] = RecommendationEngine::calculateSimilarity(userWatched, otherWatched);
     }
 
     // get weighted and sorted recommendations
     auto weights = RecommendationEngine::getProductWeights(
-        userid, productid, repo, similarities);
+        userId, productId, repo, similarities);
    
     auto sorted = RecommendationEngine::getSortedRecommendations(weights);
 

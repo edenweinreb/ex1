@@ -13,13 +13,9 @@ using std::endl;
 using std::string;
 
 // invoking the next command
-std::string ConsoleMenu::nextCommand()
-{
-    std::string line;
-    // tring to invoke input from user
-string ConsoleMenu::nextCommand() {
+std::string ConsoleMenu::nextCommand() {
     std::string input;
-    std::cout << "> "; 
+    std::cout << "";
     
     if (std::getline(std::cin, input)) {
         return input;
@@ -27,6 +23,6 @@ string ConsoleMenu::nextCommand() {
     return "";
 }
 
-void ConsoleMenu::displayError(string message) {
-    cout << "Error: " << message << endl;
+void ConsoleMenu::displayError(std::string message) {
+    std::cout << "Error: " << message << std::endl;
 }

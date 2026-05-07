@@ -1,43 +1,23 @@
-#include <string>
-#include <map>
-#include <fstream>
-#include <sstream>
-#include <filesystem>
-#include "Icommand.h"
-#include "IMenu.h"
+#include "app.h"
 #include "CommandParser.h"
+#include "ICommand.h" 
+#include <sstream>
 
-using namespace std;
+App::App(IMenu* menu, IDataRepository& repo, std::ostream& output)
+    : menu(menu), repo(repo), output(output) {}
 
-class App
-{
-    IMenu* menu;
-    map<string, ICommand*> commands;
-    IDataRepository* repo;
+void App::run() {
+    while (true) {
+        std::string task = menu->nextCommand();
+        if (task.empty()) continue;
 
-    public:
-    App(IMenu* menu, map<string, ICommand*> commands, IDataRepository* repo) 
-        : menu(menu), commands(commands), repo(repo) {}
+        // parse and create the right command
+        ICommand* cmd = CommandParser::parse(task, repo);
 
-    void run() {
-            while (true) {
-                string task = menu->nextCommand();
-                if (task.empty()) break;
+        // if null, ignore silently
+        if (cmd == nullptr) continue;
 
-                std::istringstream iss(task);
-                string commandName;
-                iss >> commandName;
-
-                if (commands.find(commandName) == commands.end()) {
-                    continue;
-                }
-
-                ICommand* cmdToExecute = CommandParser::parse(task, *repo);
-
-                if (cmdToExecute != nullptr) {
-                    cmdToExecute->execute();
-                    delete cmdToExecute;
-                } 
-            }
-        }
-};
+        cmd->execute();
+        delete cmd;
+    }
+}
