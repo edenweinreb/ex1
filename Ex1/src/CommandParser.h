@@ -6,6 +6,8 @@
 #include <vector>
 #include <set>
 
+class ICommand;
+
 enum class CommandType {
     ADD,
     RECOMMEND,
@@ -24,3 +26,5 @@ public:
     //Parses a raw input string and creates the corresponding Command object
     static ICommand* parse(const std::string& input, IDataRepository& repo);
 };
+
+#endif

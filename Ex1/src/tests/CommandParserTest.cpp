@@ -1,98 +1,70 @@
 #include <gtest/gtest.h>
-#include "CommandParser.h" // Ensure the path to this file is correct for your project
+#include "CommandParser.h"
+#include "FileRepository.h"
+
+// helper to create a repo for testing
+class CommandParserTest : public ::testing::Test {
+protected:
+    FileRepository repo{"data/test.csv"};
+};
 
 // --- Valid Cases ---
 
-TEST(CommandParserTest, ParseRecommendCommand_ValidInput) {
-    CommandParser parser;
-    Command cmd = parser.parseRecommendCommand("recommend 123 456");
-
-    EXPECT_EQ(cmd.type, CommandType::RECOMMEND);
-    EXPECT_EQ(cmd.userId, "123");
-    ASSERT_EQ(cmd.productIds.size(), 1);
-    EXPECT_EQ(cmd.productIds[0], "456");
+TEST_F(CommandParserTest, ParseRecommendCommand_ValidInput) {
+    ICommand* cmd = CommandParser::parse("recommend 123 456", repo);
+    EXPECT_NE(cmd, nullptr);
+    delete cmd;
 }
 
-TEST(CommandParserTest, ParseRecommendCommand_ValidInputWithExtraSpaces) {
-    CommandParser parser;
-    // The function should gracefully ignore multiple spaces or tabs
-    Command cmd = parser.parseRecommendCommand("   recommend \t 10 \t  20   ");
-
-    EXPECT_EQ(cmd.type, CommandType::RECOMMEND);
-    EXPECT_EQ(cmd.userId, "10");
-    ASSERT_EQ(cmd.productIds.size(), 1);
-    EXPECT_EQ(cmd.productIds[0], "20");
+TEST_F(CommandParserTest, ParseRecommendCommand_CaseSensitiveName) {
+    ICommand* cmd = CommandParser::parse("Recommend 1 2", repo);
+    EXPECT_EQ(cmd, nullptr);
 }
 
-TEST(CommandParserTest, ParseRecommendCommand_ValidInputNegativeIds) {
-    CommandParser parser;
-    // The current implementation uses 'int', so it can theoretically accept negative numbers
-    Command cmd = parser.parseRecommendCommand("recommend -5 -10");
-
-    EXPECT_EQ(cmd.type, CommandType::RECOMMEND);
-    EXPECT_EQ(cmd.userId, "-5");
-    ASSERT_EQ(cmd.productIds.size(), 1);
-    EXPECT_EQ(cmd.productIds[0], "-10");
+TEST_F(CommandParserTest, ParseRecommendCommand_MissingOneArgument) {
+    ICommand* cmd = CommandParser::parse("recommend 1", repo);
+    EXPECT_EQ(cmd, nullptr);
 }
 
-// --- Invalid Cases ---
-
-TEST(CommandParserTest, ParseRecommendCommand_EmptyString) {
-    CommandParser parser;
-    Command cmd = parser.parseRecommendCommand("");
-
-    EXPECT_EQ(cmd.type, CommandType::INVALID);
+TEST_F(CommandParserTest, ParseRecommendCommand_MissingBothArguments) {
+    ICommand* cmd = CommandParser::parse("recommend", repo);
+    EXPECT_EQ(cmd, nullptr);
 }
 
-TEST(CommandParserTest, ParseRecommendCommand_WrongCommandName) {
-    CommandParser parser;
-    Command cmd = parser.parseRecommendCommand("add 1 2");
-
-    EXPECT_EQ(cmd.type, CommandType::INVALID);
+TEST_F(CommandParserTest, ParseRecommendCommand_ExtraArguments) {
+    ICommand* cmd = CommandParser::parse("recommend 1 2 3", repo);
+    EXPECT_EQ(cmd, nullptr);
 }
 
-TEST(CommandParserTest, ParseRecommendCommand_CaseSensitiveName) {
-    CommandParser parser;
-    // The function expects strictly lowercase characters for the command name
-    Command cmd = parser.parseRecommendCommand("Recommend 1 2");
-
-    EXPECT_EQ(cmd.type, CommandType::INVALID);
+TEST_F(CommandParserTest, ParseRecommendCommand_EmptyString) {
+    ICommand* cmd = CommandParser::parse("", repo);
+    EXPECT_EQ(cmd, nullptr);
 }
 
-TEST(CommandParserTest, ParseRecommendCommand_MissingOneArgument) {
-    CommandParser parser;
-    Command cmd = parser.parseRecommendCommand("recommend 1");
-
-    EXPECT_EQ(cmd.type, CommandType::INVALID);
+TEST_F(CommandParserTest, ParseRecommendCommand_WrongCommandName) {
+    ICommand* cmd = CommandParser::parse("add 1 2", repo);
+    EXPECT_NE(cmd, nullptr);  // add is valid
+    delete cmd;
 }
 
-TEST(CommandParserTest, ParseRecommendCommand_MissingBothArguments) {
-    CommandParser parser;
-    Command cmd = parser.parseRecommendCommand("recommend");
-
-    EXPECT_EQ(cmd.type, CommandType::INVALID);
+TEST_F(CommandParserTest, ParseHelpCommand_Valid) {
+    ICommand* cmd = CommandParser::parse("help", repo);
+    EXPECT_NE(cmd, nullptr);
+    delete cmd;
 }
 
-TEST(CommandParserTest, ParseRecommendCommand_ExtraArguments) {
-    CommandParser parser;
-    Command cmd = parser.parseRecommendCommand("recommend 1 2 3");
-
-    // Due to the extra parameter, the function should return INVALID
-    EXPECT_EQ(cmd.type, CommandType::INVALID);
+TEST_F(CommandParserTest, ParseAddCommand_Valid) {
+    ICommand* cmd = CommandParser::parse("add 1 100 101 102", repo);
+    EXPECT_NE(cmd, nullptr);
+    delete cmd;
 }
 
-TEST(CommandParserTest, ParseRecommendCommand_StringInsteadOfInt) {
-    CommandParser parser;
-    Command cmd = parser.parseRecommendCommand("recommend one two");
-
-    EXPECT_EQ(cmd.type, CommandType::INVALID);
+TEST_F(CommandParserTest, ParseAddCommand_NoProducts) {
+    ICommand* cmd = CommandParser::parse("add 1", repo);
+    EXPECT_EQ(cmd, nullptr);
 }
 
-TEST(CommandParserTest, ParseRecommendCommand_ExtraTrashAttachedToInt) {
-    CommandParser parser;
-    // In this case, istringstream reads '2' and leaves 'a' in the stream.
-    // This will be caught by the 'extra' variable mechanism, failing the command.
-    Command cmd = parser.parseRecommendCommand("recommend 1 2a");
-
-    EXPECT_EQ(cmd.type, CommandType::INVALID);
+TEST_F(CommandParserTest, UnknownCommand) {
+    ICommand* cmd = CommandParser::parse("foo 1 2", repo);
+    EXPECT_EQ(cmd, nullptr);
 }

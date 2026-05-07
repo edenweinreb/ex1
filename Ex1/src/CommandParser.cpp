@@ -48,7 +48,7 @@ ICommand* CommandParser::parse(const std::string& input, IDataRepository& repo) 
         std::string extra;
         if (!(ss >> extra)) {
             // Parsing succeeded. Return the appropriate command object.
-            return new RecommendCommand(repo, uId, pId);
+            return new RecommendCommand(repo, std::cout, uId, pId);
         }
         
         // Return nullptr if the format is invalid or if trailing text was found
@@ -57,7 +57,7 @@ ICommand* CommandParser::parse(const std::string& input, IDataRepository& repo) 
 
     // Process "help" command
     if (commandName == "help") {
-        return new HelpCommand();
+        return new HelpCommand(std::cout);
     }
 
     // Return nullptr for unrecognized commands or invalid formats (Silent Ignore)
