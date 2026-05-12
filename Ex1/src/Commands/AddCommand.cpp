@@ -10,8 +10,9 @@ AddCommand::AddCommand(IDataRepository& r)
 
 
 //Executes the add command logic
-void AddCommand::execute() {
+std::string AddCommand::execute() { 
     for (int pId : productIds) {
-        repo.addViewedProduct(userId, {pId});
+        repo.addViewedProduct(userId, pId);
     }
+    return ""; // 
 }

@@ -11,37 +11,37 @@
 using namespace std;
 
 int main(int argc, char* argv[]) {
-    // 1. Validate command-line arguments
+    //Validate command-line arguments
     if (argc != 2) {
         cerr << "Usage: " << argv[0] << " <port>" << endl;
         return 1;
     }
 
-    // Convert the port argument from string to integer
+    //Convert the port argument from string to integer
     int port = stoi(argv[1]);
 
-    // 2. Create the TCP socket
+    //Create the TCP socket
     int server_socket = socket(AF_INET, SOCK_STREAM, 0);
     if (server_socket < 0) {
         cerr << "Error creating socket" << endl;
         return 1;
     }
 
-    // 3. Define the server address and port
+    //Define the server address and port
     struct sockaddr_in server_address;
     memset(&server_address, 0, sizeof(server_address));
     server_address.sin_family = AF_INET;
     server_address.sin_addr.s_addr = INADDR_ANY; // Listen on all local interfaces
     server_address.sin_port = htons(port);       // Convert port to network byte order
 
-    // 4. Bind the socket to the specified IP and port
+    //Bind the socket to the specified IP and port
     if (bind(server_socket, (struct sockaddr*)&server_address, sizeof(server_address)) < 0) {
         cerr << "Error binding to port " << port << endl;
         close(server_socket);
         return 1;
     }
 
-    // 5. Listen for incoming connections (max 1 queued connection as per requirements)
+    //Listen for incoming connections (max 1 queued connection as per requirements)
     if (listen(server_socket, 1) < 0) {
         cerr << "Error listening on socket" << endl;
         close(server_socket);
@@ -50,7 +50,7 @@ int main(int argc, char* argv[]) {
 
     cout << "Server is listening on port " << port << "..." << endl;
 
-    // 6. Accept a single client connection (blocking call)
+    //Accept a single client connection (blocking call)
     int client_socket = accept(server_socket, nullptr, nullptr);
     if (client_socket < 0) {
         cerr << "Error accepting client" << endl;

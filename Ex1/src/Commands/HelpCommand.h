@@ -5,12 +5,10 @@
 
 // Handles the help command: prints all available commands
 class HelpCommand : public ICommand {
-private:
-    std::ostream& output;
 public:
-    HelpCommand(std::ostream& output);
+    HelpCommand();
     ~HelpCommand() override {}
-    void execute() override;
+    std::string execute() override;
 };
 
 #endif
