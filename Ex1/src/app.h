@@ -1,19 +1,24 @@
 #ifndef APP_H
 #define APP_H
 
-#include "IMenu.h"
+#include "DefaultIO.h"
 #include "IDataRepository.h"
-#include <ostream>
 
-// Runs the main loop: reads input and executes the right command
+// Runs the main application loop: reads input via DefaultIO, 
+// parses it, executes the right command, and writes the output back.
 class App {
 private:
-    IMenu* menu;
+    // Unified I/O interface handling both reading and writing (Console or Socket)
+    DefaultIO* dio;
+    
+    // Reference to the data repository
     IDataRepository& repo;
-    std::ostream& output;
 
 public:
-    App(IMenu* menu, IDataRepository& repo, std::ostream& output);
+    // Constructor using Dependency Injection for the unified I/O interface
+    App(DefaultIO* dio, IDataRepository& repo);
+    
+    // Starts the main execution loop
     void run();
 };
 

@@ -21,7 +21,7 @@ public:
     
     // Overriding the virtual function from ICommand. 
     // The recommendation logic will be implemented here.
-    void execute() override;
+    std::string execute() override;
     
     // Virtual destructor - essential in derived classes to prevent memory leaks.
     virtual ~RecommendCommand() {}

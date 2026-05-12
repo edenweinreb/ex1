@@ -1,19 +1,22 @@
 #pragma once
+#include <string>
 #include "CommandParser.h"
 
-// Abstract interface for all system commands
 class ICommand {
 protected:
-    // the parameters for the current command
+    // Stores the parameters and data for the current command
     Command currentCmd;
 
 public:
-    virtual ~ICommand() {}
+    // Virtual destructor ensures proper cleanup of derived classes
+    virtual ~ICommand() = default; 
     
-    // Setter
+    // Setter for injecting arguments into the command before execution
     virtual void setArgs(const Command& cmd) {
         currentCmd = cmd;
     }
     
-    virtual void execute() = 0;
+    // Executes the command's logic and returns the resulting output as a string.
+    // support sending the response over a TCP socket.
+    virtual std::string execute() = 0;
 };

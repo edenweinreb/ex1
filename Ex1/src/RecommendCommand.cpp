@@ -13,7 +13,7 @@ RecommendCommand::RecommendCommand(IDataRepository& repo, std::ostream& output)
 RecommendCommand::RecommendCommand(IDataRepository& repo, std::ostream& output, int uId, int pId)
     : repo(repo), output(output), userId(uId), productId(pId) {}
 
-void RecommendCommand::execute() {
+std::string RecommendCommand::execute() {
 
     // get current user's watched products
     std::set<int> userWatched = repo.getUserData(userId);
