@@ -1,0 +1,15 @@
+FROM gcc:latest AS builder
+
+RUN apt-get update && apt-get install -y cmake libgtest-dev
+
+COPY . /usr/src/myapp
+WORKDIR /usr/src/myapp
+
+RUN cmake -B build && cmake --build build
+
+FROM gcc:latest AS tests
+
+COPY --from=builder /usr/src/myapp/build/run_tests /app/run_tests
+
+WORKDIR /app
+CMD ["./run_tests"]
