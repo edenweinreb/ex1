@@ -8,10 +8,10 @@
 class POSTCommandTest : public ::testing::Test {
 protected:
     FileRepository repo{"data/test.csv"};
-    void SetUp() override {
-        // Empty the file contents before each test starts
-        std::ofstream ofs("data/test.csv", std::ofstream::trunc);
-    }
+     void SetUp() override {
+         // Empty the file contents before each test starts
+         std::ofstream ofs("data/test.csv", std::ofstream::trunc);
+     }
 };
 
 TEST_F(POSTCommandTest, ParseValidPOSTCommand) {
@@ -69,22 +69,6 @@ TEST_F(POSTCommandTest, POSTFailsIfUserAlreadyExists) {
     EXPECT_EQ(cmd2->execute(), "404 Not Found"); 
     delete cmd2;
 }
-
-// TEST_F(POSTCommandTest, GetProductUsersTest) {
-//     std::string input1 = "POST 10 203";
-//     std::string input2 = "POST 20 203";
-
-//     auto cmd1 = parser.parse(input1, repo);
-//     if (cmd1) { cmd1->execute(); delete cmd1; }
-
-//     auto cmd2 = parser.parse(input2, repo);
-//     if (cmd2) { cmd2->execute(); delete cmd2; }
-
-//     std::set<int> productUsers = repo.getProductUsers(203);
-//     EXPECT_EQ(productUsers.size(), 2);
-//     EXPECT_TRUE(productUsers.count(10));
-//     EXPECT_TRUE(productUsers.count(20));
-// }
 
 TEST_F(POSTCommandTest, InvalidFormatMissingProductId) {
     ICommand* cmd = CommandParser::parse("POST 20", repo);

@@ -1,14 +1,12 @@
 #pragma once
-#include "ICommand.h"
 #include "IDataRepository.h"
+#include "AddCommand.h"
 
-class PostCommand: public ICommand {
-private:
-    /* data */
+class POSTCommand: public AddCommand {
 public:
-    PostCommand(/* args */);
+    POSTCommand(IDataRepository& r, int uId, const std::set<int>& pIds);
     std::string execute() override;
-    ~PostCommand();
+    ~POSTCommand();
 };
 
 
