@@ -1,12 +1,10 @@
 #pragma once
-#include "ICommand.h"
 #include "IDataRepository.h"
+#include "AddCommand.h"
 
-class PATCHCommand: public ICommand {
-private:
-    /* data */
+class PATCHCommand: public AddCommand {
 public:
-    PATCHCommand(/* args */);
+    PATCHCommand(IDataRepository& r, int uId, const std::set<int>& pIds);
     std::string execute() override;
     ~PATCHCommand();
 };
