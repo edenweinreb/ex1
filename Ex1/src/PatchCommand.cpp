@@ -3,3 +3,7 @@
 PatchCommand::PatchCommand(/* args */)
 {
 }
+
+std::string PatchCommand::execute() {
+    
+}

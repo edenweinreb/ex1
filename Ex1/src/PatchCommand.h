@@ -7,6 +7,7 @@ private:
     /* data */
 public:
     PatchCommand(/* args */);
+    std::string execute() override;
     ~PatchCommand();
 };
 

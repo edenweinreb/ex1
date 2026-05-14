@@ -7,11 +7,10 @@ private:
     /* data */
 public:
     PostCommand(/* args */);
+    std::string execute() override;
     ~PostCommand();
 };
 
-PostCommand::PostCommand(/* args */)
-{
-}
+
 
 
