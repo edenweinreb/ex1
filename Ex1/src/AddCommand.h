@@ -17,7 +17,7 @@ public:
     AddCommand(IDataRepository& r, int uId, const std::set<int>& pIds);
     // Constructor for repository only
     AddCommand(IDataRepository& r);
-    void execute() override;
+    std::string execute() override;
     virtual ~AddCommand() {}
 
 };

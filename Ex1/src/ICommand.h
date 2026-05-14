@@ -15,5 +15,5 @@ public:
         currentCmd = cmd;
     }
     
-    virtual void execute() = 0;
+    virtual std::string execute() = 0;
 };
