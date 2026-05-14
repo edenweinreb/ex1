@@ -26,6 +26,8 @@ public:
     std::set<int> getProductUsers(int productId) override;
     // Reads all data from the file into memory
     void loadAll() override;
+    // Check if user exists
+    bool userExists(int userId);
 
     virtual ~FileRepository() {}
 };
