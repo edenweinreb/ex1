@@ -4,6 +4,7 @@
 #include "HelpCommand.h"      
 #include "ICommand.h"
 #include "IDataRepository.h"
+#include "DeleteCommand.h"
 #include <sstream>
 #include <set>
 #include <iostream>
@@ -53,6 +54,25 @@ ICommand* CommandParser::parse(const std::string& input, IDataRepository& repo) 
         
         // Return nullptr if the format is invalid or if trailing text was found
         return nullptr;
+    }
+
+    // Process "DELETE" command: DELETE <userId> <productId1> <productId2> ...
+    if (commandName == "DELETE") {
+        int uId;
+        // Attempt to read the User ID. Return nullptr if not a valid integer.
+        if (!(ss >> uId)) return nullptr;
+
+        std::set<int> pIds;
+        int pId;
+        // Extract all subsequent integers as Product IDs
+        while (ss >> pId) {
+            pIds.insert(pId);
+        }
+
+        // Validation: DELETE must contain at least one product ID
+        if (pIds.empty()) return nullptr;
+
+        return new DeleteCommand(repo, uId, pIds);
     }
 
     // Process "help" command

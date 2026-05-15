@@ -53,6 +53,18 @@ std::set<int> FileRepository::getProductUsers(int productId) {
     return {}; // Return empty vector if product not found
 }
 
+// Checks if the user exists in the in-memory map
+bool FileRepository::userExists(int userId) {
+    return userData.find(userId) != userData.end();
+}
+
+// Removes a specific product from a user's viewed history
+// Also updates the inverse index (productToUsers)
+void FileRepository::removeViewedProduct(int userId, int productId) {
+    userData[userId].erase(productId);
+    productToUsers[productId].erase(userId);
+}
+
 void FileRepository::loadAll() {
     // Open the file for reading
     std::ifstream inFile(filePath);
