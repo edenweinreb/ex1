@@ -32,7 +32,8 @@ target_include_directories(myapp PRIVATE src/)
 add_executable(run_tests 
     src/tests/SimilarityTest.cpp 
     src/tests/CommandParserTest.cpp
-    src/tests/test_post.cpp
+    src/tests/POSTCommandTest.cpp
+    src/tests/PATCHCommandTest.cpp
     ${SOURCES}
 )
 target_include_directories(run_tests PRIVATE src/)
