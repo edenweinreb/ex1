@@ -1,41 +1,86 @@
 cmake_minimum_required(VERSION 3.14)
 project(ex1 CXX)
+
+# Set C++ standard to 17
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# --- Fetch GoogleTest ---
 include(FetchContent)
 FetchContent_Declare(
   googletest
   URL https://github.com/google/googletest/archive/03597a01ee50ed33e9dfd640b249b4be3799d395.zip
 )
+# For Windows compatibility
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 enable_testing()
 
-# all source files except main
+# --- Define Source Files based on new folder structure ---
 set(SOURCES
-    src/CommandParser.cpp
-    src/RecommendationEngine.cpp
-    src/FileRepository.cpp
-    src/AddCommand.cpp
-    src/RecommendCommand.cpp
-    src/Helpcommand.cpp
-    src/ConsoleMenu.cpp
+    # Command Pattern implementations
+    src/Commands/AddCommand.cpp
+    src/Commands/DeleteCommand.cpp
+    src/Commands/GETCommand.cpp
+    src/Commands/HelpCommand.cpp
+    src/Commands/PatchCommand.cpp
+    src/Commands/PostCommand.cpp
+    src/Commands/RecommendationEngine.cpp
+    
+    # Data Access Layer & UI Logic
+    src/DAL/CommandParser.cpp
+    src/DAL/ConsoleMenu.cpp
+    
+    # Data Repositories
+    src/Data/FileRepository.cpp
+    
+    # Networking / Communication
+    src/Server-Client/SocketIO.cpp
+    
+    # Main Application Logic
     src/app.cpp
 )
 
-# main app
+# --- Main Application Target ---
 add_executable(myapp src/Main.cpp ${SOURCES})
-target_include_directories(myapp PRIVATE src/)
 
-# tests
-add_executable(run_tests 
+# Include directories to allow cleaner #include statements
+target_include_directories(myapp PRIVATE 
+    src/
+    src/Commands/
+    src/DAL/
+    src/Data/
+    src/Server-Client/
+)
+
+# --- Test Target (Google Test) ---
+set(TEST_SOURCES
     src/tests/SimilarityTest.cpp 
     src/tests/CommandParserTest.cpp
-    ${SOURCES}
+    src/tests/GetCommandTest.cpp
+    src/tests/HelpCommandTest.cpp
+    src/tests/PATCHCommandTest.cpp
+    src/tests/PostCommandTest.cpp
+    src/tests/TablesTests.cpp
+    src/tests/test_parser.cpp
+    src/tests/test_repository.cpp
 )
-target_include_directories(run_tests PRIVATE src/)
+
+add_executable(run_tests ${TEST_SOURCES} ${SOURCES})
+
+# Include directories for tests
+target_include_directories(run_tests PRIVATE 
+    src/
+    src/Commands/
+    src/DAL/
+    src/Data/
+    src/Server-Client/
+    src/tests/
+)
+
+# Link GTest libraries
 target_link_libraries(run_tests gtest_main)
 
+# Automatic test discovery
 include(GoogleTest)
 gtest_discover_tests(run_tests)

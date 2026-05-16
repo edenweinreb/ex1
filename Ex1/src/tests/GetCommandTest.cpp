@@ -2,7 +2,7 @@
 #include <string>
 #include <sstream>
 #include "CommandParser.h"
-#include "RecommendCommand.h"
+#include "GETCommand.h"
 #include "ICommand.h"
 #include "IDataRepository.h" // The class that implements IDataRepository
 

@@ -6,7 +6,7 @@
 #include <set>
 
 class AddCommand: public ICommand {
-private:
+protected:
     IDataRepository& repo;
     int userId;
     std::set<int> productIds;
@@ -16,7 +16,7 @@ public:
     // Constructor for known data
     AddCommand(IDataRepository& r, int uId, const std::set<int>& pIds);
     // Constructor for repository only
-    AddCommand(IDataRepository& r);
+    //AddCommand(IDataRepository& r);
     std::string execute() override;
     virtual ~AddCommand() {}
 

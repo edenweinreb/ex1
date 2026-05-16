@@ -5,8 +5,8 @@ AddCommand::AddCommand(IDataRepository& r, int uId, const std::set<int>& pIds)
         : repo(r), userId(uId), productIds(pIds) {}
 
 
-AddCommand::AddCommand(IDataRepository& r) 
-        : repo(r) {}
+// AddCommand::AddCommand(IDataRepository& r) 
+//         : repo(r) {}
 
 
 //Executes the add command logic

@@ -6,7 +6,7 @@
 
 TEST(FileRepositoryTest, SavesAndLoadsDataCorrectly) {
     int userId = 1;
-    Product p = {76, "Coffee"};
+    int p = {76};
     std::string testFile = "data/test_data.txt";
 
     {
@@ -20,6 +20,5 @@ TEST(FileRepositoryTest, SavesAndLoadsDataCorrectly) {
     auto history = newRepo.getUserData(userId); 
     
     ASSERT_EQ(history.size(), 1);
-    EXPECT_EQ(history[0].productId, 76);
-    EXPECT_EQ(history[0].name, "Coffee");
+    EXPECT_TRUE(history.count(76));
 }

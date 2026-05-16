@@ -1,0 +1,100 @@
+#include <gtest/gtest.h>
+#include "FileRepository.h"
+#include "IDataRepository.h"
+#include "CommandParser.h"
+#include "ICommand.h"
+#include "AddCommand.h"
+#include <fstream>
+#include <vector>
+#include <set>
+
+TEST(ParserTest, ParseValidAddCommand) {
+    FileRepository repo("test_data.csv");
+    CommandParser parser;
+    std::string input = "add 10 203";
+    
+    auto cmd = parser.parse(input, repo);
+    if (cmd) { cmd->execute(); delete cmd; } 
+
+    std::set<int> productUsers = repo.getProductUsers(203);
+    std::set<int> userProducts = repo.getUserData(10);
+    EXPECT_EQ(userProducts.size(), 1);
+    EXPECT_TRUE(userProducts.count(203));
+    EXPECT_EQ(productUsers.size(), 1);
+    EXPECT_TRUE(productUsers.count(10));
+}
+
+TEST(ParserTest, ParseSamePIdAddCommand) {
+    FileRepository repo("test_data.csv");
+    CommandParser parser;
+    std::string input = "add 10 203 203";
+    
+    auto cmd = parser.parse(input, repo);
+    if (cmd) { cmd->execute(); delete cmd; } 
+
+    std::set<int> productUsers = repo.getProductUsers(203);
+    std::set<int> userProducts = repo.getUserData(10);
+    EXPECT_EQ(userProducts.size(), 1);
+    EXPECT_TRUE(userProducts.count(203));
+    EXPECT_EQ(productUsers.size(), 1);
+    EXPECT_TRUE(productUsers.count(10));
+}
+
+TEST(ParserTest, ParseAddCommandWithExtraSpaces) {
+    FileRepository repo("test_data.csv");
+    CommandParser parser;
+    std::string input = "  add   10   203";
+
+    auto cmd = parser.parse(input, repo);
+    if (cmd) { cmd->execute(); delete cmd; } 
+
+    std::set<int> productUsers = repo.getProductUsers(203);
+    std::set<int> userProducts = repo.getUserData(10);
+    EXPECT_EQ(userProducts.size(), 1);
+    EXPECT_TRUE(userProducts.count(203));
+    EXPECT_EQ(productUsers.size(), 1);
+    EXPECT_TRUE(productUsers.count(10));
+}
+
+TEST(RepositoryTest, GetProductUsersTest) {
+    FileRepository repo("test_data.csv");
+    CommandParser parser;
+
+    std::string input1 = "add 10 203";
+    std::string input2 = "add 20 203";
+
+    auto cmd1 = parser.parse(input1, repo);
+    if (cmd1) { cmd1->execute(); delete cmd1; }
+
+    auto cmd2 = parser.parse(input2, repo);
+    if (cmd2) { cmd2->execute(); delete cmd2; }
+
+    std::set<int> productUsers = repo.getProductUsers(203);
+    EXPECT_EQ(productUsers.size(), 2);
+    EXPECT_TRUE(productUsers.count(10));
+    EXPECT_TRUE(productUsers.count(20));
+}
+
+TEST(ParserTest, InvalidFormatMissingProductId) {
+    FileRepository repo("test_data.csv");
+    CommandParser parser;
+    std::string input = "add 10";
+
+    EXPECT_EQ(parser.parse(input, repo), nullptr);
+}
+
+TEST(ParserTest, InvalidNonNumericInput) {
+    FileRepository repo("test_data.csv");
+    CommandParser parser;
+    std::string input = "add aaa 203";
+
+    EXPECT_EQ(parser.parse(input, repo), nullptr);
+}
+
+TEST(ParserTest, InvalidNonNumericProductInput) {
+    FileRepository repo("test_data.csv");
+    CommandParser parser;
+    std::string input = "add 10 aaa";
+
+    EXPECT_EQ(parser.parse(input, repo), nullptr);
+}

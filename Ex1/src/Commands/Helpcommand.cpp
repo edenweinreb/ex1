@@ -1,13 +1,19 @@
-using namespace std;
 #include "HelpCommand.h"
 #include <iostream>
+#include <sstream>
 
-HelpCommand::HelpCommand() {}
+// Constructor: receives output stream for loose coupling
+HelpCommand::HelpCommand(std::ostream& output) : output(output) {}
 
-// Prints all available commands to the output stream
+// Prints all available commands and returns them as a string
 std::string HelpCommand::execute() {
-    std::string helpText = "add [userid] [productid1] [productid2] ...\n";
-    helpText += "recommend [userid] [productid]\n";
-    helpText += "help";
-    return helpText;
+    std::ostringstream oss;
+
+    oss << "DELETE, arguments: [userid] [productid1] [productid2] ...\n";
+    oss << "GET, arguments: [userid] [productid]\n";
+    oss << "PATCH, arguments: [userid] [productid1] [productid2]  ...\n";
+    oss << "POST, arguments: [userid] [productid1] [productid2]  ...\n";
+    oss << "HELP\n";
+
+    return oss.str();
 }
