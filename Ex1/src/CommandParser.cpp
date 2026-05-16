@@ -1,5 +1,5 @@
 #include "CommandParser.h"
-// #include "AddCommand.h"
+#include "AddCommand.h"
 #include "PatchCommand.h"
 #include "PostCommand.h"
 #include "RecommendCommand.h" 

@@ -1,6 +1,5 @@
 #include "DeleteCommand.h"
 
-<<<<<<< HEAD
 // Constructor: stores repo reference, userId, and productIds to delete
 DeleteCommand::DeleteCommand(IDataRepository& r, int uId, const std::set<int>& pIds)
     : repo(r), userId(uId), productIds(pIds) {}
@@ -36,12 +35,3 @@ void DeleteCommand::execute() {
 std::string DeleteCommand::getResult() {
     return result;
 };
-=======
-DeleteCommand::DeleteCommand(/* args */) {
-
-}
-
-std::string DeleteCommand::execute() {
-
-}
->>>>>>> 7fc816e1695e600cef74a2c826f8a83ae1129dbe
