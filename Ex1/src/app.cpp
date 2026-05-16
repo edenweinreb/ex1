@@ -15,8 +15,10 @@ void App::run() {
         ICommand* cmd = CommandParser::parse(task, repo);
 
         // if null, ignore silently
-        if (cmd == nullptr) continue;
-
+        if (cmd == nullptr) {
+            continue;
+           // sendToSocket("400 Bad Request\n");
+        }
         cmd->execute();
         delete cmd;
     }
