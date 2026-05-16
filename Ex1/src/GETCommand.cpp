@@ -2,18 +2,20 @@
 #include "ICommand.h"
 #include "IDataRepository.h"
 #include <ostream>
-#include "RecommendCommand.h"
+#include <sstream>
+#include "GETCommand.h"
 #include "RecommendationEngine.h"
 #include <algorithm>
 #include <vector>
 
-RecommendCommand::RecommendCommand(IDataRepository& repo, std::ostream& output)
+GETCommand::GETCommand(IDataRepository& repo, std::ostream& output)
     : repo(repo), output(output) {}
 
-RecommendCommand::RecommendCommand(IDataRepository& repo, std::ostream& output, int uId, int pId)
+GETCommand::GETCommand(IDataRepository& repo, std::ostream& output, int uId, int pId)
     : repo(repo), output(output), userId(uId), productId(pId) {}
 
-std::string RecommendCommand::execute() {
+std::string GETCommand::execute() {
+    std::ostringstream localOutput;
 
     // get current user's watched products
     std::set<int> userWatched = repo.getUserData(userId);
@@ -37,9 +39,11 @@ std::string RecommendCommand::execute() {
     // print top 10
     int limit = std::min(10, (int)sorted.size());
     for (int i = 0; i < limit; i++) {
-        output << sorted[i];
-        if (i < limit - 1) output << " ";
+        localOutput << sorted[i];
+        if (i < limit - 1) localOutput << " ";
     }
-    output << "\n";
-    return "";
+    localOutput << "\n";
+
+    // returns 200 Ok followed by two newlines and the results
+    return "200 Ok\n\n" + localOutput.str();
 }
