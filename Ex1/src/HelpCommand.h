@@ -10,7 +10,7 @@ private:
 public:
     HelpCommand(std::ostream& output);
     ~HelpCommand() override {}
-    void execute() override;
+    std::string execute() override;
 };
 
 #endif

@@ -1,9 +1,13 @@
-#include "PostCommand.h"
+#include "POSTCommand.h"
 
-PostCommand::PostCommand(/* args */)
-{
+POSTCommand::POSTCommand(IDataRepository& r, int uId, const std::set<int>& pIds) 
+    : AddCommand(r, uId, pIds) {
 }
 
-std::string PostCommand::execute() {
-    
+std::string POSTCommand::execute() {
+    if (repo.userExists(userId)) {
+        return ("404 Not Found");
+    }
+    AddCommand::execute();
+    return ("201 Created");
 }

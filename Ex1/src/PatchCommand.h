@@ -2,13 +2,13 @@
 #include "ICommand.h"
 #include "IDataRepository.h"
 
-class PatchCommand: public ICommand {
+class PATCHCommand: public ICommand {
 private:
     /* data */
 public:
-    PatchCommand(/* args */);
+    PATCHCommand(/* args */);
     std::string execute() override;
-    ~PatchCommand();
+    ~PATCHCommand();
 };
 
 

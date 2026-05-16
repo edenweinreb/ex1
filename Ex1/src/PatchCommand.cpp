@@ -1,9 +1,9 @@
-#include "PatchCommand.h"
+#include "PATCHCommand.h"
 
-PatchCommand::PatchCommand(/* args */)
+PATCHCommand::PATCHCommand(/* args */)
 {
 }
 
-std::string PatchCommand::execute() {
+std::string PATCHCommand::execute() {
     
 }
