@@ -29,6 +29,12 @@ public:
     // Check if user exists
     bool userExists(int userId);
 
+    // Removes a product from a user's viewed history in memory
+    void removeViewedProduct(int userId, int productId) override;
+
+    // Checks if a user exists in the in-memory map
+    bool userExists(int userId) override;
+
     virtual ~FileRepository() {}
 };
 

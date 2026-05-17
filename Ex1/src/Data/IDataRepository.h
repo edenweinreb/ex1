@@ -4,9 +4,6 @@
 #include <vector>
 #include <set>
 
-
-
-
 class IDataRepository {
     public:
         virtual ~IDataRepository() {}
@@ -19,6 +16,12 @@ class IDataRepository {
 
         //Retrieves all data associated with a specific product.
         virtual std::set<int> getProductUsers(int productId) = 0;
+
+        // Removes a specific product from a user's viewed history
+        virtual void removeViewedProduct(int userId, int productId) = 0;
+
+        // Checks if a user exists in the repository
+        virtual bool userExists(int userId) = 0;
 
         // On startup, the system loads all existing data from the files into memory.
         virtual void loadAll() = 0;
