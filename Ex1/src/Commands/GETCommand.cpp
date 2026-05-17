@@ -8,13 +8,13 @@
 #include <algorithm>
 #include <vector>
 
-GETCommand::GETCommand(IDataRepository& repo, std::ostream& output)
+GetCommand::GetCommand(IDataRepository& repo, std::ostream& output)
     : repo(repo), output(output) {}
 
-GETCommand::GETCommand(IDataRepository& repo, std::ostream& output, int uId, int pId)
+GetCommand::GetCommand(IDataRepository& repo, std::ostream& output, int uId, int pId)
     : repo(repo), output(output), userId(uId), productId(pId) {}
 
-std::string GETCommand::execute() {
+std::string GetCommand::execute() {
     std::ostringstream localOutput;
     
     // get current user's watched products

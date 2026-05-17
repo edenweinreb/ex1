@@ -5,7 +5,7 @@
 #include <fstream>
 
 // helper to create a repo for testing
-class PATCHCommandTest : public ::testing::Test {
+class PatchCommandTest : public ::testing::Test {
 protected:
     FileRepository repo{"data/test.csv"};
     void SetUp() override {
@@ -17,7 +17,7 @@ protected:
 // "404 Not Found"
 // "204 No Content"
 
-TEST_F(PATCHCommandTest, ParseValidPATCHCommand) {
+TEST_F(PatchCommandTest, ParseValidPatchCommand) {
     ICommand* cmd1 = CommandParser::parse("POST 20 400", repo);
     ASSERT_NE(cmd1, nullptr);
     EXPECT_EQ(cmd1->execute(), "201 Created");
@@ -39,7 +39,7 @@ TEST_F(PATCHCommandTest, ParseValidPATCHCommand) {
     EXPECT_TRUE(productUsers.count(20));
 }
 
-TEST_F(PATCHCommandTest, ParseSamePIdPATCHCommand) {
+TEST_F(PatchCommandTest, ParseSamePIdPatchCommand) {
     ICommand* cmd1 = CommandParser::parse("POST 20 400", repo);
     ASSERT_NE(cmd1, nullptr);
     EXPECT_EQ(cmd1->execute(), "201 Created");
@@ -60,7 +60,7 @@ TEST_F(PATCHCommandTest, ParseSamePIdPATCHCommand) {
     EXPECT_TRUE(productUsers.count(20));
 }
 
-TEST_F(PATCHCommandTest, PATCHCommandWithExtraSpaces) {
+TEST_F(PatchCommandTest, PatchCommandWithExtraSpaces) {
     ICommand* cmd1 = CommandParser::parse("POST 20 400", repo);
     ASSERT_NE(cmd1, nullptr);
     EXPECT_EQ(cmd1->execute(), "201 Created");
@@ -81,14 +81,14 @@ TEST_F(PATCHCommandTest, PATCHCommandWithExtraSpaces) {
     EXPECT_TRUE(productUsers.count(20));
 }
 
-TEST_F(PATCHCommandTest, PATCHFailsIfUserDoNotExists) {
+TEST_F(PatchCommandTest, PatchFailsIfUserDoNotExists) {
     ICommand* cmd = CommandParser::parse("PATCH 20 400", repo);
     ASSERT_NE(cmd, nullptr);
     EXPECT_EQ(cmd->execute(), "404 Not Found");
     delete cmd;
 }
 
-TEST_F(PATCHCommandTest, InvalidFormatMissingProductId) {
+TEST_F(PatchCommandTest, InvalidFormatMissingProductId) {
     ICommand* cmd1 = CommandParser::parse("POST 20 400", repo);
     ASSERT_NE(cmd1, nullptr);
     EXPECT_EQ(cmd1->execute(), "201 Created");
@@ -100,7 +100,7 @@ TEST_F(PATCHCommandTest, InvalidFormatMissingProductId) {
     delete cmd2;
 }
 
-TEST_F(PATCHCommandTest, InvalidNonNumericInput) {
+TEST_F(PatchCommandTest, InvalidNonNumericInput) {
     ICommand* cmd1 = CommandParser::parse("POST 20 400", repo);
     ASSERT_NE(cmd1, nullptr);
     EXPECT_EQ(cmd1->execute(), "201 Created");
@@ -112,7 +112,7 @@ TEST_F(PATCHCommandTest, InvalidNonNumericInput) {
     delete cmd2;
 }
 
-TEST_F(PATCHCommandTest, InvalidNonNumericProductInput) {
+TEST_F(PatchCommandTest, InvalidNonNumericProductInput) {
     ICommand* cmd1 = CommandParser::parse("POST 20 400", repo);
     ASSERT_NE(cmd1, nullptr);
     EXPECT_EQ(cmd1->execute(), "201 Created");

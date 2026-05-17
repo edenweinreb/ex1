@@ -5,7 +5,7 @@
 #include <fstream>
 
 // helper to create a repo for testing
-class POSTCommandTest : public ::testing::Test {
+class PostCommandTest : public ::testing::Test {
 protected:
     FileRepository repo{"data/test.csv"};
      void SetUp() override {
@@ -14,7 +14,7 @@ protected:
      }
 };
 
-TEST_F(POSTCommandTest, ParseValidPOSTCommand) {
+TEST_F(PostCommandTest, ParseValidPOSTCommand) {
     ICommand* cmd = CommandParser::parse("POST 20 400", repo);
     ASSERT_NE(cmd, nullptr);
     EXPECT_EQ(cmd->execute(), "201 Created");
@@ -29,7 +29,7 @@ TEST_F(POSTCommandTest, ParseValidPOSTCommand) {
     EXPECT_TRUE(productUsers.count(20));
 }
 
-TEST_F(POSTCommandTest, ParseSamePIdPOSTCommand) {
+TEST_F(PostCommandTest, ParseSamePIdPOSTCommand) {
     ICommand* cmd = CommandParser::parse("POST 20 400 400", repo);
     ASSERT_NE(cmd, nullptr);
     EXPECT_EQ(cmd->execute(), "201 Created");
@@ -43,7 +43,7 @@ TEST_F(POSTCommandTest, ParseSamePIdPOSTCommand) {
     EXPECT_TRUE(productUsers.count(20));
 }
 
-TEST_F(POSTCommandTest, POSTCommandWithExtraSpaces) {
+TEST_F(PostCommandTest, POSTCommandWithExtraSpaces) {
     ICommand* cmd = CommandParser::parse("  POST   20   400  ", repo);
     ASSERT_NE(cmd, nullptr);
     EXPECT_EQ(cmd->execute(), "201 Created");
@@ -57,7 +57,7 @@ TEST_F(POSTCommandTest, POSTCommandWithExtraSpaces) {
     EXPECT_TRUE(productUsers.count(20));
 }
 
-TEST_F(POSTCommandTest, POSTFailsIfUserAlreadyExists) {
+TEST_F(PostCommandTest, POSTFailsIfUserAlreadyExists) {
     ICommand* cmd1 = CommandParser::parse("POST 20 400", repo);
     ASSERT_NE(cmd1, nullptr);
     EXPECT_EQ(cmd1->execute(), "201 Created");
@@ -70,21 +70,21 @@ TEST_F(POSTCommandTest, POSTFailsIfUserAlreadyExists) {
     delete cmd2;
 }
 
-TEST_F(POSTCommandTest, InvalidFormatMissingProductId) {
+TEST_F(PostCommandTest, InvalidFormatMissingProductId) {
     ICommand* cmd = CommandParser::parse("POST 20", repo);
     ASSERT_NE(cmd, nullptr);
     EXPECT_EQ(cmd->execute(), "400 Bad Request"); 
     delete cmd;
 }
 
-TEST_F(POSTCommandTest, InvalidNonNumericInput) {
+TEST_F(PostCommandTest, InvalidNonNumericInput) {
     ICommand* cmd = CommandParser::parse("POST aaa 400", repo);
     ASSERT_NE(cmd, nullptr);
     EXPECT_EQ(cmd->execute(), "400 Bad Request"); 
     delete cmd;
 }
 
-TEST_F(POSTCommandTest, InvalidNonNumericProductInput) {
+TEST_F(PostCommandTest, InvalidNonNumericProductInput) {
     ICommand* cmd = CommandParser::parse("POST 20 aaa", repo);
     ASSERT_NE(cmd, nullptr);
     EXPECT_EQ(cmd->execute(), "400 Bad Request"); 
