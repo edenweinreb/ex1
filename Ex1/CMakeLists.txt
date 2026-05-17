@@ -21,7 +21,7 @@ set(SOURCES
     # Command Pattern implementations
     src/Commands/AddCommand.cpp
     src/Commands/DeleteCommand.cpp
-    src/Commands/GETCommand.cpp
+    src/Commands/GetCommand.cpp
     src/Commands/HelpCommand.cpp
     src/Commands/PatchCommand.cpp
     src/Commands/PostCommand.cpp
@@ -60,7 +60,7 @@ set(TEST_SOURCES
     src/tests/CommandParserTest.cpp
     src/tests/GetCommandTest.cpp
     src/tests/HelpCommandTest.cpp
-    src/tests/PATCHCommandTest.cpp
+    src/tests/PatchCommandTest.cpp
     src/tests/PostCommandTest.cpp
     src/tests/TablesTests.cpp
     src/tests/test_parser.cpp
