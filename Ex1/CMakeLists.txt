@@ -56,6 +56,7 @@ target_include_directories(myapp PRIVATE
 # --- Test Target (Google Test) ---
 set(TEST_SOURCES
     src/tests/SimilarityTest.cpp 
+    src/tests/DeleteCommandTest.cpp
     src/tests/CommandParserTest.cpp
     src/tests/GetCommandTest.cpp
     src/tests/HelpCommandTest.cpp
@@ -64,8 +65,8 @@ set(TEST_SOURCES
     src/tests/TablesTests.cpp
     src/tests/test_parser.cpp
     src/tests/test_repository.cpp
+    src/tests/test_addCommand
 )
-
 add_executable(run_tests ${TEST_SOURCES} ${SOURCES})
 
 # Include directories for tests
