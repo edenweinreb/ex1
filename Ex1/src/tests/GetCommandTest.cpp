@@ -4,49 +4,39 @@
 #include "CommandParser.h"
 #include "GETCommand.h"
 #include "ICommand.h"
-#include "IDataRepository.h" // The class that implements IDataRepository
+#include "FileRepository.h"
 
 class GetCommandTest : public ::testing::Test {
 protected:
-    IDataRepository repo; 
-    
-    // We use ostringstream to capture the output exactly like the TCP server will
+    FileRepository repo; 
     std::ostringstream outputStream;
-
     
     void SetUp() override {
-        // *** TODO: Setup a valid user in the repo for testing
-        // e.g., repo.addUser(1); 
-        // repo.addView(1, 100);
-        // repo.addView(2, 100);
+        
+        repo.addViewedProduct(1, 100);
+        
+        repo.addViewedProduct(2, 100);
+        repo.addViewedProduct(2, 200);
     }
 };
 
 // Test 1: Valid GET Request (Logical Success)
 TEST_F(GetCommandTest, ValidGetRequestReturns200AndRecommendations) {
-    // Action - Create the command directly with a valid user ID (e.g., 1) and product ID (e.g., 100)
-    // *** TODO: Use IDs that you actually added in the SetUp() function
-    RecommendCommand cmd(repo, outputStream, 1, 100);
-    cmd.execute();
+    GETCommand cmd(repo, outputStream, 1, 100);
     
-    // Capture the output that the command wrote to the stream
-    std::string response = outputStream.str();
+    std::string response = cmd.execute();
     std::string expected_prefix = "200 Ok\n\n";
     
-    // Assertions
     EXPECT_EQ(response.substr(0, expected_prefix.length()), expected_prefix);
     EXPECT_EQ(response.back(), '\n');
 }
 
 // Test 2: User not found in repository (Logical Error - 404)
 TEST_F(GetCommandTest, UserNotFoundReturns404) {
-    // Action - Create the command with a user ID that DOES NOT exist (e.g., 999)
-    RecommendCommand cmd(repo, outputStream, 999, 100);
-    cmd.execute();
+    GETCommand cmd(repo, outputStream, 999, 100);
     
-    std::string response = outputStream.str();
+    std::string response = cmd.execute();
     
-    // Assertion - Must return exactly 404 Not Found
     EXPECT_EQ(response, "404 Not Found\n");
 }
 
@@ -54,12 +44,10 @@ TEST_F(GetCommandTest, UserNotFoundReturns404) {
 TEST_F(GetCommandTest, MissingArgumentsReturnsNullptrFor400) {
     CommandParser parser;
     
-    // Action 1 - Missing product ID
     ICommand* cmd1 = parser.parse("GET 1", repo);
-    EXPECT_EQ(cmd1, nullptr); // The server should translate this nullptr to "400 Bad Request"
-    delete cmd1; // Just in case it fails and returns an object
+    EXPECT_EQ(cmd1, nullptr); 
+    delete cmd1; 
     
-    // Action 2 - Missing both IDs
     ICommand* cmd2 = parser.parse("GET", repo);
     EXPECT_EQ(cmd2, nullptr);
     delete cmd2;
@@ -69,10 +57,8 @@ TEST_F(GetCommandTest, MissingArgumentsReturnsNullptrFor400) {
 TEST_F(GetCommandTest, TooManyArgumentsReturnsNullptrFor400) {
     CommandParser parser;
     
-    // Action - Extra parameters at the end
     ICommand* cmd = parser.parse("GET 1 100 200", repo);
     
-    // Assertion
     EXPECT_EQ(cmd, nullptr);
     delete cmd;
 }
@@ -81,10 +67,8 @@ TEST_F(GetCommandTest, TooManyArgumentsReturnsNullptrFor400) {
 TEST_F(GetCommandTest, InvalidTypesReturnsNullptrFor400) {
     CommandParser parser;
     
-    // Action - Passing strings where ints are expected
     ICommand* cmd = parser.parse("GET userX prodY", repo);
     
-    // Assertion
     EXPECT_EQ(cmd, nullptr);
     delete cmd;
 }
