@@ -1,30 +1,15 @@
 #ifndef COMMANDPARSER_H
 #define COMMANDPARSER_H
 
-#include "IDataRepository.h"
 #include <string>
-#include <vector>
-#include <set>
 
 class ICommand;
-
-enum class CommandType {
-    ADD,
-    RECOMMEND,
-    HELP,
-    INVALID
-};
-
-struct Command {
-    CommandType type;
-    int userId;
-    std::set<int> productIds;
-};
+class IDataRepository;
+class DefaultIO;
 
 class CommandParser {
 public:
-    //Parses a raw input string and creates the corresponding Command object
-    static ICommand* parse(const std::string& input, IDataRepository& repo);
+    static ICommand* parse(const std::string& input, IDataRepository& repo, DefaultIO& dio);
 };
 
 #endif

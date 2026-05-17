@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include <vector>
 #include <set>
-#include "../RecommendationEngine.h" 
+#include "../Commands/RecommendationEngine.h"
 
 // test case 1: users with no products at all would get 0
 TEST(SimilarityTest, ReturnsZeroForNoCommonProducts) {

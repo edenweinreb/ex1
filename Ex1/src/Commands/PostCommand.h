@@ -2,11 +2,11 @@
 #include "IDataRepository.h"
 #include "AddCommand.h"
 
-class POSTCommand: public AddCommand {
+class PostCommand: public AddCommand {
 public:
-    POSTCommand(IDataRepository& r, int uId, const std::set<int>& pIds);
+    PostCommand(IDataRepository& r, int uId, const std::set<int>& pIds);
     std::string execute() override;
-    ~POSTCommand();
+    ~PostCommand();
 };
 
 

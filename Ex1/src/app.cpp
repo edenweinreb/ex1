@@ -17,7 +17,7 @@ void App::run() {
         }
 
         // Parse and create the right command
-        ICommand* cmd = CommandParser::parse(task, repo);
+        ICommand* cmd = CommandParser::parse(task, repo, *dio);
 
         // If null (invalid command), ignore silently and wait for next input
         if (cmd == nullptr) continue;

@@ -26,8 +26,6 @@ class IDataRepository {
         // On startup, the system loads all existing data from the files into memory.
         virtual void loadAll() = 0;
 
-        // Check if user exists already
-        virtual bool userExists(int userId) = 0;
 };
 
 #endif

@@ -26,8 +26,6 @@ public:
     std::set<int> getProductUsers(int productId) override;
     // Reads all data from the file into memory
     void loadAll() override;
-    // Check if user exists
-    bool userExists(int userId);
 
     // Removes a product from a user's viewed history in memory
     void removeViewedProduct(int userId, int productId) override;

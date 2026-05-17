@@ -90,7 +90,3 @@ void FileRepository::loadAll() {
 
     }
 }
-
-    bool FileRepository::userExists(int userId) {
-        return userData.find(userId) != userData.end();
-}

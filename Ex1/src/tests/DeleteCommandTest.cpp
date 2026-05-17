@@ -3,19 +3,27 @@
 #include "IDataRepository.h"
 #include "CommandParser.h"
 #include "DeleteCommand.h"
+#include "../Data/DefaultIO.h" 
 #include <set>
+
+class MockIO : public DefaultIO {
+public:
+    std::string read() override { return ""; }
+    void write(const std::string& text) override {}
+};
 
 // Test DELETE returns 204 No Content when user and product exist
 TEST(DeleteCommandTest, DeleteExistingProductReturns204) {
     FileRepository repo("test_data.csv");
     CommandParser parser;
+    MockIO dio;
 
     // First POST the user
-    auto post = parser.parse("POST 1 1 2 3", repo);
+    auto post = parser.parse("POST 1 1 2 3", repo, dio);
     if (post) { post->execute(); delete post; }
 
     // Then DELETE
-    auto cmd = parser.parse("DELETE 1 1", repo);
+    auto cmd = parser.parse("DELETE 1 1", repo, dio);
     ASSERT_NE(cmd, nullptr);
     cmd->execute();
     EXPECT_EQ(static_cast<DeleteCommand*>(cmd)->getResult(), "204 No Content");
@@ -26,8 +34,9 @@ TEST(DeleteCommandTest, DeleteExistingProductReturns204) {
 TEST(DeleteCommandTest, DeleteNonExistingUserReturns404) {
     FileRepository repo("test_data.csv");
     CommandParser parser;
+    MockIO dio;
 
-    auto cmd = parser.parse("DELETE 99 1", repo);
+    auto cmd = parser.parse("DELETE 99 1", repo, dio);
     ASSERT_NE(cmd, nullptr);
     cmd->execute();
     EXPECT_EQ(static_cast<DeleteCommand*>(cmd)->getResult(), "404 Not Found");
@@ -38,11 +47,12 @@ TEST(DeleteCommandTest, DeleteNonExistingUserReturns404) {
 TEST(DeleteCommandTest, DeleteNonExistingProductReturns404) {
     FileRepository repo("test_data.csv");
     CommandParser parser;
+    MockIO dio;
 
-    auto post = parser.parse("POST 1 1 2 3", repo);
+    auto post = parser.parse("POST 1 1 2 3", repo, dio);
     if (post) { post->execute(); delete post; }
 
-    auto cmd = parser.parse("DELETE 1 99", repo);
+    auto cmd = parser.parse("DELETE 1 99", repo, dio);
     ASSERT_NE(cmd, nullptr);
     cmd->execute();
     EXPECT_EQ(static_cast<DeleteCommand*>(cmd)->getResult(), "404 Not Found");
@@ -53,11 +63,12 @@ TEST(DeleteCommandTest, DeleteNonExistingProductReturns404) {
 TEST(DeleteCommandTest, DeleteMultipleProducts) {
     FileRepository repo("test_data.csv");
     CommandParser parser;
+    MockIO dio;
 
-    auto post = parser.parse("POST 1 1 2 3", repo);
+    auto post = parser.parse("POST 1 1 2 3", repo, dio);
     if (post) { post->execute(); delete post; }
 
-    auto cmd = parser.parse("DELETE 1 1 2", repo);
+    auto cmd = parser.parse("DELETE 1 1 2", repo, dio);
     ASSERT_NE(cmd, nullptr);
     cmd->execute();
     EXPECT_EQ(static_cast<DeleteCommand*>(cmd)->getResult(), "204 No Content");
@@ -68,6 +79,7 @@ TEST(DeleteCommandTest, DeleteMultipleProducts) {
 TEST(DeleteCommandTest, InvalidFormatReturns400) {
     FileRepository repo("test_data.csv");
     CommandParser parser;
+    MockIO dio;
 
-    EXPECT_EQ(parser.parse("DELETE", repo), nullptr);
+    EXPECT_EQ(parser.parse("DELETE", repo, dio), nullptr);
 }

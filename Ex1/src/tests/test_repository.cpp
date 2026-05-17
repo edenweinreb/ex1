@@ -6,7 +6,7 @@
 
 TEST(FileRepositoryTest, SavesAndLoadsDataCorrectly) {
     int userId = 1;
-    int p = {76};
+    int p = 76;
     std::string testFile = "data/test_data.txt";
 
     {

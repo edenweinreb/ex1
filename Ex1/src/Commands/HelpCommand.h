@@ -1,19 +1,13 @@
-#ifndef HELP_COMMAND_H
-#define HELP_COMMAND_H
+#pragma once
 #include "ICommand.h"
-#include <iostream>
+#include "../Data/DefaultIO.h"
+#include <string>
 
-// Handles the help command: prints all available commands
 class HelpCommand : public ICommand {
+private:
+    DefaultIO& dio;
+
 public:
-    HelpCommand();
-    ~HelpCommand() override {}
+    HelpCommand(DefaultIO& dio);
     std::string execute() override;
 };
-
-#endif
-
-
-
-
-

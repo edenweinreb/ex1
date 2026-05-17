@@ -3,7 +3,7 @@
 #include "IDataRepository.h"
 #include <ostream>
 #include <sstream>
-#include "GETCommand.h"
+#include "GetCommand.h"
 #include "RecommendationEngine.h"
 #include <algorithm>
 #include <vector>

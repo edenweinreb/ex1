@@ -18,7 +18,7 @@ public:
     DeleteCommand(IDataRepository& r, int uId, const std::set<int>& pIds);
 
     // Executes the delete logic and stores the appropriate HTTP-like response
-    void execute() override;
+    std::string execute() override;
 
     // Returns the result of the last execute() call
     std::string getResult();

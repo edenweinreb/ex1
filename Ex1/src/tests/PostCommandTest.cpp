@@ -2,12 +2,21 @@
 #include "CommandParser.h"
 #include "FileRepository.h"
 #include "ICommand.h"
+#include "../Data/DefaultIO.h" 
 #include <fstream>
+
+class MockIO : public DefaultIO {
+public:
+    std::string read() override { return ""; }
+    void write(const std::string& text) override {}
+};
 
 // helper to create a repo for testing
 class PostCommandTest : public ::testing::Test {
 protected:
     FileRepository repo{"data/test.csv"};
+    MockIO dio; // הוספת אובייקט ה-IO לטסטים
+
      void SetUp() override {
          // Empty the file contents before each test starts
          std::ofstream ofs("data/test.csv", std::ofstream::trunc);
@@ -15,7 +24,7 @@ protected:
 };
 
 TEST_F(PostCommandTest, ParseValidPOSTCommand) {
-    ICommand* cmd = CommandParser::parse("POST 20 400", repo);
+    ICommand* cmd = CommandParser::parse("POST 20 400", repo, dio);
     ASSERT_NE(cmd, nullptr);
     EXPECT_EQ(cmd->execute(), "201 Created");
     delete cmd;
@@ -30,7 +39,7 @@ TEST_F(PostCommandTest, ParseValidPOSTCommand) {
 }
 
 TEST_F(PostCommandTest, ParseSamePIdPOSTCommand) {
-    ICommand* cmd = CommandParser::parse("POST 20 400 400", repo);
+    ICommand* cmd = CommandParser::parse("POST 20 400 400", repo, dio);
     ASSERT_NE(cmd, nullptr);
     EXPECT_EQ(cmd->execute(), "201 Created");
     delete cmd;
@@ -44,7 +53,7 @@ TEST_F(PostCommandTest, ParseSamePIdPOSTCommand) {
 }
 
 TEST_F(PostCommandTest, POSTCommandWithExtraSpaces) {
-    ICommand* cmd = CommandParser::parse("  POST   20   400  ", repo);
+    ICommand* cmd = CommandParser::parse("  POST   20   400  ", repo, dio);
     ASSERT_NE(cmd, nullptr);
     EXPECT_EQ(cmd->execute(), "201 Created");
     delete cmd; 
@@ -58,12 +67,12 @@ TEST_F(PostCommandTest, POSTCommandWithExtraSpaces) {
 }
 
 TEST_F(PostCommandTest, POSTFailsIfUserAlreadyExists) {
-    ICommand* cmd1 = CommandParser::parse("POST 20 400", repo);
+    ICommand* cmd1 = CommandParser::parse("POST 20 400", repo, dio);
     ASSERT_NE(cmd1, nullptr);
     EXPECT_EQ(cmd1->execute(), "201 Created");
     delete cmd1; 
 
-    ICommand* cmd2 = CommandParser::parse("POST 20 500", repo); 
+    ICommand* cmd2 = CommandParser::parse("POST 20 500", repo, dio); 
     ASSERT_NE(cmd2, nullptr);
     
     EXPECT_EQ(cmd2->execute(), "404 Not Found"); 
@@ -71,21 +80,21 @@ TEST_F(PostCommandTest, POSTFailsIfUserAlreadyExists) {
 }
 
 TEST_F(PostCommandTest, InvalidFormatMissingProductId) {
-    ICommand* cmd = CommandParser::parse("POST 20", repo);
+    ICommand* cmd = CommandParser::parse("POST 20", repo, dio);
     ASSERT_NE(cmd, nullptr);
     EXPECT_EQ(cmd->execute(), "400 Bad Request"); 
     delete cmd;
 }
 
 TEST_F(PostCommandTest, InvalidNonNumericInput) {
-    ICommand* cmd = CommandParser::parse("POST aaa 400", repo);
+    ICommand* cmd = CommandParser::parse("POST aaa 400", repo, dio);
     ASSERT_NE(cmd, nullptr);
     EXPECT_EQ(cmd->execute(), "400 Bad Request"); 
     delete cmd;
 }
 
 TEST_F(PostCommandTest, InvalidNonNumericProductInput) {
-    ICommand* cmd = CommandParser::parse("POST 20 aaa", repo);
+    ICommand* cmd = CommandParser::parse("POST 20 aaa", repo, dio);
     ASSERT_NE(cmd, nullptr);
     EXPECT_EQ(cmd->execute(), "400 Bad Request"); 
     delete cmd;

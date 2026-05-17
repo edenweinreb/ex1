@@ -1,72 +1,76 @@
 #include <gtest/gtest.h>
 #include "CommandParser.h"
 #include "FileRepository.h"
+#include "../Commands/ICommand.h"
+#include "../Data/DefaultIO.h"
 
-// helper to create a repo for testing
+class MockIO : public DefaultIO {
+public:
+    std::string read() override { return ""; }
+    void write(const std::string& text) override {}
+};
+
 class CommandParserTest : public ::testing::Test {
 protected:
     FileRepository repo{"data/test.csv"};
+    MockIO dio;
 };
 
-// Tests for the recommend command format
-TEST_F(CommandParserTest, ParseRecommendCommand_ValidInput) {
-    ICommand* cmd = CommandParser::parse("recommend 123 456", repo);
+TEST_F(CommandParserTest, ParseGETCommand_ValidInput) {
+    ICommand* cmd = CommandParser::parse("GET 123 456", repo, dio);
     EXPECT_NE(cmd, nullptr);
     delete cmd;
 }
 
-TEST_F(CommandParserTest, ParseRecommendCommand_CaseSensitiveName) {
-    ICommand* cmd = CommandParser::parse("Recommend 1 2", repo);
+TEST_F(CommandParserTest, ParseGETCommand_CaseSensitiveName) {
+    ICommand* cmd = CommandParser::parse("get 1 2", repo, dio);
     EXPECT_EQ(cmd, nullptr);
 }
 
-TEST_F(CommandParserTest, ParseRecommendCommand_MissingOneArgument) {
-    ICommand* cmd = CommandParser::parse("recommend 1", repo);
+TEST_F(CommandParserTest, ParseGETCommand_MissingOneArgument) {
+    ICommand* cmd = CommandParser::parse("GET 1", repo, dio);
     EXPECT_EQ(cmd, nullptr);
 }
 
-TEST_F(CommandParserTest, ParseRecommendCommand_MissingBothArguments) {
-    ICommand* cmd = CommandParser::parse("recommend", repo);
+TEST_F(CommandParserTest, ParseGETCommand_MissingBothArguments) {
+    ICommand* cmd = CommandParser::parse("GET", repo, dio);
     EXPECT_EQ(cmd, nullptr);
 }
 
-TEST_F(CommandParserTest, ParseRecommendCommand_ExtraArguments) {
-    ICommand* cmd = CommandParser::parse("recommend 1 2 3", repo);
+TEST_F(CommandParserTest, ParseGETCommand_ExtraArguments) {
+    ICommand* cmd = CommandParser::parse("GET 1 2 3", repo, dio);
     EXPECT_EQ(cmd, nullptr);
 }
 
-TEST_F(CommandParserTest, ParseRecommendCommand_EmptyString) {
-    ICommand* cmd = CommandParser::parse("", repo);
+TEST_F(CommandParserTest, ParseGETCommand_EmptyString) {
+    ICommand* cmd = CommandParser::parse("", repo, dio);
     EXPECT_EQ(cmd, nullptr);
 }
 
-TEST_F(CommandParserTest, ParseRecommendCommand_WrongCommandName) {
-    ICommand* cmd = CommandParser::parse("add 1 2", repo);
+TEST_F(CommandParserTest, ParseGETCommand_WrongCommandName) {
+    ICommand* cmd = CommandParser::parse("POST 1 2", repo, dio);
     EXPECT_NE(cmd, nullptr);  
     delete cmd;
 }
 
-// Tests for the help command
 TEST_F(CommandParserTest, ParseHelpCommand_Valid) {
-    ICommand* cmd = CommandParser::parse("help", repo);
+    ICommand* cmd = CommandParser::parse("help", repo, dio);
     EXPECT_NE(cmd, nullptr);
     delete cmd;
 }
 
-// Tests for the add command 
-TEST_F(CommandParserTest, ParseAddCommand_Valid) {
-    ICommand* cmd = CommandParser::parse("add 1 100 101 102", repo);
+TEST_F(CommandParserTest, ParsePOSTCommand_Valid) {
+    ICommand* cmd = CommandParser::parse("POST 1 100 101 102", repo, dio);
     EXPECT_NE(cmd, nullptr);
     delete cmd;
 }
 
-TEST_F(CommandParserTest, ParseAddCommand_NoProducts) {
-    ICommand* cmd = CommandParser::parse("add 1", repo);
+TEST_F(CommandParserTest, ParsePOSTCommand_NoProducts) {
+    ICommand* cmd = CommandParser::parse("POST 1", repo, dio);
     EXPECT_EQ(cmd, nullptr);
 }
 
-// Test for completely unknown input
 TEST_F(CommandParserTest, UnknownCommand) {
-    ICommand* cmd = CommandParser::parse("foo 1 2", repo);
+    ICommand* cmd = CommandParser::parse("foo 1 2", repo, dio);
     EXPECT_EQ(cmd, nullptr);
 }

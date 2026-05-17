@@ -1,12 +1,14 @@
-#include "PATCHCommand.h"
+#include "PatchCommand.h"
 
-PATCHCommand::PATCHCommand(IDataRepository& r, int uId, const std::set<int>& pIds) 
-    : AddCommand(r, uId, pIds){}
+PatchCommand::PatchCommand(IDataRepository& r, int uId, const std::set<int>& pIds) 
+    : AddCommand(r, uId, pIds) {}
 
-std::string PATCHCommand::execute() {
+std::string PatchCommand::execute() {
     if (!repo.userExists(userId)) {
-        return ("404 Not Found");
+        return "404 Not Found";
     }
+    
     AddCommand::execute();
-    return ("204 No Content");
+    return "204 No Content";
 }
+PatchCommand::~PatchCommand() {}

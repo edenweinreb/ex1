@@ -2,19 +2,25 @@
 #include <string>
 #include <sstream>
 #include "CommandParser.h"
-#include "GETCommand.h"
+#include "GetCommand.h"
 #include "ICommand.h"
 #include "FileRepository.h"
+#include "../Data/DefaultIO.h" 
+
+class MockIO : public DefaultIO {
+public:
+    std::string read() override { return ""; }
+    void write(const std::string& text) override {}
+};
 
 class GetCommandTest : public ::testing::Test {
 protected:
-    FileRepository repo; 
+    FileRepository repo{"data/test.csv"}; 
     std::ostringstream outputStream;
+    MockIO dio; 
     
     void SetUp() override {
-        
         repo.addViewedProduct(1, 100);
-        
         repo.addViewedProduct(2, 100);
         repo.addViewedProduct(2, 200);
     }
@@ -22,7 +28,7 @@ protected:
 
 // Test 1: Valid GET Request (Logical Success)
 TEST_F(GetCommandTest, ValidGetRequestReturns200AndRecommendations) {
-    GETCommand cmd(repo, outputStream, 1, 100);
+    GetCommand cmd(repo, outputStream, 1, 100); 
     
     std::string response = cmd.execute();
     std::string expected_prefix = "200 Ok\n\n";
@@ -33,7 +39,7 @@ TEST_F(GetCommandTest, ValidGetRequestReturns200AndRecommendations) {
 
 // Test 2: User not found in repository (Logical Error - 404)
 TEST_F(GetCommandTest, UserNotFoundReturns404) {
-    GETCommand cmd(repo, outputStream, 999, 100);
+    GetCommand cmd(repo, outputStream, 999, 100); 
     
     std::string response = cmd.execute();
     
@@ -44,11 +50,11 @@ TEST_F(GetCommandTest, UserNotFoundReturns404) {
 TEST_F(GetCommandTest, MissingArgumentsReturnsNullptrFor400) {
     CommandParser parser;
     
-    ICommand* cmd1 = parser.parse("GET 1", repo);
+    ICommand* cmd1 = parser.parse("GET 1", repo, dio); 
     EXPECT_EQ(cmd1, nullptr); 
     delete cmd1; 
     
-    ICommand* cmd2 = parser.parse("GET", repo);
+    ICommand* cmd2 = parser.parse("GET", repo, dio); 
     EXPECT_EQ(cmd2, nullptr);
     delete cmd2;
 }
@@ -57,7 +63,7 @@ TEST_F(GetCommandTest, MissingArgumentsReturnsNullptrFor400) {
 TEST_F(GetCommandTest, TooManyArgumentsReturnsNullptrFor400) {
     CommandParser parser;
     
-    ICommand* cmd = parser.parse("GET 1 100 200", repo);
+    ICommand* cmd = parser.parse("GET 1 100 200", repo, dio); 
     
     EXPECT_EQ(cmd, nullptr);
     delete cmd;
@@ -67,7 +73,7 @@ TEST_F(GetCommandTest, TooManyArgumentsReturnsNullptrFor400) {
 TEST_F(GetCommandTest, InvalidTypesReturnsNullptrFor400) {
     CommandParser parser;
     
-    ICommand* cmd = parser.parse("GET userX prodY", repo);
+    ICommand* cmd = parser.parse("GET userX prodY", repo, dio); 
     
     EXPECT_EQ(cmd, nullptr);
     delete cmd;

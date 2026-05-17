@@ -1,7 +1,7 @@
 #include "CommandParser.h"
-#include "PATCHCommand.h"
-#include "POSTCommand.h"
-#include "GETCommand.h" 
+#include "PatchCommand.h"
+#include "PostCommand.h"
+#include "GetCommand.h" 
 #include "HelpCommand.h"      
 #include "ICommand.h"
 #include "IDataRepository.h"
@@ -13,8 +13,7 @@
 #include <unordered_map>
 #include <vector>
 
-
-ICommand* CommandParser::parse(const std::string& input, IDataRepository& repo) {
+ICommand* CommandParser::parse(const std::string& input, IDataRepository& repo, DefaultIO& dio) {
     std::stringstream ss(input);
     std::string commandName;
 
@@ -37,12 +36,11 @@ ICommand* CommandParser::parse(const std::string& input, IDataRepository& repo) 
         // Validation: The 'add' command must contain at least one product ID
         if (pIds.empty()) return nullptr;
 
-
         if (commandName == "POST") {
-            return new POSTCommand(repo, uId, pIds);
+            return new PostCommand(repo, uId, pIds);
         } 
         else if (commandName == "PATCH") {
-            return new PATCHCommand(repo, uId, pIds);
+            return new PatchCommand(repo, uId, pIds);
         }
     }
 
@@ -56,7 +54,7 @@ ICommand* CommandParser::parse(const std::string& input, IDataRepository& repo) 
         std::string extra;
         if (!(ss >> extra)) {
             // Parsing succeeded. Return the appropriate command object.
-            return new RecommendCommand(repo, std::cout, uId, pId);
+            return new GetCommand(repo, std::cout, uId, pId);
         }
         
         // Return nullptr if the format is invalid or if trailing text was found
@@ -84,7 +82,7 @@ ICommand* CommandParser::parse(const std::string& input, IDataRepository& repo) 
 
     // Process "help" command
     if (commandName == "help") {
-        return new HelpCommand(std::cout);
+        return new HelpCommand(dio);
     }
 
     // Return nullptr for unrecognized commands or invalid formats (Silent Ignore)
