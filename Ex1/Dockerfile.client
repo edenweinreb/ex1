@@ -1,0 +1,6 @@
+FROM python:3-slim
+
+COPY src/ /app/src/
+
+WORKDIR /app
+CMD ["python3", "src/client.py"]
