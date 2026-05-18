@@ -1,7 +1,11 @@
 #include "gtest/gtest.h"
 #include "CommandParser.h"
 #include "FileRepository.h"
-#include "../Data/DefaultIO {
+#include "../Data/DefaultIO.h"
+#include "../Commands/ICommand.h"
+
+
+class MockIO : public DefaultIO {
 public:
     std::string read() override { return ""; }
     void write(const std::string& text) override {}

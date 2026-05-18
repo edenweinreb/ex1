@@ -36,9 +36,10 @@ TEST(HelpCommandTest, PrintsCorrectOutput) {
     App app(&dio, repo);
     app.run();
     
-    std::string expected = "add [userid] [productid1] [productid2] …\n"
-                           "recommend [userid] [productid]\n"
-                           "help\n\n"; 
-                           
+    std::string expected = "DELETE, arguments: [userid] [productid1] [productid2] ...\n"
+        "GET, arguments: [userid] [productid]\n"
+        "PATCH, arguments: [userid] [productid1] [productid2] ...\n"
+        "POST, arguments: [userid] [productid1] [productid2] ...\n"
+        "HELP\n";
     EXPECT_EQ(dio.getOutput(), expected);
 }
