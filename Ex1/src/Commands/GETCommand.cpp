@@ -16,6 +16,8 @@ GetCommand::GetCommand(IDataRepository& repo, std::ostream& output, int uId, int
 
 std::string GetCommand::execute() {
     std::ostringstream localOutput;
+    if (!repo.userExists(userId)) 
+    return "404 Not Found\n";
     
     // get current user's watched products
     std::set<int> userWatched = repo.getUserData(userId);

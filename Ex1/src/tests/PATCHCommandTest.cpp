@@ -80,7 +80,7 @@ TEST_F(PatchCommandTest, PatchCommandWithExtraSpaces) {
 
     std::set<int> productUsers = repo.getProductUsers(400);
     std::set<int> userProducts = repo.getUserData(20);
-    EXPECT_EQ(userProducts.size(), 1);
+    EXPECT_EQ(userProducts.size(), 2);
     EXPECT_TRUE(userProducts.count(400));
     EXPECT_TRUE(userProducts.count(500));
     EXPECT_EQ(productUsers.size(), 1);
