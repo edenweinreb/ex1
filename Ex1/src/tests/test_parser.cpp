@@ -21,6 +21,7 @@ TEST_F(ParserTest, ValidPOSTCommand) {
     std::string input = "POST 1 101 102";
     ICommand* cmd = CommandParser::parse(input, repo, dio);
     ASSERT_NE(cmd, nullptr);
+    cmd->execute();
     delete cmd;
 
     std::set<int> userProducts = repo.getUserData(1);
@@ -47,6 +48,7 @@ TEST_F(ParserTest, ExtraSpacesHandling) {
     std::string input = "  POST   5      200    201";
     ICommand* cmd = CommandParser::parse(input, repo, dio);
     ASSERT_NE(cmd, nullptr);
+    cmd->execute();
     delete cmd;
 
     std::set<int> userProducts = repo.getUserData(5);
