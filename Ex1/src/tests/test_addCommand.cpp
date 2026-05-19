@@ -15,7 +15,7 @@ public:
     void write(const std::string& text) override {}
 };
 
-TEST(ParserTest, ParseValidAddCommand) {
+TEST(AddCommandTest, ParseValidAddCommand) {
     FileRepository repo("test_data.csv");
     CommandParser parser;
     MockIO dio;
@@ -32,7 +32,7 @@ TEST(ParserTest, ParseValidAddCommand) {
     EXPECT_TRUE(productUsers.count(10));
 }
 
-TEST(ParserTest, ParseSamePIdAddCommand) {
+TEST(AddCommandTest, ParseSamePIdAddCommand) {
     FileRepository repo("test_data.csv");
     CommandParser parser;
     MockIO dio;
@@ -49,7 +49,7 @@ TEST(ParserTest, ParseSamePIdAddCommand) {
     EXPECT_TRUE(productUsers.count(10));
 }
 
-TEST(ParserTest, ParseAddCommandWithExtraSpaces) {
+TEST(AddCommandTest, ParseAddCommandWithExtraSpaces) {
     FileRepository repo("test_data.csv");
     CommandParser parser;
     MockIO dio;
@@ -86,7 +86,7 @@ TEST(RepositoryTest, GetProductUsersTest) {
     EXPECT_TRUE(productUsers.count(20));
 }
 
-TEST(ParserTest, InvalidFormatMissingProductId) {
+TEST(AddCommandTest, InvalidFormatMissingProductId) {
     FileRepository repo("test_data.csv");
     CommandParser parser;
     MockIO dio;
@@ -95,7 +95,7 @@ TEST(ParserTest, InvalidFormatMissingProductId) {
     EXPECT_EQ(parser.parse(input, repo, dio), nullptr);
 }
 
-TEST(ParserTest, InvalidNonNumericInput) {
+TEST(AddCommandTest, InvalidNonNumericInput) {
     FileRepository repo("test_data.csv");
     CommandParser parser;
     MockIO dio;
@@ -104,7 +104,7 @@ TEST(ParserTest, InvalidNonNumericInput) {
     EXPECT_EQ(parser.parse(input, repo, dio), nullptr);
 }
 
-TEST(ParserTest, InvalidNonNumericProductInput) {
+TEST(AddCommandTest, InvalidNonNumericProductInput) {
     FileRepository repo("test_data.csv");
     CommandParser parser;
     MockIO dio;
