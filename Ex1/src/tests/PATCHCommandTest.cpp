@@ -101,9 +101,8 @@ TEST_F(PatchCommandTest, InvalidFormatMissingProductId) {
     delete cmd1; 
 
     ICommand* cmd2 = CommandParser::parse("PATCH 20", repo, dio); 
-    ASSERT_NE(cmd2, nullptr);
-    EXPECT_EQ(cmd2->execute(), "400 Bad Request"); 
-    delete cmd2;
+    // מצפים ל-nullptr בגלל שהקלט חסר
+    EXPECT_EQ(cmd2, nullptr); 
 }
 
 TEST_F(PatchCommandTest, InvalidNonNumericInput) {
@@ -113,9 +112,8 @@ TEST_F(PatchCommandTest, InvalidNonNumericInput) {
     delete cmd1; 
 
     ICommand* cmd2 = CommandParser::parse("PATCH aaa 400", repo, dio); 
-    ASSERT_NE(cmd2, nullptr);
-    EXPECT_EQ(cmd2->execute(), "400 Bad Request"); 
-    delete cmd2;
+    // nullptr expected
+    EXPECT_EQ(cmd2, nullptr); 
 }
 
 TEST_F(PatchCommandTest, InvalidNonNumericProductInput) {
@@ -125,7 +123,6 @@ TEST_F(PatchCommandTest, InvalidNonNumericProductInput) {
     delete cmd1; 
 
     ICommand* cmd2 = CommandParser::parse("PATCH 20 aaa", repo, dio); 
-    ASSERT_NE(cmd2, nullptr);
-    EXPECT_EQ(cmd2->execute(), "400 Bad Request"); 
-    delete cmd2;
+    // nullptr expected
+    EXPECT_EQ(cmd2, nullptr); 
 }

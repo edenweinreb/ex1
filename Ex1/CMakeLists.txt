@@ -65,7 +65,7 @@ set(TEST_SOURCES
     src/tests/TablesTests.cpp
     src/tests/test_parser.cpp
     src/tests/test_repository.cpp
-    src/tests/test_addCommand
+    src/tests/test_addCommand.cpp
 )
 add_executable(run_tests ${TEST_SOURCES} ${SOURCES})
 
