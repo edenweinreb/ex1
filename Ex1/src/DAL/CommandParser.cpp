@@ -12,6 +12,8 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
+#include <algorithm> // נדרש עבור std::transform
+#include <cctype>    // נדרש עבור ::toupper
 
 ICommand* CommandParser::parse(const std::string& input, IDataRepository& repo, DefaultIO& dio) {
     std::stringstream ss(input);
@@ -19,6 +21,8 @@ ICommand* CommandParser::parse(const std::string& input, IDataRepository& repo, 
 
     // Extract the first word to determine the command type
     if (!(ss >> commandName)) return nullptr;
+    // convert the input to UPPER CASE string
+    std::transform(commandName.begin(), commandName.end(), commandName.begin(), ::toupper);
 
     // Process "POST" or "PATCH" command: POST/PATCH <userId> <productId1> <productId2> ...
     if (commandName == "POST" || commandName == "PATCH") {
@@ -44,7 +48,7 @@ ICommand* CommandParser::parse(const std::string& input, IDataRepository& repo, 
         }
     }
 
-    // Process "recommend" command: recommend <userId> <productId>
+    // Process "recommend" command: recommend <userId> <productId> (Mapped to GET)
     if (commandName == "GET") {
         int uId, pId;
         // Both userId and productId must be valid integers
@@ -80,8 +84,8 @@ ICommand* CommandParser::parse(const std::string& input, IDataRepository& repo, 
         return new DeleteCommand(repo, uId, pIds);
     }
 
-    // Process "help" command
-    if (commandName == "help") {
+    // Process "help" command (Now checking against uppercase "HELP")
+    if (commandName == "HELP") {
         return new HelpCommand(dio);
     }
 
