@@ -48,22 +48,18 @@ TEST_F(GetCommandTest, UserNotFoundReturns404) {
 
 // Test 3: Invalid Syntax - Missing Arguments (Syntax Error - 400)
 TEST_F(GetCommandTest, MissingArgumentsReturnsNullptrFor400) {
-    CommandParser parser;
-    
-    ICommand* cmd1 = parser.parse("GET 1", repo, dio); 
+    ICommand* cmd1 = CommandParser::parse("GET 1", repo, dio); 
     EXPECT_EQ(cmd1, nullptr); 
     delete cmd1; 
     
-    ICommand* cmd2 = parser.parse("GET", repo, dio); 
+    ICommand* cmd2 = CommandParser::parse("GET", repo, dio); 
     EXPECT_EQ(cmd2, nullptr);
     delete cmd2;
 }
 
 // Test 4: Invalid Syntax - Too Many Arguments (Syntax Error - 400)
 TEST_F(GetCommandTest, TooManyArgumentsReturnsNullptrFor400) {
-    CommandParser parser;
-    
-    ICommand* cmd = parser.parse("GET 1 100 200", repo, dio); 
+    ICommand* cmd = CommandParser::parse("GET 1 100 200", repo, dio); 
     
     EXPECT_EQ(cmd, nullptr);
     delete cmd;
@@ -71,10 +67,21 @@ TEST_F(GetCommandTest, TooManyArgumentsReturnsNullptrFor400) {
 
 // Test 5: Invalid Syntax - Strings instead of Integers (Syntax Error - 400)
 TEST_F(GetCommandTest, InvalidTypesReturnsNullptrFor400) {
-    CommandParser parser;
-    
-    ICommand* cmd = parser.parse("GET userX prodY", repo, dio); 
+    ICommand* cmd = CommandParser::parse("GET userX prodY", repo, dio); 
     
     EXPECT_EQ(cmd, nullptr);
     delete cmd;
+}
+
+// Test 6: Case Insensitivity 
+TEST_F(GetCommandTest, ValidGetRequestWithDifferentCases) {
+
+    ICommand* cmd1 = CommandParser::parse("get 1 100", repo, dio); 
+    ASSERT_NE(cmd1, nullptr);
+    delete cmd1;
+
+
+    ICommand* cmd2 = CommandParser::parse("GeT 1 100", repo, dio); 
+    ASSERT_NE(cmd2, nullptr);
+    delete cmd2;
 }

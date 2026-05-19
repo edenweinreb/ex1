@@ -24,7 +24,8 @@ TEST_F(CommandParserTest, ParseGETCommand_ValidInput) {
 
 TEST_F(CommandParserTest, ParseGETCommand_CaseSensitiveName) {
     ICommand* cmd = CommandParser::parse("get 1 2", repo, dio);
-    EXPECT_EQ(cmd, nullptr);
+    EXPECT_NE(cmd, nullptr);
+    delete cmd; 
 }
 
 TEST_F(CommandParserTest, ParseGETCommand_MissingOneArgument) {

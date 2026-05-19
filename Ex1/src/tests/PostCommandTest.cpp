@@ -15,7 +15,7 @@ public:
 class PostCommandTest : public ::testing::Test {
 protected:
     FileRepository repo{"data/test.csv"};
-    MockIO dio; // הוספת אובייקט ה-IO לטסטים
+    MockIO dio;
 
      void SetUp() override {
          // Empty the file contents before each test starts
@@ -53,7 +53,7 @@ TEST_F(PostCommandTest, ParseSamePIdPOSTCommand) {
 }
 
 TEST_F(PostCommandTest, POSTCommandWithExtraSpaces) {
-    ICommand* cmd = CommandParser::parse("  POST   20   400  ", repo, dio);
+    ICommand* cmd = CommandParser::parse("   POST   20   400  ", repo, dio);
     ASSERT_NE(cmd, nullptr);
     EXPECT_EQ(cmd->execute(), "201 Created");
     delete cmd; 
@@ -81,21 +81,25 @@ TEST_F(PostCommandTest, POSTFailsIfUserAlreadyExists) {
 
 TEST_F(PostCommandTest, InvalidFormatMissingProductId) {
     ICommand* cmd = CommandParser::parse("POST 20", repo, dio);
-    ASSERT_NE(cmd, nullptr);
-    EXPECT_EQ(cmd->execute(), "400 Bad Request"); 
-    delete cmd;
+    // nullptr expected
+    EXPECT_EQ(cmd, nullptr); 
 }
 
 TEST_F(PostCommandTest, InvalidNonNumericInput) {
     ICommand* cmd = CommandParser::parse("POST aaa 400", repo, dio);
-    ASSERT_NE(cmd, nullptr);
-    EXPECT_EQ(cmd->execute(), "400 Bad Request"); 
-    delete cmd;
+    // nullptr expected
+    EXPECT_EQ(cmd, nullptr); 
 }
 
 TEST_F(PostCommandTest, InvalidNonNumericProductInput) {
     ICommand* cmd = CommandParser::parse("POST 20 aaa", repo, dio);
+    // nullptr expected
+    EXPECT_EQ(cmd, nullptr); 
+}
+
+// Case Insensitivity
+TEST_F(PostCommandTest, ValidPostRequestWithDifferentCases) {
+    ICommand* cmd = CommandParser::parse("pOsT 20 400", repo, dio); 
     ASSERT_NE(cmd, nullptr);
-    EXPECT_EQ(cmd->execute(), "400 Bad Request"); 
     delete cmd;
 }
