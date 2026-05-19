@@ -5,7 +5,7 @@ services:
       dockerfile: Dockerfile.server
     volumes:
       - ./data:/app/data
-    command: ["./myapp", "${PORT}"]
+    command: ["./myapp", "9090"]
 
   client:
     build:
@@ -15,7 +15,7 @@ services:
       - server
     stdin_open: true
     tty: true
-    command: ["python3", "src/client.py", "server", "${PORT}"]
+    command: ["python3", "Client.py", "server", "9090"]
 
   tests:
     build:

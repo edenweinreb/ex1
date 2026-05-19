@@ -1,6 +1,6 @@
 FROM python:3-slim
 
-COPY src/ /app/src/
+COPY src/Server-Client/Client.py /app/Client.py
 
 WORKDIR /app
-CMD ["python3", "src/client.py"]
+CMD ["python3", "Client.py"]
