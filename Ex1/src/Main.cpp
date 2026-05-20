@@ -11,37 +11,34 @@
 using namespace std;
 
 int main(int argc, char* argv[]) {
-    //Validate command-line arguments
+    // Validate command-line arguments
     if (argc != 2) {
         cerr << "Usage: " << argv[0] << " <port>" << endl;
         return 1;
     }
 
-    //Convert the port argument from string to integer
     int port = stoi(argv[1]);
 
-    //Create the TCP socket
+    // Initialize TCP socket
     int server_socket = socket(AF_INET, SOCK_STREAM, 0);
     if (server_socket < 0) {
         cerr << "Error creating socket" << endl;
         return 1;
     }
 
-    //Define the server address and port
     struct sockaddr_in server_address;
     memset(&server_address, 0, sizeof(server_address));
     server_address.sin_family = AF_INET;
-    server_address.sin_addr.s_addr = INADDR_ANY; // Listen on all local interfaces
-    server_address.sin_port = htons(port);       // Convert port to network byte order
+    server_address.sin_addr.s_addr = INADDR_ANY; 
+    server_address.sin_port = htons(port);       
 
-    //Bind the socket to the specified IP and port
     if (bind(server_socket, (struct sockaddr*)&server_address, sizeof(server_address)) < 0) {
         cerr << "Error binding to port " << port << endl;
         close(server_socket);
         return 1;
     }
 
-    //Listen for incoming connections (max 1 queued connection as per requirements)
+    // Listen for incoming connections (max 1 concurrent client as specified)
     if (listen(server_socket, 1) < 0) {
         cerr << "Error listening on socket" << endl;
         close(server_socket);
@@ -50,38 +47,33 @@ int main(int argc, char* argv[]) {
 
     cout << "Server is listening on port " << port << "..." << endl;
 
-    //Accept a single client connection (blocking call)
-    int client_socket = accept(server_socket, nullptr, nullptr);
-    if (client_socket < 0) {
-        cerr << "Error accepting client" << endl;
-        close(server_socket);
-        return 1;
-    }
-
-    cout << "Client connected!" << endl;
-
-    // --- System Initialization ---
-    
-    // Load the database
+    // Load data repository once before accepting clients
     FileRepository* repo = new FileRepository("data/database.csv");
     repo->loadAll();
 
-    // Inject dependencies: Create the SocketIO object wrapping the client socket
-    DefaultIO* dio = new SocketIO(client_socket);
-    
-    // Initialize the application with the abstract I/O interface and the repository
-    App app(dio, *repo);
-    
-    // Run the main application loop
-    app.run();
+    // Main server loop
+    while (true) {
+        int client_socket = accept(server_socket, nullptr, nullptr);
+        if (client_socket < 0) {
+            cerr << "Error accepting client" << endl;
+            continue; 
+        }
 
-    // --- Memory Cleanup ---
-    
-    // Deleting 'dio' will automatically close 'client_socket' via the SocketIO destructor
-    delete dio; 
+        cout << "Client connected!" << endl;
+
+        // Initialize dependencies for the connected client
+        DefaultIO* dio = new SocketIO(client_socket);
+        App app(dio, *repo);
+        
+        // Execute application logic; blocks until client disconnects
+        app.run();
+
+        // Cleanup client resources
+        delete dio; 
+    }
+
+    // Cleanup server resources (unreachable in infinite loop)
     delete repo;
-    
-    // Close the main server socket
     close(server_socket);
     
     return 0;
