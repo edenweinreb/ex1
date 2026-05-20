@@ -12,8 +12,8 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
-#include <algorithm> // נדרש עבור std::transform
-#include <cctype>    // נדרש עבור ::toupper
+#include <algorithm> 
+#include <cctype>
 
 ICommand* CommandParser::parse(const std::string& input, IDataRepository& repo, DefaultIO& dio) {
     std::stringstream ss(input);
