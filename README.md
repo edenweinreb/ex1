@@ -28,15 +28,14 @@ How to Run
 Prerequisites:
 Docker installed
 
-1. Set the port 
-PORT=9090
-2. Run the server:
+1. Build all containers:
+docker compose build
+2. Run the server (Terminal 1):
 docker compose up server
-3. Run the client (in a separate terminal):
+3. Run the client (Terminal 2):
 docker compose run client
-4. Run the unit tests:
+4. Run the unit tests (Terminal 3):
 docker compose run tests
-
 
 Example Session
 $ docker compose run client
