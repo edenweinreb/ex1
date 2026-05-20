@@ -79,3 +79,8 @@ Fix: We introduced the DefaultIO interface that abstracts both reading and writi
 
 5.Did our implementation prepare us for handling multiple concurrent clients? Is the code closed for modification but open for extension in this regard? 
 Yes, our architecture heavily minimizes the need for modification if concurrent client support is required in the future. Because we separated the network connection layer from the business logic, the Command classes, the CommandParser, and the core recommendation algorithms remain completely agnostic to how many clients are connected. To support multiple clients, we would only need to extend the server's listening loop to dispatch each incoming DefaultIO socket to a separate thread (e.g., using std::thread).However, concurrency introduces the risk of race conditions on the shared state (the user and product data). Because we designed the system using interfaces and Dependency Injection, our code is open for extension to handle this: instead of modifying the existing database class, we can create a new "Thread-Safe Database" decorator class. This new class would implement the same data interface, wrap the existing logic, and introduce the necessary synchronization primitives (like mutexes or read-write locks) to protect critical sections. We can then inject this thread-safe version into the application, leaving the original logic entirely closed to modification.
+
+<img width="392" height="232" alt="pass tests" src="https://github.com/user-attachments/assets/5f108645-5bb4-4f15-88e3-a3242f154e19" />
+
+<img width="833" height="489" alt="Client-Server" src="https://github.com/user-attachments/assets/1a66b83c-8e89-4117-9c47-b6d8872cb491" />
+
