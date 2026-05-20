@@ -34,7 +34,7 @@ def main():
 
             # Send raw input appended with a newline character
             message = user_input + "\n"
-            client_socket.sendall(message.encode('utf-8'))
+            client_socket.sendall(message.encode('utf-8', errors='ignore'))
 
             # Block and wait for the server's response
             response = client_socket.recv(4096)
