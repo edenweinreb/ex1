@@ -24,6 +24,8 @@ void App::run() {
             if (cmd != nullptr) {
                 final_result = cmd->execute();
                 delete cmd;
+            } else {
+                final_result = "400 Bad Request";
             }
         }
         

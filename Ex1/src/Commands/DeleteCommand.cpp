@@ -11,7 +11,7 @@ std::string DeleteCommand::execute() {
     // Check if user exists
     if (!repo.userExists(userId)) {
         result = "404 Not Found";
-        return "";
+        return result;
     }
 
     // Check all products exist for this user before deleting
@@ -19,7 +19,7 @@ std::string DeleteCommand::execute() {
     for (int pId : productIds) {
         if (existing.find(pId) == existing.end()) {
             result = "404 Not Found";
-            return "";
+            return result;
         }
     }
 
@@ -29,7 +29,7 @@ std::string DeleteCommand::execute() {
     }
 
     result = "204 No Content";
-    return "";
+    return result;
 }
 
 // Returns the result of the last execute() call
