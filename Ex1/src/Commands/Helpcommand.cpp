@@ -10,7 +10,7 @@ std::string HelpCommand::execute() {
     oss << "GET, arguments: [userid] [productid]\n";
     oss << "PATCH, arguments: [userid] [productid1] [productid2] ...\n";
     oss << "POST, arguments: [userid] [productid1] [productid2] ...\n";
-    oss << "HELP\n";
+    oss << "help\n";
     
     return oss.str();
 }
