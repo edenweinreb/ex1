@@ -19,8 +19,9 @@ public:
         return input_data;
     }
 
+    // Updated to append '\n' exactly like SocketIO does
     void write(const std::string& text) override {
-        output_data += text; 
+        output_data += text + "\n"; 
     }
 
     std::string getOutput() const {
@@ -36,10 +37,12 @@ TEST(HelpCommandTest, PrintsCorrectOutput) {
     App app(&dio, repo);
     app.run();
     
+    // Updated the last line to 'help\n' (lowercase)
     std::string expected = "DELETE, arguments: [userid] [productid1] [productid2] ...\n"
         "GET, arguments: [userid] [productid]\n"
         "PATCH, arguments: [userid] [productid1] [productid2] ...\n"
         "POST, arguments: [userid] [productid1] [productid2] ...\n"
-        "HELP\n";
+        "help\n";
+        
     EXPECT_EQ(dio.getOutput(), expected);
 }

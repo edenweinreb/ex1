@@ -27,14 +27,33 @@ std::string SocketIO::read() {
     // Extract the complete command (excluding the newline character)
     std::string command = buffer.substr(0, pos);
     
+    // Handle Windows/Telnet carriage return (\r) if present before \n
+    if (!command.empty() && command.back() == '\r') {
+        command.pop_back();
+    }
+    
     // Remove the extracted command from the buffer, leaving any remaining data
     buffer.erase(0, pos + 1);
 
     return command;
 }
 
-// Writes data to the socket, appending a newline
+// Writes data to the socket, appending a newline, ensuring complete transmission
 void SocketIO::write(const std::string& text) {
     std::string response = text + "\n";
-    send(client_socket, response.c_str(), response.length(), 0);
+    size_t total_sent = 0;
+    size_t length = response.length();
+    const char* data = response.c_str();
+
+    // Keep sending until all bytes are transmitted
+    while (total_sent < length) {
+        ssize_t bytes_sent = send(client_socket, data + total_sent, length - total_sent, 0);
+        
+        if (bytes_sent <= 0) {
+            // Client disconnected prematurely or network error
+            break; 
+        }
+        
+        total_sent += bytes_sent;
+    }
 }

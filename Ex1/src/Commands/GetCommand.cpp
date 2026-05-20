@@ -44,7 +44,8 @@ std::string GetCommand::execute() {
         localOutput << sorted[i];
         if (i < limit - 1) localOutput << " ";
     }
-    localOutput << "\n\n";
+    
+    localOutput << "\n";
 
     // returns 200 Ok followed by two newlines and the results
     return "200 Ok\n\n" + localOutput.str();
