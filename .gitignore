@@ -2,3 +2,4 @@ build/
 *.log
 *.xml
 *.json
+modules_node/
