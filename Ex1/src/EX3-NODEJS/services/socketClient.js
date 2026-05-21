@@ -1,7 +1,6 @@
 const net = require('net');
 
 // Configuration for the Ex2 C++ Server
-// Update the port to match the port your C++ server listens on
 const EX2_SERVER_PORT = 8080; 
 const EX2_SERVER_HOST = '127.0.0.1';
 
@@ -9,23 +8,32 @@ const sendCommandToEx2 = (command) => {
     const client = new net.Socket();
 
     client.connect(EX2_SERVER_PORT, EX2_SERVER_HOST, () => {
-        // Connection established, send the command
-        // Adding a newline character \n in case the C++ parser requires it
         client.write(command + '\n');
     });
 
     client.on('data', (data) => {
-        // Handle response from the C++ server if necessary
-        // client.destroy() kills the client after receiving the data
         client.destroy(); 
     });
 
     client.on('error', (err) => {
-        // Fail silently or log error so the Node.js server doesn't crash
-        // if the C++ server is offline
+        // Prevent the Node server from crashing if the C++ server is down
+        console.error('Ex2 server connection error:', err.message);
     });
 };
 
+
+const reportProductView = (userId, productId) => {
+    const command = `POST ${userId} ${productId}`;
+    sendCommandToEx2(command);
+};
+
+const reportProductPurchase = (userId, productId) => {
+    const command = `PATCH ${userId} ${productId}`;
+    sendCommandToEx2(command);
+};
+
 module.exports = {
-    sendCommandToEx2
+    sendCommandToEx2,
+    reportProductView,
+    reportProductPurchase
 };
