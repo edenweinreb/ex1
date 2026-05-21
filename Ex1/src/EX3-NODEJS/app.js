@@ -5,6 +5,9 @@ const port = 3000;
 // Middleware to parse JSON bodies
 app.use(express.json());
 
+const tokenRoutes = require('./routes/tokenRoutes');
+app.use('/api/tokens', tokenRoutes);
+
 const userRoutes = require('./routes/userRoutes');
 app.use('/api/users', userRoutes);
 
