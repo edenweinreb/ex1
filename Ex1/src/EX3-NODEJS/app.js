@@ -2,15 +2,12 @@ const express = require('express');
 const app = express();
 const port = 3000;
 
-// Enable the server to parse incoming JSON requests
+// Middleware to parse JSON bodies
 app.use(express.json());
 
-// Temporary test route to verify the server is working
-app.get('/api/ping', (req, res) => {
-    res.json({ message: 'Server is running!' });
-});
+const userRoutes = require('./routes/userRoutes');
+app.use('/api/users', userRoutes);
 
-// Start the server
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });
