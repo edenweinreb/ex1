@@ -1,5 +1,4 @@
 build/
 *.log
 *.xml
-*.json
-modules_node/
+node_modules/
