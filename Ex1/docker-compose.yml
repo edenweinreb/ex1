@@ -7,17 +7,18 @@ services:
       - ./data:/app/data
     command: ["./myapp", "9090"]
 
-  client:
+  webserver:
     build:
       context: .
-      dockerfile: Dockerfile.client
+      dockerfile: Dockerfile.webserver
+    ports:
+      - "3000:3000"
     depends_on:
       - server
-    stdin_open: true
-    tty: true
-    command: ["python3", "Client.py", "server", "9090"]
 
   tests:
     build:
       context: .
       dockerfile: Dockerfile.tests
+    depends_on:
+      - server
