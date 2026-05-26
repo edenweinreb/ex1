@@ -10,7 +10,14 @@ app.get('/api/ping', (req, res) => {
     res.json({ message: 'Server is running!' });
 });
 
+// Route all /api/restaurants requests to the restaurants router
+app.use('/api/restaurants', require('./routes/restaurants'));
+
+// Route all /api/restaurants/:id/products requests to the products router
+app.use('/api/restaurants/:id/products', require('./routes/products'));
+
 // Start the server
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });
+

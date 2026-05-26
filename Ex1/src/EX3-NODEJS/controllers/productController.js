@@ -9,7 +9,7 @@ let productCounter = 1;
 
 // GET /api/restaurants/:id/products - get all products for a restaurant
 const getAllProducts = (req, res) => {
-  // Filter products that belong to the restaurant
+// Filter products that belong to the restaurant
   const restaurantProducts = products.filter(p => p.restaurantId === req.params.id);
   res.status(200).json(restaurantProducts);
 };
