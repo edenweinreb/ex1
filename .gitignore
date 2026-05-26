@@ -12,6 +12,8 @@ node_modules/
 # Log files
 logs/
 *.log
+*.xml
+
 npm-debug.log*
 
 # OS generated files
