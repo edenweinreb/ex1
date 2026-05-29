@@ -95,6 +95,12 @@ Falls back to `POST <userId> <productId>` if user does not exist yet
 9. Getting the menu:
 ![alt text](image-11.png)
 
+10. Creating an order:
+![alt text](image-12.png)
+
+11. Searching for a restaurant or product:
+![alt text](image-13.png)
+
 
 
 
