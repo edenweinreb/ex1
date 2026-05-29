@@ -15,6 +15,13 @@ services:
       - "3000:3000"
     depends_on:
       - server
+    # Map the local Node.js directory to the container's /app directory
+    # The second line protects the container's installed node_modules
+    volumes:
+      - ./src/EX3-NODEJS:/app
+      - /app/node_modules
+    # Explicitly run the Node.js application
+    command: ["node", "app.js"]
 
   tests:
     build:

@@ -1,9 +1,12 @@
 const userModel = require('../models/userModel');
 
 const registerUser = (req, res) => {
+    if (!req.body) {
+        return res.status(400).json({ error: "Request body is missing" });
+    }
+
     const userData = req.body;
     
-    // Basic validation
     if (!userData.name) {
         return res.status(400).json({ error: "Name is required" });
     }
@@ -13,6 +16,10 @@ const registerUser = (req, res) => {
 };
 
 const getUser = (req, res) => {
+    if (!req.params || !req.params.id) {
+        return res.status(400).json({ error: "User ID is required" });
+    }
+
     const userId = req.params.id;
     const user = userModel.getUserById(userId);
 
@@ -22,8 +29,17 @@ const getUser = (req, res) => {
 
     res.status(200).json(user);
 };
+
 const loginUser = (req, res) => {
+    if (!req.body) {
+        return res.status(400).json({ error: "Request body is missing" });
+    }
+
     const { name, password } = req.body;
+
+    if (!name || !password) {
+        return res.status(400).json({ error: "Name and password are required" });
+    }
 
     const user = userModel.authenticateUser(name, password);
 
@@ -31,7 +47,6 @@ const loginUser = (req, res) => {
         return res.status(404).json({ error: "Invalid username or password" }); 
     }
 
-    // Return the user ID if authentication is successful
     res.status(200).json({ id: user.id });
 };
 

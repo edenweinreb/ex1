@@ -15,6 +15,10 @@ const createOrder = (req, res) => {
   });
 };
 
+// GET - Get all orders
+const getOrders = (req, res) => {
+    res.status(200).json(ordersDatabase);
+};
 
 // GET - Get a specific order by ID
 const getOrderById = (req, res) => {

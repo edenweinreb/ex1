@@ -1,13 +1,15 @@
 const express = require('express');
 const app = express();
 const port = 3000;
-
-const orderRoutes = require('./routes/orderRoutes');
-const searchRoutes = require('./routes/searchRoutes');
-
 // Middleware to parse JSON bodies
 app.use(express.json());
+const orderRoutes = require('./routes/orderRoutes');
+const searchRoutes = require('./routes/searchRoutes');
+const userRoutes = require('./routes/userRoutes');
+const tokenRoutes = require('./routes/tokenRoutes');
 
+app.use('/api/users', userRoutes);
+app.use('/api/tokens', tokenRoutes);
 // Temporary test route to verify the server is working
 app.get('/api/ping', (req, res) => {
     res.json({ message: 'Server is running!' });

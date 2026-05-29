@@ -1,8 +1,9 @@
 const net = require('net');
 
-// Configuration for the Ex2 C++ Server
-const EX2_SERVER_PORT = 8080; 
-const EX2_SERVER_HOST = '127.0.0.1';
+// Configuration for the Ex2 C++ Server within Docker
+const EX2_SERVER_PORT = 9090; 
+// Use the Docker service name 'server' instead of localhost
+const EX2_SERVER_HOST = process.env.EX2_HOST || 'server';
 
 const sendCommandToEx2 = (command) => {
     const client = new net.Socket();
@@ -20,7 +21,6 @@ const sendCommandToEx2 = (command) => {
         console.error('Ex2 server connection error:', err.message);
     });
 };
-
 
 const reportProductView = (userId, productId) => {
     const command = `POST ${userId} ${productId}`;

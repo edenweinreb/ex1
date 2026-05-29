@@ -1,5 +1,5 @@
 const Product = require('../models/product');
-const ex2Service = require('../services/ex2Service');
+const ex2Service = require('../services/socketClient');
 
 // In-memory storage for all products
 const products = [];
