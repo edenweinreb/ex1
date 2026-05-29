@@ -69,37 +69,37 @@ Falls back to `POST <userId> <productId>` if user does not exist yet
 ## Example Run:
 
 1. Execute user creation request: POST
-![alt text](image-3.png)
+![alt text](images/image-3.png)
 
 2. Verify that the server is listening
-![alt text](image-4.png)
+![alt text](images/image-4.png)
 
 3. Perform user registration
-![alt text](image-5.png)
+![alt text](images/image-5.png)
 
 4. Login: receiving a user token
-![alt text](image-6.png)
+![alt text](images/image-6.png)
 
 5. Creating a new restaurant:
-![alt text](image-7.png)
+![alt text](images/image-7.png)
 
 6. Printing all restaurants:
-![alt text](image-8.png)
+![alt text](images/image-8.png)
 
 7. Updating a restaurant:
-![alt text](image-9.png)
+![alt text](images/image-9.png)
 
 8. Adding a product:
-![alt text](image-10.png)
+![alt text](images/image-10.png)
 
 9. Getting the menu:
-![alt text](image-11.png)
+![alt text](images/image-11.png)
 
 10. Creating an order:
-![alt text](image-12.png)
+![alt text](images/image-12.png)
 
 11. Searching for a restaurant or product:
-![alt text](image-13.png)
+![alt text](images/image-13.png)
 
 
 
