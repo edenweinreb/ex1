@@ -2,15 +2,22 @@ const express = require('express');
 const app = express();
 const port = 3000;
 
-// Enable the server to parse incoming JSON requests
+const orderRoutes = require('./routes/orderRoutes');
+const searchRoutes = require('./routes/searchRoutes');
+
+// Middleware to parse JSON bodies
 app.use(express.json());
 
-// Temporary test route to verify the server is working
-app.get('/api/ping', (req, res) => {
-    res.json({ message: 'Server is running!' });
-});
+app.use('/api', orderRoutes);
+app.use('/api', searchRoutes);
 
-// Start the server
+
+const tokenRoutes = require('./routes/tokenRoutes');
+app.use('/api/tokens', tokenRoutes);
+
+const userRoutes = require('./routes/userRoutes');
+app.use('/api/users', userRoutes);
+
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });
