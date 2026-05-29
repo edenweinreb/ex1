@@ -2,16 +2,16 @@ const express = require('express');
 const app = express();
 const port = 3000;
 
-// Enable the server to parse incoming JSON requests
+const orderRoutes = require('./routes/orderRoutes');
+const searchRoutes = require('./routes/searchRoutes');
+
+// Middleware to parse JSON bodies
 app.use(express.json());
 
 // Temporary test route to verify the server is working
 app.get('/api/ping', (req, res) => {
     res.json({ message: 'Server is running!' });
 });
-
-// Route all /api/restaurants requests to the restaurants router
-app.use('/api/restaurants', require('./routes/restaurants'));
 
 // Start the server
 app.listen(port, () => {
