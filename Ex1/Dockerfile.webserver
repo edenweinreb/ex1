@@ -2,10 +2,10 @@ FROM node:18-slim
 
 WORKDIR /app
 
-COPY package*.json ./
+COPY src/EX3-NODEJS/package*.json ./
 RUN npm install
 
-COPY . .
+COPY src/EX3-NODEJS/ ./
 
 EXPOSE 3000
 CMD ["node", "src/app.js"]
