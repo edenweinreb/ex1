@@ -8,6 +8,8 @@ const searchRoutes = require('./routes/searchRoutes');
 const userRoutes = require('./routes/userRoutes');
 const tokenRoutes = require('./routes/tokenRoutes');
 
+app.use('/api/orders', orderRoutes);
+app.use('/api/search', searchRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/tokens', tokenRoutes);
 // Temporary test route to verify the server is working

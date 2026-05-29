@@ -4,6 +4,14 @@ const Order = require('../models/orderModel');
 const ordersDatabase = [];
 
 const createOrder = (req, res) => {
+  if (Object.keys(req.body).length === 0) {
+    return res.status(400).json({ error: "Request body is empty" });
+  }
+  const { restaurantId, items, totalAmount } = req.body;
+
+  if (!restaurantId || !items || totalAmount === undefined) {
+    return res.status(400).json({ error: "Missing required fields: restaurantId, items, or totalAmount" });
+  }
   // Create a new order object from the class
   const newOrder = new Order(req.body);
   

@@ -69,4 +69,4 @@ const deleteRestaurant = (req, res) => {
 };
 
 // Export all controller functions to be used by the router
-module.exports = { getAllRestaurants, createRestaurant, getRestaurantById, updateRestaurant, deleteRestaurant };
+module.exports = { getAllRestaurants, createRestaurant, getRestaurantById, updateRestaurant, deleteRestaurant, restaurantsDatabase: restaurants };

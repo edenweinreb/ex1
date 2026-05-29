@@ -11,8 +11,8 @@ const search = (req, res) => {
     })
 
     const matchedProducts = productsDatabase.filter(product => {
-        const nameMatch = restaurant.name?.toLowerCase().includes(query);
-        const descMatch = restaurant.description?.toLowerCase().includes(query);
+        const nameMatch = product.name?.toLowerCase().includes(query);
+        const descMatch = product.description?.toLowerCase().includes(query);
         return nameMatch || descMatch;
     })
 
