@@ -12,6 +12,8 @@ app.use('/api/orders', orderRoutes);
 app.use('/api/search', searchRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/tokens', tokenRoutes);
+app.use('/api/search', searchRoutes); 
+app.use('/api/orders', orderRoutes);
 // Temporary test route to verify the server is working
 app.get('/api/ping', (req, res) => {
     res.json({ message: 'Server is running!' });

@@ -80,4 +80,4 @@ const deleteProduct = (req, res) => {
   res.status(204).send();
 };
 
-module.exports = { getAllProducts, createProduct, getProductById, updateProduct, deleteProduct, productsDatabase: products };
+module.exports = { getAllProducts, createProduct, getProductById, updateProduct, deleteProduct, products };
