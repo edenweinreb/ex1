@@ -10,12 +10,12 @@ const {
   deleteOrder 
 } = require('../controllers/orderController');
 
-router.post('/orders', createOrder);
-router.get('/orders', getOrders);
+router.post('/', createOrder);
+router.get('/', getOrders);
 
 // New routes with the ID parameter:
-router.get('/orders/:id', getOrderById);
-router.patch('/orders/:id', updateOrder);
-router.delete('/orders/:id', deleteOrder);
+router.get('/:id', getOrderById);
+router.patch('/:id', updateOrder);
+router.delete('/:id', deleteOrder);
 
 module.exports = router;
