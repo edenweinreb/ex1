@@ -1,0 +1,21 @@
+# Build and distribution directories
+build/
+dist/
+
+# Dependencies
+node_modules/
+
+# Environment variables and secrets
+.env
+.env.*
+
+# Log files
+logs/
+*.log
+*.xml
+
+npm-debug.log*
+
+# OS generated files
+.DS_Store
+Thumbs.db

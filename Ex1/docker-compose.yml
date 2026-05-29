@@ -1,0 +1,24 @@
+services:
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile.server
+    volumes:
+      - ./data:/app/data
+    command: ["./myapp", "9090"]
+
+  webserver:
+    build:
+      context: .
+      dockerfile: Dockerfile.webserver
+    ports:
+      - "3000:3000"
+    depends_on:
+      - server
+
+  tests:
+    build:
+      context: .
+      dockerfile: Dockerfile.tests
+    depends_on:
+      - server
