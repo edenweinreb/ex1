@@ -68,10 +68,10 @@ Falls back to `POST <userId> <productId>` if user does not exist yet
 
 ## Example Run:
 
-1. Execute user creation request: POST
+1. Verify that the server is listening 
 ![alt text](images/image-3.png)
 
-2. Verify that the server is listening
+2. Execute user creation request: POST
 ![alt text](images/image-4.png)
 
 3. Perform user registration
