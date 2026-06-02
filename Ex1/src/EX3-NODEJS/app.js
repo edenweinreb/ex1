@@ -1,6 +1,13 @@
 const express = require('express');
 const app = express();
 const port = 3000;
+
+app.disable('etag');
+app.use((req, res, next) => {
+  res.removeHeader('Date');
+  next();
+});
+
 // Middleware to parse JSON bodies
 app.use(express.json());
 const orderRoutes = require('./routes/orderRoutes');
