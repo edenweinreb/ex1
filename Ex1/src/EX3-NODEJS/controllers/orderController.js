@@ -45,7 +45,7 @@ const createOrder = async (req, res) => {
       res.status(201).json({ message: 'Order created successfully', order: newOrder });
 
   } catch (error) {
-    console.error("DEBUG ERROR:", error); // זה יכתוב את השגיאה המלאה ללוגים
+    console.error("DEBUG ERROR:", error);
     res.status(500).json({ error: "Server error", details: error.message });
       //res.status(500).json({ error: "Server error during order creation" });
   }
