@@ -1,37 +1,65 @@
 const Order = require('../models/orderModel');
+const { restaurants } = require('../controllers/restaurantController');
+const { products } = require('../controllers/productController');
+
+
 
 // Temporary array for storing orders
-const ordersDatabase = [];
+const orders = [];
 
-const createOrder = (req, res) => {
-  if (Object.keys(req.body).length === 0) {
-    return res.status(400).json({ error: "Request body is empty" });
-  }
-  const { restaurantId, items, totalAmount } = req.body;
+const createOrder = async (req, res) => {
+  try {
+      const { restaurantId, items } = req.body;
+      //const userId = req.user.id;
+      const userId = req.headers['x-user-id'];
 
-  if (!restaurantId || !items || totalAmount === undefined) {
-    return res.status(400).json({ error: "Missing required fields: restaurantId, items, or totalAmount" });
+      // Check if the restaurant exist
+      const restaurant = restaurants.find(r => r.id === restaurantId);
+      if (!restaurant) {
+          return res.status(404).json({ error: "Restaurant not found" });
+      }
+
+      let totalAmount = 0;
+      //const foundItems = [];
+
+      for (const itemName of items) {
+          const product = products.find(p => p.name === itemName && p.restaurantId === restaurantId);
+          if (!product) {
+              return res.status(400).json({ error: `Product '${itemName}' not found in this restaurant` });
+          }
+          totalAmount += product.price;
+          //foundItems.push(product);
+      }
+
+      // Create a new order object from the class
+      const newOrder = new Order({
+          userId,
+          restaurantId,
+          items,
+          totalAmount,
+          status: 'pending'
+      });
+      
+      orders.push(newOrder);
+      
+      res.status(201).json({ message: 'Order created successfully', order: newOrder });
+
+  } catch (error) {
+    console.error("DEBUG ERROR:", error);
+    res.status(500).json({ error: "Server error", details: error.message });
+      //res.status(500).json({ error: "Server error during order creation" });
   }
-  // Create a new order object from the class
-  const newOrder = new Order(req.body);
-  
-  ordersDatabase.push(newOrder);
-  
-  res.status(201).json({
-    message: 'Order created successfully',
-    order: newOrder
-  });
 };
 
 // GET - Get all orders
 const getOrders = (req, res) => {
-    res.status(200).json(ordersDatabase);
+    res.status(200).json(orders);
 };
 
 // GET - Get a specific order by ID
 const getOrderById = (req, res) => {
     const { id } = req.params; // Gets the ID from the URL
-    const order = ordersDatabase.find(o => o.id === id);
+    const order = orders.find(o => o.id === id);
   
     if (!order) {
       return res.status(404).json({ message: 'Order not found' });
@@ -43,7 +71,7 @@ const getOrderById = (req, res) => {
   // PATCH - Update an order
   const updateOrder = (req, res) => {
     const { id } = req.params;
-    const order = ordersDatabase.find(o => o.id === id);
+    const order = orders.find(o => o.id === id);
   
     if (!order) {
       return res.status(404).json({ message: 'Order not found' });
@@ -58,14 +86,14 @@ const getOrderById = (req, res) => {
   // DELETE - Delete an order
   const deleteOrder = (req, res) => {
     const { id } = req.params;
-    const orderIndex = ordersDatabase.findIndex(o => o.id === id);
+    const orderIndex = orders.findIndex(o => o.id === id);
   
     if (orderIndex === -1) {
       return res.status(404).json({ message: 'Order not found' });
     }
   
     // Remove the order from the array
-    ordersDatabase.splice(orderIndex, 1);
+    orders.splice(orderIndex, 1);
   
     res.status(204).json({ message: 'Order deleted successfully' });
   };

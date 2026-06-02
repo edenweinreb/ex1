@@ -25,6 +25,9 @@ const createProduct = (req, res) => {
   if (!price) {
     return res.status(400).json({ error: 'Price is required' });
   }
+  if (typeof price !== 'number' || price <= 0) {
+    return res.status(400).json({ error: 'Price must be a positive number' });
+  }
 
   // Create product with both UUID (Ex3) and numeric ID (Ex2)
   const product = new Product(
