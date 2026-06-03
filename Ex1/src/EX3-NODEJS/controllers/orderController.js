@@ -6,6 +6,25 @@ const { products } = require('../controllers/productController');
 
 // Temporary array for storing orders
 const orders = [];
+const populateOrderItems = (order) => {
+  // Passing through the array of product IDs and replacing them with an object that includes an ID, name, and price
+  const populatedItems = order.items.map(productId => {
+      const product = products.find(p => p.id === productId);
+      return product 
+          ? { id: product.id, name: product.name, price: product.price } 
+          : { id: productId, error: "Product not found" };
+  });
+
+  // Returns the updated order object
+  return {
+    id: order.id,
+    restaurantId: order.restaurantId,
+    items: populatedItems,
+    totalAmount: order.totalAmount,
+    status: order.status,
+    createdAt: order.createdAt
+  };
+};
 
 const createOrder = async (req, res) => {
   try {
@@ -22,11 +41,11 @@ const createOrder = async (req, res) => {
       let totalAmount = 0;
       //const foundItems = [];
 
-      for (const itemName of items) {
-          const product = products.find(p => p.name === itemName && p.restaurantId === restaurantId);
-          if (!product) {
-              return res.status(400).json({ error: `Product '${itemName}' not found in this restaurant` });
-          }
+      for (const productId of items) {
+        const product = products.find(p => p.id === productId && p.restaurantId === restaurantId);
+        if (!product) {
+            return res.status(400).json({ error: `Product ID '${productId}' not found in this restaurant` });
+        }
           totalAmount += product.price;
           //foundItems.push(product);
       }
@@ -53,7 +72,8 @@ const createOrder = async (req, res) => {
 
 // GET - Get all orders
 const getOrders = (req, res) => {
-    res.status(200).json(orders);
+    const populatedOrders = orders.map(order => populateOrderItems(order));
+    res.status(200).json(populatedOrders);
 };
 
 // GET - Get a specific order by ID
@@ -65,7 +85,7 @@ const getOrderById = (req, res) => {
       return res.status(404).json({ message: 'Order not found' });
     }
   
-    res.status(200).json(order);
+    res.status(200).json(populateOrderItems(order));
   };
   
   // PATCH - Update an order
