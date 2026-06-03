@@ -22,11 +22,11 @@ const createOrder = async (req, res) => {
       let totalAmount = 0;
       //const foundItems = [];
 
-      for (const itemName of items) {
-          const product = products.find(p => p.name === itemName && p.restaurantId === restaurantId);
-          if (!product) {
-              return res.status(400).json({ error: `Product '${itemName}' not found in this restaurant` });
-          }
+      for (const productId of items) {
+        const product = products.find(p => p.id === productId && p.restaurantId === restaurantId);
+        if (!product) {
+            return res.status(400).json({ error: `Product ID '${productId}' not found in this restaurant` });
+        }
           totalAmount += product.price;
           //foundItems.push(product);
       }
