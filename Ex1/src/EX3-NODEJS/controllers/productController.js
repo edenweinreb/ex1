@@ -1,5 +1,6 @@
 const Product = require('../models/product');
 const ex2Service = require('../services/socketClient');
+const { restaurants } = require('./restaurantController');
 
 // In-memory storage for all products
 const products = [];
@@ -27,6 +28,11 @@ const createProduct = (req, res) => {
   }
   if (typeof price !== 'number' || price <= 0) {
     return res.status(400).json({ error: 'Price must be a positive number' });
+  }
+
+  const restaurantExists = restaurants.find(r => r.id === req.params.id);
+  if (!restaurantExists) {
+    return res.status(404).json({ error: 'Restaurant not found' });
   }
 
   // Create product with both UUID (Ex3) and numeric ID (Ex2)
