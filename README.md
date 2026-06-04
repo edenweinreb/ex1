@@ -103,25 +103,25 @@ Falls back to `POST <userId> <productId>` if user does not exist yet
 10. Searching for a restaurant or product:
 ![alt text](images/image-13.png)
 
-11. Attempt to create an order with missing required fields
+11. Attempt to create an order with missing required fields:  
 ![alt text](images/Picture8.png)
 
-12. Create a new valid order
+12. Create a new valid order:  
 ![alt text](images/Picture10.png)
 
-13. Retrieve order details
+13. Retrieve order details:  
 ![alt text](images/Picture11.png)
 
-14. Update order details
+14. Update order details:  
 ![alt text](images/Picture12.png)
 
-15. Retrieve order details after update
+15. Retrieve order details after update:  
 ![alt text](images/Picture13.png)
 
-16. Delete the order and verify removal
+16. Delete the order and verify removal:  
 ![alt text](images/Picture4.png)
 
-17. Attempt to delete a non-existent order
+17. Attempt to delete a non-existent order:  
 ![alt text](images/Picture6.png)
 
 
