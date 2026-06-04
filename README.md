@@ -40,11 +40,16 @@ This project implements a RESTful web server for a food delivery application bui
 - Docker Compose
 
 # Build and run all services
+Terminal 1: Start the Server
+Open your first terminal in the root directory of the project and run the following Docker command to build and start the server:
 docker-compose up --build
 
 This starts two servers:
 **Ex2 TCP server** on port 9090
 **Ex3 Web server** on port 3000
+
+Terminal 2: Run API Commands
+Once the server is up and running, open a second, separate terminal to execute the curl commands and test the API endpoints.
 
 ## Connection to Ex2 Server
 When a user views a product (`GET /api/restaurants/:id/products/:pId`), the web server notifies the Ex2 TCP server to record the view:
