@@ -11,6 +11,10 @@ const registerUser = (req, res) => {
         return res.status(400).json({ error: "Name is required" });
     }
 
+    if (!userData.name || !userData.password || !userData.address) {
+        return res.status(400).json({ error: "Name, password, and address are required" });
+    }
+
     const newUser = userModel.createUser(userData);
     res.status(201).json(newUser);
 };
