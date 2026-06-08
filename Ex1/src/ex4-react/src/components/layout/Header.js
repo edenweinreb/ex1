@@ -1,15 +1,24 @@
 import React, { useState, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import "./Header.css";
 
 function Header() {
   // Manage search input state
   const [searchQuery, setSearchQuery] = useState('');
+  const searchInputRef = useRef(null);
   
   // Manage application theme state
   const [isDarkMode, setIsDarkMode] = useState(false);
 
-  // Direct reference to the search input DOM element
-  const searchInputRef = useRef(null);
+  // MOCK USER STATE: Simulates a logged-in user. 
+  // TODO: Replace this with real user data from context/JWT after successful login.
+  const [user, setUser] = useState({
+    isLoggedIn: true, // Change to 'false' to test the Logged-Out view
+    displayName: "Student Developer",
+    profilePic: "https://via.placeholder.com/40" // Placeholder image URL
+  });
+
+  const navigate = useNavigate();
 
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
@@ -22,35 +31,69 @@ function Header() {
   };
 
   const toggleTheme = () => {
-    setIsDarkMode(!isDarkMode);
-    // TODO: Implement global CSS class toggle logic here
+    setIsDarkMode((prevMode) => {
+      const newMode = !prevMode;
+      if (newMode) {
+        document.body.classList.add('dark-mode');
+      } else {
+        document.body.classList.remove('dark-mode');
+      }
+      return newMode;
+    });
+  };
+
+  const handleLogout = () => {
+    //Remove the token from storage to logout
+    localStorage.removeItem('token');
+    //Reset the mock global user state
+    setUser({ isLoggedIn: false, displayName: "", profilePic: "" });
+    //Redirect the user to the login page immediately
+    navigate('/login');
   };
 
   return (
-    <nav style={{ background: isDarkMode ? '#333' : '#fff', color: isDarkMode ? '#fff' : '#000' }}>
-      <div className="nav-container">
-        <h1><Link to="/">MyWolt</Link></h1>
+    <nav className="navbar" >
+      
+      {/* 1. Logo */}
+      <h2><Link to="/" style={{ color: 'inherit', textDecoration: 'none' }}>MyWolt</Link></h2>
 
-        <div className="search-bar">
-          <input 
-            type="text" 
-            ref={searchInputRef} 
-            value={searchQuery} 
-            onChange={handleSearchChange} 
-            placeholder="Search restaurants..." 
-          />
-          <button onClick={handleFocusSearch}>Search</button>
-        </div>
+      {/* 2. Search Bar */}
+      <div className="search-bar">
+        <input 
+          type="text" 
+          ref={searchInputRef} 
+          value={searchQuery} 
+          onChange={handleSearchChange} 
+          placeholder="Search restaurants..." 
+        />
+        <button onClick={handleFocusSearch}>Search</button>
+      </div>
 
-        <ul className="nav-links">
-          <li><Link to="/login">Login</Link></li>
-          <li><Link to="/register">Register</Link></li>
-          <li>
-            <button onClick={toggleTheme}>
-              {isDarkMode ? 'Light Mode' : 'Dark Mode'}
-            </button>
-          </li>
-        </ul>
+      {/* 3. User Controls & Theme */}
+      <div className="user-controls">
+        <button onClick={toggleTheme}>
+          {isDarkMode ? 'Light Mode' : 'Dark Mode'}
+        </button>
+
+        {/* Conditional Rendering: Check if user is logged in */}
+        {user.isLoggedIn ? (
+          // Logged-In View: Show profile picture, name, and logout button
+          <div className="profile-section">
+            <img 
+              src={user.profilePic} 
+              alt="Profile" 
+              className="profile-pic"
+            />
+            <span>{user.displayName}</span>
+            <button onClick={handleLogout}>Logout</button>
+          </div>
+        ) : (
+          // Logged-Out View: Show login and register links
+          <div className="profile-section">
+            <Link to="/login">Login</Link>
+            <Link to="/register">Register</Link>
+          </div>
+        )}
       </div>
     </nav>
   );
