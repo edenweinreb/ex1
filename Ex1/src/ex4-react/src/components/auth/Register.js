@@ -1,18 +1,132 @@
-import React from 'react';
-
+import React, { useState, useRef } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import './Register.css';
+ 
 function Register() {
-  // Placeholder for user registration and client-side validation
+  const navigate = useNavigate();
+ 
+  const [username, setUsername] = useState('');
+  const [displayName, setDisplayName] = useState('');
+  const [password, setPassword] = useState('');
+  const [verifyPassword, setVerifyPassword] = useState('');
+  const [profilePic, setProfilePic] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState(null);
+  const [error, setError] = useState('');
+ 
+  const fileInputRef = useRef(null);
+ 
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setProfilePic(file);
+      setPreviewUrl(URL.createObjectURL(file));
+    }
+  };
+ 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+ 
+    // Basic validation
+    if (!username || !displayName || !password || !verifyPassword || !profilePic) {
+      setError('All fields are required.');
+      return;
+    }
+    if (password.length < 8 || !/[a-zA-Z]/.test(password) || !/[0-9]/.test(password)) {
+      setError('Password must be at least 8 characters and include letters and numbers.');
+      return;
+    }
+    if (password !== verifyPassword) {
+      setError('Passwords do not match.');
+      return;
+    }
+ 
+    try {
+      const reader = new FileReader();
+      reader.onload = async () => {
+        const response = await fetch('/api/users', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            username,
+            password,
+            displayName,
+            profilePic: reader.result,
+          }),
+        });
+ 
+        if (response.ok) {
+          navigate('/login');
+        } else {
+          const data = await response.json();
+          setError(data.message || 'Registration failed.');
+        }
+      };
+      reader.readAsDataURL(profilePic);
+    } catch (err) {
+      setError('Server error. Please try again.');
+    }
+  };
+ 
   return (
-    <div>
-      <h2>Register Page</h2>
-      <form>
-        <input type="text" placeholder="Username" />
-        <input type="password" placeholder="Password" />
-        <input type="password" placeholder="Verify Password" />
-        <button type="submit">Register</button>
-      </form>
+    <div className="register-page">
+      <div className="register-card">
+        <h2>Register</h2>
+ 
+        {error && <p className="error-msg">{error}</p>}
+ 
+        <form onSubmit={handleSubmit}>
+ 
+          <input
+            type="text"
+            placeholder="Username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+ 
+          <input
+            type="text"
+            placeholder="Display Name"
+            value={displayName}
+            onChange={(e) => setDisplayName(e.target.value)}
+          />
+ 
+          <input
+            type="password"
+            placeholder="Password (min 8 chars, letters & numbers)"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+ 
+          <input
+            type="password"
+            placeholder="Confirm Password"
+            value={verifyPassword}
+            onChange={(e) => setVerifyPassword(e.target.value)}
+          />
+ 
+          <div className="pic-row">
+            {previewUrl && <img src={previewUrl} alt="Preview" className="pic-preview" />}
+            <button type="button" onClick={() => fileInputRef.current.click()}>
+              {previewUrl ? 'Change Photo' : 'Upload Photo'}
+            </button>
+            <input
+              type="file"
+              accept="image/*"
+              ref={fileInputRef}
+              onChange={handleFileChange}
+              style={{ display: 'none' }}
+            />
+          </div>
+ 
+          <button type="submit" className="btn-register">Create Account</button>
+        </form>
+ 
+        <p>Already have an account? <Link to="/login">Log in</Link></p>
+      </div>
     </div>
   );
 }
-
+ 
 export default Register;
+ 
