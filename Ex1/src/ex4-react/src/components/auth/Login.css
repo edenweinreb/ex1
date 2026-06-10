@@ -1,0 +1,112 @@
+/* Login.css */
+ 
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f5f5f5;
+  padding: 20px;
+}
+ 
+.login-card {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  padding: 40px;
+  width: 100%;
+  max-width: 400px;
+}
+ 
+.login-card h2 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 24px;
+  color: #1a1a1a;
+}
+ 
+.login-card form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+ 
+.login-card input {
+  padding: 10px 14px;
+  border: 1.5px solid #ddd;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+ 
+.login-card input:focus {
+  border-color: #009de0;
+}
+ 
+.error-msg {
+  color: #e74c3c;
+  font-size: 0.88rem;
+  margin-bottom: 10px;
+}
+ 
+.btn-login {
+  padding: 12px;
+  background-color: #009de0;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+ 
+.btn-login:hover {
+  background-color: #007ab8;
+}
+ 
+.login-card p {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 0.9rem;
+  color: #666;
+}
+ 
+.login-card a {
+  color: #009de0;
+  font-weight: 600;
+  text-decoration: none;
+}
+ 
+.login-card a:hover {
+  text-decoration: underline;
+}
+ 
+/* ---- Dark Mode ---- */
+body.dark-mode .login-page {
+  background-color: #1a1a1a;
+}
+ 
+body.dark-mode .login-card {
+  background-color: #2a2a2a;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+ 
+body.dark-mode .login-card h2 {
+  color: #f0f0f0;
+}
+ 
+body.dark-mode .login-card input {
+  background-color: #333;
+  border-color: #555;
+  color: #f0f0f0;
+}
+ 
+body.dark-mode .login-card input:focus {
+  border-color: #009de0;
+}
+ 
+body.dark-mode .login-card p {
+  color: #aaa;
+}
