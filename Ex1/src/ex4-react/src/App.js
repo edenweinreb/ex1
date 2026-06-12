@@ -6,6 +6,8 @@ import Header from './components/layout/Header';
 import Home from './components/home/Home';
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
+import ProtectedRoute from './components/auth/ProtectedRoute';
+
 
 function App() {
   return (
@@ -15,7 +17,11 @@ function App() {
 
       {/* SPA route definitions */}
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={
+          <ProtectedRoute>
+            <Home />
+          </ProtectedRoute>
+    } />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
       </Routes>
