@@ -43,7 +43,7 @@ function Home() {
 
       {/* Display the restaurants received from the server */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px', marginTop: '20px' }}>
-        {restaurants.map((restaurant) => (
+        {filteredRestaurants.map((restaurant) => (
           <div
             key={restaurant._id}
             style={{ border: '1px solid #ccc', padding: '15px', borderRadius: '8px' }}
