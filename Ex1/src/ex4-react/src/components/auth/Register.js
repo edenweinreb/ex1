@@ -12,6 +12,8 @@ function Register() {
   const [profilePic, setProfilePic] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
   const [error, setError] = useState('');
+  // default is regular user
+  const [role, setRole] = useState('user'); 
  
   const fileInputRef = useRef(null);
  
@@ -118,6 +120,10 @@ function Register() {
               style={{ display: 'none' }}
             />
           </div>
+          <select value={role} onChange={(e) => setRole(e.target.value)}>
+            <option value="user">Regular User</option>
+            <option value="owner">Restaurant Owner</option>
+          </select>
  
           <button type="submit" className="btn-register">Create Account</button>
         </form>
