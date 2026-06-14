@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import RestaurantMenu from './RestaurantMenu';
 
 function Home() {
   // State to store the restaurants received from the server
@@ -6,6 +7,8 @@ function Home() {
 
   // State variable that stores the text entered by the user in the search field
   const [searchTerm, setSearchTerm] = useState('');
+
+  const [selectedRestaurant, setSelectedRestaurant] = useState(null);
 
   // Fetch restaurants from the server when the component loads
   useEffect(() => {
@@ -18,7 +21,17 @@ function Home() {
   // Keeps only restaurants whose name contains the text in the search field
   const filteredRestaurants = restaurants.filter(restaurant =>
   restaurant.name.toLowerCase().includes(searchTerm.toLowerCase())
-);
+  );
+
+  // If a restaurant has been selected, display the menu component
+  if (selectedRestaurant) {
+    return (
+      <RestaurantMenu
+        restaurant={selectedRestaurant}
+        onBack={() => setSelectedRestaurant(null)} // Clears the selected restaurant and returns to the restaurant list
+      />
+    );
+  }
 
   return (
     <div style={{ padding: '20px' }}>
