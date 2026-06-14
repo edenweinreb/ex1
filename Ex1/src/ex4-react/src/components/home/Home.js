@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import RestaurantMenu from './RestaurantMenu';
+import RestaurantMenu from '../restaurants/RestaurantMenu';
+import { useNavigate } from 'react-router-dom';
 
 function Home() {
   const [restaurants, setRestaurants] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedRestaurant, setSelectedRestaurant] = useState(null);
   const [selectedCuisine, setSelectedCuisine] = useState('');
   const [sortBy, setSortBy] = useState('distance');
 
@@ -12,6 +12,7 @@ function Home() {
     const savedUser = localStorage.getItem('user');
     return savedUser ? JSON.parse(savedUser) : null;
   });
+
 
   // Mathematical function to calculate distance using coordinates (Pythagoras)
   const calculateDistance = (lat1, lng1, lat2, lng2) => {
@@ -64,7 +65,7 @@ function Home() {
     { name: 'Cafes', type: 'coffee', img: 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=150' },
     { name: 'Breakfast', type: 'breakfast', img: 'https://images.unsplash.com/photo-1525351484163-7529414344d8?w=150' },
     { name: 'Desserts', type: 'dessert', img: 'https://images.unsplash.com/photo-1551024601-bec78aea704b?w=150' },
-    { name: 'Burgers', type: 'burger', img: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=150' },
+    { name: 'Burgers', type: 'burger', img: 'https://images.unsplash.com/photo-1550547660-d9450f859349?w=150' },
     { name: 'Pizza', type: 'pizza', img: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=150' }
   ];
 
@@ -85,10 +86,6 @@ function Home() {
     }
     return 0;
   });
-
-  if (selectedRestaurant) {
-    return <RestaurantMenu restaurant={selectedRestaurant} onBack={() => setSelectedRestaurant(null)} />;
-  }
 
   return (
     <div style={{ padding: '20px', fontFamily: 'sans-serif' }}>
@@ -139,7 +136,7 @@ function Home() {
       {sortedRestaurants.length === 0 ? <p>No restaurants found matching your criteria.</p> : (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px' }}>
           {sortedRestaurants.map(r => (
-            <div key={r.id} onClick={() => setSelectedRestaurant(r)} style={{ border: '1px solid #eee', padding: '15px', borderRadius: '12px', cursor: 'pointer', backgroundColor: '#fff' }} >
+            <div key={r.id} onClick={() => navigate(`/restaurants/${r.id}`)} style={{ border: '1px solid #eee', padding: '15px', borderRadius: '12px', cursor: 'pointer', backgroundColor: '#fff' }} >
               <h4>{r.name}</h4>
               <p>{r.description}</p>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '10px', fontSize: '13px', color: '#555' }}>
