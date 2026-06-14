@@ -30,6 +30,7 @@ function Login() {
         const data = await response.json();
         // Save JWT token to localStorage
         localStorage.setItem('token', data.token);
+        localStorage.setItem('role', data.role);
         // Redirect to home page
         navigate('/');
       } else {
