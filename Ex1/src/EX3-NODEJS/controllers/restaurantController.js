@@ -10,14 +10,20 @@ const getAllRestaurants = (req, res) => {
 
 // POST /api/restaurants - creates a new restaurant
 const createRestaurant = (req, res) => {
-  const { name, address, description, phone, cuisineType } = req.body;
+  const { name, address, description, phone, cuisineType, lat, lng, rating } = req.body;
 
   // name is required - return 400 if missing
   if (!name) {
     return res.status(400).json({ error: 'Name is required' });
   }
+
+  //If a location was sent but it is not a valid number, or if one of them is missing
+  if (lat === undefined || lng === undefined || typeof lat !== 'number' || typeof lng !== 'number') {
+    return res.status(400).json({ error: 'Valid location coordinates (lat and lng numbers) are required' });
+  }
+
   // Create a new restaurant object and add it to the array
-  const restaurant = new Restaurant({ name, address, description, phone, cuisineType });
+  const restaurant = new Restaurant({ name, address, description, phone, cuisineType, lat, lng, rating });
   restaurants.push(restaurant);
   // Return 201 Created with a Location header pointing to the new restaurant
   res.status(201).location(`/api/restaurants/${restaurant.id}`).send();
@@ -43,13 +49,20 @@ const updateRestaurant = (req, res) => {
   }
   
 // Extract fields from the request body
-  const { name, address, description, phone, cuisineType } = req.body;
+  const { name, address, description, phone, cuisineType, lat, lng, rating } = req.body;
+
+  if ((lat !== undefined && typeof lat !== 'number') || (lng !== undefined && typeof lng !== 'number')) {
+    return res.status(400).json({ error: 'Location coordinates must be valid numbers' });
+  }
 // Only update fields that were actually sent 
   if (name) restaurant.name = name;
   if (address) restaurant.address = address;
   if (description) restaurant.description = description;
   if (phone) restaurant.phone = phone;
   if (cuisineType) restaurant.cuisineType = cuisineType;
+  if (lat !== undefined) restaurant.lat = lat;
+  if (lng !== undefined) restaurant.lng = lng;
+  if (rating !== undefined) restaurant.rating = rating;
 // Return 204 No Content - success but nothing to return
   res.status(204).send();
 };
