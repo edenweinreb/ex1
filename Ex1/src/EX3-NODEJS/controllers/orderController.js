@@ -8,12 +8,12 @@ const { products } = require('../controllers/productController');
 const orders = [];
 const populateOrderItems = (order) => {
   // Passing through the array of product IDs and replacing them with an object that includes an ID, name, and price
-  const populatedItems = order.items.map(productId => {
-      const product = products.find(p => p.id === productId);
-      return product 
-          ? { id: product.id, name: product.name, price: product.price } 
-          : { id: productId, error: "Product not found" };
-  });
+  const populatedItems = order.items.map(item => {
+    const product = products.find(p => p.id === item.productId);
+    return product 
+        ? { id: product.id, name: product.name, price: product.price, quantity: item.quantity } 
+        : { id: item.productId, error: "Product not found", quantity: item.quantity };
+});
 
   // Returns the updated order object
   return {
@@ -41,13 +41,13 @@ const createOrder = async (req, res) => {
       let totalAmount = 0;
       //const foundItems = [];
 
-      for (const productId of items) {
-        const product = products.find(p => p.id === productId && p.restaurantId === restaurantId);
+      for (const item of items) {
+        const product = products.find(p => p.id === item.productId && p.restaurantId === restaurantId);
         if (!product) {
-            return res.status(400).json({ error: `Product ID '${productId}' not found in this restaurant` });
+            return res.status(400).json({ error: `Product ID '${item.productId}' not found in this restaurant` });
         }
-          totalAmount += product.price;
-          //foundItems.push(product);
+        // Multiply product price by its selected quantity
+        totalAmount += (product.price * item.quantity);
       }
 
       // Create a new order object from the class
@@ -124,5 +124,6 @@ const getOrderById = (req, res) => {
     getOrders,
     getOrderById,
     updateOrder,
-    deleteOrder
+    deleteOrder,
+    orders
   };
