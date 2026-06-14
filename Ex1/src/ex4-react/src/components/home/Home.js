@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import RestaurantMenu from './RestaurantMenu';
+import RestaurantMenu from '../restaurants/RestaurantMenu';
 import { useNavigate } from 'react-router-dom';
 
 function Home() {
@@ -65,7 +65,7 @@ function Home() {
     { name: 'Cafes', type: 'coffee', img: 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=150' },
     { name: 'Breakfast', type: 'breakfast', img: 'https://images.unsplash.com/photo-1525351484163-7529414344d8?w=150' },
     { name: 'Desserts', type: 'dessert', img: 'https://images.unsplash.com/photo-1551024601-bec78aea704b?w=150' },
-    { name: 'Burgers', type: 'burger', img: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=150' },
+    { name: 'Burgers', type: 'burger', img: 'https://images.unsplash.com/photo-1550547660-d9450f859349?w=150' },
     { name: 'Pizza', type: 'pizza', img: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=150' }
   ];
 
