@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import RestaurantMenu from './RestaurantMenu';
+import { useNavigate } from 'react-router-dom';
 
 function Home() {
   const [restaurants, setRestaurants] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedRestaurant, setSelectedRestaurant] = useState(null);
   const [selectedCuisine, setSelectedCuisine] = useState('');
   const [sortBy, setSortBy] = useState('distance');
 
@@ -12,6 +12,7 @@ function Home() {
     const savedUser = localStorage.getItem('user');
     return savedUser ? JSON.parse(savedUser) : null;
   });
+
 
   // Mathematical function to calculate distance using coordinates (Pythagoras)
   const calculateDistance = (lat1, lng1, lat2, lng2) => {
@@ -86,10 +87,6 @@ function Home() {
     return 0;
   });
 
-  if (selectedRestaurant) {
-    return <RestaurantMenu restaurant={selectedRestaurant} onBack={() => setSelectedRestaurant(null)} />;
-  }
-
   return (
     <div style={{ padding: '20px', fontFamily: 'sans-serif' }}>
       
@@ -139,7 +136,7 @@ function Home() {
       {sortedRestaurants.length === 0 ? <p>No restaurants found matching your criteria.</p> : (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px' }}>
           {sortedRestaurants.map(r => (
-            <div key={r.id} onClick={() => setSelectedRestaurant(r)} style={{ border: '1px solid #eee', padding: '15px', borderRadius: '12px', cursor: 'pointer', backgroundColor: '#fff' }} >
+            <div key={r.id} onClick={() => navigate(`/restaurants/${r.id}`)} style={{ border: '1px solid #eee', padding: '15px', borderRadius: '12px', cursor: 'pointer', backgroundColor: '#fff' }} >
               <h4>{r.name}</h4>
               <p>{r.description}</p>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '10px', fontSize: '13px', color: '#555' }}>

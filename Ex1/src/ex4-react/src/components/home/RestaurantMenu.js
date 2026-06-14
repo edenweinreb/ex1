@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 
-function RestaurantMenu({ restaurant, onBack }) {
-  // State to store the products fetched from the server
+function RestaurantMenu() {
+  const { id } = useParams(); // Automatically extracts the ID from the URL
+  const navigate = useNavigate(); // For the back button
+  
+  const [restaurant, setRestaurant] = useState(null);
   const [products, setProducts] = useState([]);
   const [cart, setCart] = useState([]);
 
@@ -11,14 +15,23 @@ function RestaurantMenu({ restaurant, onBack }) {
   });
 
   useEffect(() => {
-    if (restaurant) {
-      // Fetch the specific products/items for this restaurant ID
-      fetch(`http://localhost:3000/api/restaurants/${restaurant.id}/products`)
+    if (id) {
+      // Gets the restaurant details (name, description, address)
+      fetch(`http://localhost:3000/api/restaurants/${id}`)
+        .then(res => res.json())
+        .then(data => setRestaurant(data))
+        .catch(err => console.error(err));
+
+      // Brings the products of that restaurant
+      fetch(`http://localhost:3000/api/restaurants/${id}/products`)
         .then(res => res.json())
         .then(data => setProducts(data))
-        .catch(err => console.error("Error fetching products:", err));
+        .catch(err => console.error(err));
     }
-  }, [restaurant]);
+  }, [id]);
+
+  // Protection in case the data from the server is still loading
+  if (!restaurant) return <div style={{ padding: '20px' }}>Loading menu...</div>;
 
   // Function to add a product to the cart (increments quantity if already exists)
   const addToCart = (product) => {
@@ -72,12 +85,12 @@ function RestaurantMenu({ restaurant, onBack }) {
       
       {/* Main Left/Center Section: Restaurant Header & Menu Items Grid */}
       <div style={{ flex: 2 }}>
-        <button 
-          onClick={onBack} 
-          style={{ marginBottom: '25px', padding: '10px 15px', borderRadius: '20px', border: '1px solid #ccc', backgroundColor: '#fff', cursor: 'pointer', fontWeight: 'bold' }}
+      <button 
+        onClick={() => navigate('/')} 
+        style={{ marginBottom: '25px', padding: '10px 15px', borderRadius: '20px', border: '1px solid #ccc', backgroundColor: '#fff', cursor: 'pointer', fontWeight: 'bold' }}
         >
-          ← Back to Restaurants
-        </button>
+        ← Back to Restaurants
+      </button>
 
         <div style={{ marginBottom: '30px', borderBottom: '1px solid #eee', paddingBottom: '25px' }}>
           <h2 style={{ margin: '0 0 10px 0', fontSize: '28px' }}>{restaurant.name}</h2>
