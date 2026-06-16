@@ -60,7 +60,7 @@ function OrderHistory() {
         <p style={{ color: '#777' }}>You haven't placed any orders yet.</p>
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-          {orders.map((order) => (
+          {orders.slice(0, 10).map((order) => (
             <div 
               key={order.id}
               onClick={() => navigate(`/orders/${order.id}`)} // Changes the URL dynamically to /orders/<id>
