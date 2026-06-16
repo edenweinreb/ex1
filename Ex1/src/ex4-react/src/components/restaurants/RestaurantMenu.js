@@ -10,8 +10,10 @@ function RestaurantMenu() {
   const [cart, setCart] = useState([]);
 
   const [currentUser] = useState(() => {
-    const savedUser = localStorage.getItem('user');
-    return savedUser ? JSON.parse(savedUser) : null;
+    return {
+      role: localStorage.getItem('role'),
+      token: localStorage.getItem('token')
+       };
   });
 
   useEffect(() => {
@@ -133,7 +135,7 @@ function RestaurantMenu() {
             </div>
             
             {/* Delete Button - Only visible if user is admin */}
-            {currentUser?.isAdmin && (
+            {currentUser?.role === 'owner' && (
               <button 
                 onClick={handleDeleteRestaurant}
                 style={{ padding: '10px 15px', backgroundColor: '#ff4d4d', color: 'white', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: 'bold' }}
