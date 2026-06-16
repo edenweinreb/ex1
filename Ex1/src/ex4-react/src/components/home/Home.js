@@ -135,7 +135,7 @@ function Home() {
       <h3>Available Restaurants</h3>
       {sortedRestaurants.length === 0 ? <p>No restaurants found matching your criteria.</p> : (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px' }}>
-          {sortedRestaurants.map(r => (
+          {sortedRestaurants.slice(0, 30).map(r => (
             <div key={r.id} onClick={() => navigate(`/restaurants/${r.id}`)} style={{ border: '1px solid #eee', padding: '15px', borderRadius: '12px', cursor: 'pointer', backgroundColor: '#fff' }} >
               <h4>{r.name}</h4>
               <p>{r.description}</p>

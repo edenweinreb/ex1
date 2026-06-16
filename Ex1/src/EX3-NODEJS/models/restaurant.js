@@ -10,7 +10,8 @@ class Restaurant {
     this.cuisineType = cuisineType;
     this.lat = lat;          
     this.lng = lng;          
-    this.rating = rating || 0;
+    this.ratings = [];
+    this.averageRating = 0;
   }
 }
 
