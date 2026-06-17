@@ -14,6 +14,10 @@ function Register() {
   const [error, setError] = useState('');
   // default is regular user
   const [role, setRole] = useState('user'); 
+
+  // User's home location, used to calculate distance to restaurants
+  const [lat, setLat] = useState('');
+  const [lng, setLng] = useState('');
  
   const fileInputRef = useRef(null);
  
@@ -30,7 +34,7 @@ function Register() {
     setError('');
  
     // Basic validation
-    if (!username || !displayName || !password || !verifyPassword || !profilePic) {
+    if (!username || !displayName || !password || !verifyPassword || !profilePic|| !lat || !lng) {
       setError('All fields are required.');
       return;
     }
@@ -54,6 +58,7 @@ function Register() {
             password,
             displayName,
             profilePic: reader.result,
+            role, lat, lng,
           }),
         });
  
