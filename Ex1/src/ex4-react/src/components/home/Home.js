@@ -89,25 +89,24 @@ function Home() {
   });
 
   return (
-    <div style={{ padding: '20px', fontFamily: 'sans-serif' }}>
-      
+    <div className="home-container">      
       <h2>Restaurants</h2>
       
-      <div style={{ display: 'flex', gap: '15px', marginBottom: '30px', alignItems: 'center' }}>
+      <div className="home-controls">
         {/* Search Input Field */}
         <input
           type="text"
           placeholder="Search for a restaurant..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          style={{ padding: '10px', width: '300px', borderRadius: '20px', border: '1px solid #ccc' }}
+          className="home-search-input"
         />
 
         {/* Dropdown Menu for sorting functionality */}
         <select 
           value={sortBy} 
           onChange={(e) => setSortBy(e.target.value)}
-          style={{ padding: '10px', borderRadius: '20px', border: '1px solid #ccc', backgroundColor: '#fff', cursor: 'pointer' }}
+          className="home-sort-select"
         >
           <option value="distance">Sort by: Nearby</option>
           <option value="rating">Sort by: Highest Rating</option>
@@ -115,19 +114,19 @@ function Home() {
       </div>
 
       {/* Visual UI Categories (Horizontal scrollable circle list) */}
-      <div style={{ display: 'flex', gap: '20px', overflowX: 'auto', paddingBottom: '20px', marginBottom: '30px' }}>
+      <div className="home-categories">
         {categories.map((cat) => (
           <div 
             key={cat.type} 
             onClick={() => setSelectedCuisine(selectedCuisine === cat.type ? '' : cat.type)}
-            style={{ textAlign: 'center', cursor: 'pointer', opacity: selectedCuisine && selectedCuisine !== cat.type ? 0.5 : 1 }}
+            className={`category-item ${selectedCuisine && selectedCuisine !== cat.type ? 'faded' : ''}`}
           >
             <img 
               src={cat.img} 
               alt={cat.name} 
-              style={{ width: '80px', height: '80px', borderRadius: '50%', objectFit: 'cover', border: selectedCuisine === cat.type ? '3px solid #333' : '1px solid #eee' }} 
+              className={`category-img ${selectedCuisine === cat.type ? 'active' : ''}`}
             />
-            <div style={{ marginTop: '8px', fontSize: '14px' }}>{cat.name}</div>
+            <div className="category-name">{cat.name}</div>
           </div>
         ))}
       </div>
@@ -135,12 +134,12 @@ function Home() {
       {/* Dynamic Render Section displaying the filtered and sorted restaurants */}
       <h3>Available Restaurants</h3>
       {sortedRestaurants.length === 0 ? <p>No restaurants found matching your criteria.</p> : (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px' }}>
+        <div className="home-restaurants-grid">
           {sortedRestaurants.slice(0, 30).map(r => (
-            <div key={r.id} onClick={() => navigate(`/restaurants/${r.id}`)} style={{ border: '1px solid #eee', padding: '15px', borderRadius: '12px', cursor: 'pointer', backgroundColor: '#fff' }} >
+            <div key={r.id} onClick={() => navigate(`/restaurants/${r.id}`)} className="restaurant-card">
               <h4>{r.name}</h4>
               <p>{r.description}</p>
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '10px', fontSize: '13px', color: '#555' }}>
+              <div className="restaurant-card-footer">
                 <span>⭐ {r.rating} ★</span>
                 <span>📍 Distance score: {r.distance !== Infinity ? r.distance.toFixed(4) : 'N/A'}</span>
               </div>

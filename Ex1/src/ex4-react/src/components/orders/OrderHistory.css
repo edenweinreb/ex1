@@ -1,0 +1,106 @@
+.history-container {
+    padding: 30px;
+    font-family: sans-serif;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .history-title {
+    font-size: 28px;
+    margin-bottom: 25px;
+    color: #1e272e;
+  }
+  
+  .empty-history {
+    color: #777;
+  }
+  
+  .history-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .history-card {
+    border: 1px solid #e6e6e6;
+    border-radius: 12px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    cursor: pointer;
+    transition: transform 0.2s;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .history-card:hover {
+    transform: scale(1.01);
+  }
+  
+  .history-card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .status-badge {
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+  
+  .status-badge.pending {
+    background-color: #f1c40f;
+  }
+  
+  .status-badge.completed {
+    background-color: #2ecc71;
+  }
+  
+  .order-id {
+    font-weight: bold;
+    font-size: 18px;
+    margin-top: 10px;
+    color: #2c3e50;
+  }
+  
+  .order-date {
+    color: #999;
+  }
+  
+  .order-price {
+    font-size: 20px;
+    font-weight: bold;
+    color: #1e272e;
+  }
+  
+  .rating-section {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #e0e0e0;
+  }
+  
+  .rating-title {
+    font-size: 14px;
+    color: #555;
+    font-weight: bold;
+  }
+  
+  .rating-stars {
+    display: flex;
+    gap: 5px;
+    margin-top: 5px;
+  }
+  
+  .star-icon {
+    cursor: pointer;
+    font-size: 24px;
+    color: #ccc;
+    transition: color 0.2s;
+  }
+  
+  .star-icon:hover {
+    color: #FFD700;
+  }
