@@ -92,8 +92,8 @@ function OrderHistory() {
                       key={star} 
                       onClick={(e) => rateRestaurant(e, order.restaurantId, star)}
                       className="star-icon"
-                      onMouseEnter={(e) => e.target.style.color = '#FFD700'}
-                      onMouseLeave={(e) => e.target.style.color = '#ccc'}
+                      //onMouseEnter={(e) => e.target.style.color = '#FFD700'}
+                      //onMouseLeave={(e) => e.target.style.color = '#ccc'}
                     >
                       ★
                     </span>
