@@ -35,7 +35,7 @@ function Register() {
     setError('');
  
     // Basic validation
-    if (!username || !displayName || !password || !verifyPassword || !profilePic|| !lat || !lng) {
+    if (!username || !displayName || !password || !verifyPassword || !profilePic|| !lat || !lng || !address) {
       setError('All fields are required.');
       return;
     }
@@ -55,9 +55,9 @@ function Register() {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            username,
+            name: username,
             password,
-            name: displayName,
+            displayName,
             profilePic: reader.result,
             role, 
             lat: Number(lat),
