@@ -24,7 +24,7 @@ function OrderHistory() {
   }, [currentUser]);
 
 
-  const rateRestaurant = (restaurantId, score) => {
+  const rateRestaurant = (e, restaurantId, score) => {
     e.stopPropagation(); // Prevents going to the order details page when clicking on a star
 
     fetch(`http://localhost:3000/api/restaurants/${restaurantId}`, {
