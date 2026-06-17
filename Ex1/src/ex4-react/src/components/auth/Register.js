@@ -57,11 +57,12 @@ function Register() {
           body: JSON.stringify({
             username,
             password,
-            displayName,
+            name: displayName,
             profilePic: reader.result,
             role, 
             lat: Number(lat),
-            lng: Number(lng)
+            lng: Number(lng),
+            address
           }),
         });
  
@@ -143,6 +144,14 @@ function Register() {
             value={lng}
             onChange={(e) => setLng(e.target.value)}
           />
+
+          <input
+            type="text"
+            placeholder="Address"
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
+          />
+
           <select value={role} onChange={(e) => setRole(e.target.value)}>
             <option value="user">Regular User</option>
             <option value="owner">Restaurant Owner</option>
