@@ -1,4 +1,5 @@
 const userModel = require('../models/userModel');
+const jwt = require('jsonwebtoken');
 
 const registerUser = (req, res) => {
     if (!req.body) {
@@ -13,6 +14,14 @@ const registerUser = (req, res) => {
 
     if (!userData.name || !userData.password || !userData.address) {
         return res.status(400).json({ error: "Name, password, and address are required" });
+    }
+
+    if (!userData.role || !['user', 'owner'].includes(userData.role)) {
+        return res.status(400).json({ error: "Role must be 'user' or 'owner'" });
+    }
+
+    if (userData.lat === undefined || userData.lng === undefined) {
+        return res.status(400).json({ error: "Latitude and longitude are required" });
     }
 
     const newUser = userModel.createUser(userData);
@@ -51,7 +60,16 @@ const loginUser = (req, res) => {
         return res.status(404).json({ error: "Invalid username or password" }); 
     }
 
-    res.status(200).json({ id: user.id });
+    // Create JWT including role so protected routes can check permissions
+    const token = jwt.sign({ id: user.id, role: user.role }, key);
+ 
+    // Return token + role + lat/lng so the client can save them
+    res.status(200).json({
+        token,
+        role: user.role,
+        lat: user.lat,
+        lng: user.lng
+    });
 };
 
 module.exports = {
