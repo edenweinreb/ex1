@@ -1,5 +1,10 @@
+//const express = require('express');
+//const app = express();
+
+const path = require('path');
 const express = require('express');
 const app = express();
+
 const port = 3000;
 
 app.disable('etag');
@@ -32,18 +37,21 @@ app.get('/api/ping', (req, res) => {
     res.json({ message: 'Server is running!' });
 });
 
-app.use((req, res) => {
+app.use('/api', (req, res) => {
     res.status(404).json({ error: "Route not found" });
-  });
+});
   
 
-  app.use((err, req, res, next) => {
+app.use(express.static(path.join(__dirname, 'build')));
+
+app.get(/.*/, (req, res) => {
+    res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
+
+app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).json({ error: "Internal Server Error" });
-  });
-
-
-
+});
 
 // Start the server
 app.listen(port, () => {

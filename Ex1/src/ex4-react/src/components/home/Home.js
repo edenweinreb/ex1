@@ -7,6 +7,7 @@ function Home() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCuisine, setSelectedCuisine] = useState('');
   const [sortBy, setSortBy] = useState('distance');
+  const navigate = useNavigate();
 
   const [currentUser] = useState(() => {
     const savedUser = localStorage.getItem('user');

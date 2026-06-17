@@ -18,6 +18,7 @@ function Register() {
   // User's home location, used to calculate distance to restaurants
   const [lat, setLat] = useState('');
   const [lng, setLng] = useState('');
+  const [address, setAddress] = useState('');
  
   const fileInputRef = useRef(null);
  
@@ -58,7 +59,9 @@ function Register() {
             password,
             displayName,
             profilePic: reader.result,
-            role, lat, lng,
+            role, 
+            lat: Number(lat),
+            lng: Number(lng)
           }),
         });
  
@@ -125,6 +128,21 @@ function Register() {
               style={{ display: 'none' }}
             />
           </div>
+            <input
+            type="number"
+            step="any"
+            placeholder="Latitude (e.g. 32.18)"
+            value={lat}
+            onChange={(e) => setLat(e.target.value)}
+          />
+ 
+          <input
+            type="number"
+            step="any"
+            placeholder="Longitude (e.g. 34.87)"
+            value={lng}
+            onChange={(e) => setLng(e.target.value)}
+          />
           <select value={role} onChange={(e) => setRole(e.target.value)}>
             <option value="user">Regular User</option>
             <option value="owner">Restaurant Owner</option>
