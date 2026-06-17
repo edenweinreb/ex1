@@ -1,5 +1,6 @@
 const userModel = require('../models/userModel');
 const jwt = require('jsonwebtoken');
+const key = process.env.JWT_SECRET || "some-secret-key";
 
 const registerUser = (req, res) => {
     if (!req.body) {

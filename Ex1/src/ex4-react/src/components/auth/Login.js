@@ -23,7 +23,7 @@ function Login() {
       const response = await fetch('/api/tokens', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ name: username, password: password }),
       });
  
       if (response.ok) {
