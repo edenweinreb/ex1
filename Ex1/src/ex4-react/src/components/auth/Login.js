@@ -28,9 +28,14 @@ function Login() {
  
       if (response.ok) {
         const data = await response.json();
+
+        console.log("Data from server:", data); // הוספנו את ההדפסה הזו
+
         // Save JWT token to localStorage
         localStorage.setItem('token', data.token);
         localStorage.setItem('role', data.role);
+
+        localStorage.setItem('user', JSON.stringify(data));
         // Redirect to home page
         navigate('/');
       } else {
