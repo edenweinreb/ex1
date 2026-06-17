@@ -11,7 +11,7 @@ This project expands on the previous exercise by introducing a dynamic React fro
 * **Form Validation:** Client-side and server-side validation are implemented for user inputs, ensuring proper data formatting (e.g., password complexity) and visual feedback before submission.
 
 ## Frontend Project Structure
-As seen in the project structure, the React application (`ex4-react`) is logically divided into modular components:
+The React application (`ex4-react`) is logically divided into modular components:
 * **`components/auth/`**: Contains `Login`, `Register`, and `ProtectedRoute` components for session management and JWT verification.
 * **`components/home/`**: Contains the main `Home` view displaying nearby and promoted restaurants.
 * **`components/layout/`**: Contains the `Header` component.
@@ -58,5 +58,8 @@ As seen in the project structure, the React application (`ex4-react`) is logical
 - Docker
 - Docker Compose
 
-### Build and run all services
-The entire application stack—including the React frontend, Node.js server, and TCP server—is containerized.
+### Execution Command
+The entire application stack—including the React frontend, Node.js server, and TCP server—is containerized. Open your terminal in the root directory of the project and run the following exact command to build and start all services:
+
+```bash
+docker-compose up --build
