@@ -46,72 +46,52 @@ function OrderHistory() {
   };
 
   return (
-    <div style={{ padding: '30px', fontFamily: 'sans-serif', maxWidth: '800px', margin: '0 auto' }}>
-      <button 
-        onClick={() => navigate('/')} 
-        style={{ marginBottom: '25px', padding: '10px 15px', borderRadius: '20px', border: '1px solid #ccc', backgroundColor: '#fff', cursor: 'pointer', fontWeight: 'bold' }}
-      >
+    <div className="history-container">
+      <button onClick={() => navigate('/')} className="back-btn">
         ← Back to Home
       </button>
 
-      <h2 style={{ fontSize: '28px', marginBottom: '25px', color: '#1e272e' }}>Your Order History</h2>
+      <h2 className="history-title">Your Order History</h2>
 
       {orders.length === 0 ? (
-        <p style={{ color: '#777' }}>You haven't placed any orders yet.</p>
+        <p className="empty-history">You haven't placed any orders yet.</p>
       ) : (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+        <div className="history-list">
           {orders.slice(0, 10).map((order) => (
             <div 
               key={order.id}
               onClick={() => navigate(`/orders/${order.id}`)} // Changes the URL dynamically to /orders/<id>
-              style={{ 
-                border: '1px solid #e6e6e6', 
-                borderRadius: '12px', 
-                padding: '20px', 
-                backgroundColor: '#f9f9f9', 
-                cursor: 'pointer',
-                transition: 'transform 0.2s',
-                display: 'flex',
-                flexDirection: 'column'
-              }}
+              className="history-card"
               onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.01)'}
               onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
             >
               
               {/* Top part: Order Info & Price */}
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div className="history-card-top">
                 <div>
-                  <span style={{ 
-                    backgroundColor: order.status === 'pending' ? '#f1c40f' : '#2ecc71', 
-                    color: '#fff', 
-                    padding: '4px 10px', 
-                    borderRadius: '20px', 
-                    fontSize: '12px', 
-                    fontWeight: 'bold',
-                    textTransform: 'uppercase'
-                  }}>
+                <span className={`status-badge ${order.status === 'pending' ? 'pending' : 'completed'}`}>
                     {order.status}
                   </span>
-                  <div style={{ fontWeight: 'bold', fontSize: '18px', marginTop: '10px', color: '#2c3e50' }}>
+                  <div className="order-id">
                     Order #{order.id.substring(0, 8)}...
                   </div>
-                  <small style={{ color: '#999' }}>{new Date(order.createdAt).toLocaleDateString()}</small>
+                  <small className="order-date">{new Date(order.createdAt).toLocaleDateString()}</small>
                 </div>
 
-                <div style={{ fontSize: '20px', fontWeight: 'bold', color: '#1e272e' }}>
+                <div className="order-price">
                   ₪{order.totalAmount.toFixed(2)}
                 </div>
               </div>
 
               {/* Bottom part: Rating */}
-              <div style={{ marginTop: '15px', paddingTop: '15px', borderTop: '1px solid #e0e0e0' }} onClick={(e) => e.stopPropagation()}>
-                <span style={{ fontSize: '14px', color: '#555', fontWeight: 'bold' }}>Rate the restaurant:</span>
-                <div style={{ display: 'flex', gap: '5px', marginTop: '5px' }}>
+              <div className="rating-section" onClick={(e) => e.stopPropagation()}>
+                <span className="rating-title">Rate the restaurant:</span>
+                <div className="rating-stars">
                   {[1, 2, 3, 4, 5].map(star => (
                     <span 
                       key={star} 
                       onClick={(e) => rateRestaurant(e, order.restaurantId, star)}
-                      style={{ cursor: 'pointer', fontSize: '24px', color: '#ccc', transition: 'color 0.2s' }}
+                      className="star-icon"
                       onMouseEnter={(e) => e.target.style.color = '#FFD700'}
                       onMouseLeave={(e) => e.target.style.color = '#ccc'}
                     >

@@ -107,30 +107,25 @@ function RestaurantMenu() {
 
     
     return (
-      <div style={{ padding: '20px', fontFamily: 'sans-serif', display: 'flex', gap: '30px', direction: 'ltr' }}>
-        
-        {/* Main Left/Center Section: Restaurant Header & Menu Items Grid */}
-        <div style={{ flex: 2 }}>
-          <button 
-            onClick={() => navigate('/')} 
-            style={{ marginBottom: '25px', padding: '10px 15px', borderRadius: '20px', border: '1px solid #ccc', backgroundColor: '#fff', cursor: 'pointer', fontWeight: 'bold' }}
-          >
-            ← Back to Restaurants
-          </button>
+      <div className="menu-container">
+      
+      <div className="menu-main">
+        <button onClick={() => navigate('/')} className="back-btn">
+          ← Back to Restaurants
+        </button>
   
           {/* Main Header Area: Info, Rating, and Admin Delete */}
-          <div style={{ marginBottom: '30px', borderBottom: '1px solid #eee', paddingBottom: '25px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+          <div className="restaurant-header">
             <div>
               {/* Title and Average Rating Badge */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: '15px', marginBottom: '10px' }}>
-                <h2 style={{ margin: 0, fontSize: '32px' }}>{restaurant.name}</h2>
-                
-                <span style={{ backgroundColor: '#f8f8f8', padding: '5px 12px', borderRadius: '15px', fontWeight: 'bold', fontSize: '16px', color: '#333' }}>
+              <div className="restaurant-title-row">
+              <h2 className="restaurant-title">{restaurant.name}</h2>
+              <span className="restaurant-rating">
                   {restaurant.averageRating ? restaurant.averageRating.toFixed(1) : 'New'} 😊
                 </span>
               </div>
               
-              <p style={{ color: '#666', margin: '0 0 5px 0', fontSize: '16px' }}>{restaurant.description}</p>
+              <p className="restaurant-desc">{restaurant.description}</p>
               <small style={{ color: '#999', fontSize: '14px', display: 'block', marginBottom: '15px' }}>📍 {restaurant.address} | 📞 {restaurant.phone}</small>
             </div>
             
@@ -138,8 +133,7 @@ function RestaurantMenu() {
             {currentUser?.role === 'owner' && (
               <button 
                 onClick={handleDeleteRestaurant}
-                style={{ padding: '10px 15px', backgroundColor: '#ff4d4d', color: 'white', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: 'bold' }}
-              >
+                className="delete-btn">
                 Delete Restaurant
               </button>
             )}
@@ -149,17 +143,17 @@ function RestaurantMenu() {
           {products.length === 0 ? (
             <p style={{ color: '#777' }}>No menu items available for this restaurant yet.</p>
           ) : (
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '20px' }}>
+            <div className="menu-grid">
               {/* Limit to 10 products */}
               {products.slice(0, 10).map((item) => (
-                <div key={item.id} style={{ border: '1px solid #e6e6e6', padding: '20px', borderRadius: '12px', backgroundColor: '#f9f9f9', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                <div key={item.id} className="menu-item-card">
                   <div>
-                    <h4 style={{ margin: '0 0 8px 0', fontSize: '18px' }}>{item.name}</h4>
-                    <p style={{ color: '#666', fontSize: '14px', margin: '0 0 15px 0', lineHeight: '1.4' }}>{item.description}</p>
+                    <h4 className="item-name">{item.name}</h4>
+                    <p className="item-desc">{item.description}</p>
                   </div>
                   
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <span style={{ fontWeight: 'bold', fontSize: '16px', color: '#2c3e50' }}>₪{item.price}</span>
+                  <div className="item-footer">
+                    <span className="item-price">₪{item.price}</span>
                     <button 
                       onClick={() => addToCart(item)}
                       style={{ padding: '8px 16px', borderRadius: '8px', border: 'none', backgroundColor: '#000', color: '#fff', cursor: 'pointer', fontWeight: 'bold' }}
@@ -174,47 +168,31 @@ function RestaurantMenu() {
         </div>
   
         {/* Right Sidebar Section: Shopping Cart (Wolt-like UI) */}
-        <div style={{ flex: 1, borderLeft: '1px solid #eee', paddingLeft: '20px', minWidth: '320px', display: 'flex', flexDirection: 'column', height: '80vh', position: 'relative' }}>
+        <div className="cart-sidebar">
           
           {/* Header */}
-          <div style={{ borderBottom: '1px solid #eee', paddingBottom: '15px', marginBottom: '15px' }}>
-            <h3 style={{ fontSize: '22px', margin: 0, fontWeight: 'bold', color: '#1e272e' }}>Your Order</h3>
+          <div className="cart-header">
+            <h3 className="cart-title">Your Order</h3>
           </div>
   
           {/* Cart Items List */}
-          <div style={{ flex: 1, overflowY: 'auto', paddingBottom: '80px' }}>
+          <div className="cart-items-container">
             {cart.length === 0 ? (
-              <p style={{ color: '#777', textAlign: 'center', marginTop: '40px' }}>Your cart is empty</p>
+              <p className="empty-cart">Your cart is empty</p>
             ) : (
-              <ul style={{ listStyleType: 'none', padding: 0, margin: 0 }}>
+              <ul className="cart-list">
                 {cart.map((item) => (
-                  <li key={item.id} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px', paddingBottom: '15px', borderBottom: '1px solid #f9f9f9' }}>
+                  <li key={item.id} className="cart-item">
                     
-                    {/* Left part (in LTR): Quantity badge & Item Details */}
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-                      <div style={{ 
-                        width: '35px', 
-                        height: '35px', 
-                        borderRadius: '50%', 
-                        border: '1px solid #ccc', 
-                        display: 'flex', 
-                        alignItems: 'center', 
-                        justifyContent: 'center', 
-                        fontWeight: 'bold', 
-                        color: '#2c3e50',
-                        backgroundColor: '#fff'
-                      }}>
-                        {item.quantity}
-                      </div>
-                      <div>
-                        <div style={{ fontWeight: 'bold', fontSize: '16px', color: '#1e272e' }}>{item.name}</div>
-                        <small style={{ color: '#777', fontSize: '13px' }}>{item.description ? item.description.substring(0, 40) + '...' : ''}</small>
-                      </div>
+                    <div className="cart-item-left">
+                    <div className="cart-item-qty">{item.quantity}</div>
+                    <div>
+                      <div className="cart-item-name">{item.name}</div>
+                      <small className="cart-item-desc">{item.description ? item.description.substring(0, 40) + '...' : ''}</small>
                     </div>
-  
-                    {/* Right part (in LTR): Price */}
-                    <div style={{ fontWeight: '600', fontSize: '15px', color: '#2c3e50' }}>
-                      ₪{(item.price * item.quantity).toFixed(2)}
+                  </div>
+                  <div className="cart-item-price">
+                     ₪{(item.price * item.quantity).toFixed(2)}
                     </div>
   
                   </li>
@@ -225,28 +203,11 @@ function RestaurantMenu() {
   
           {/* Bottom Floating Checkout Button */}
           {cart.length > 0 && (
-            <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, backgroundColor: '#fff', paddingTop: '10px' }}>
-              <button 
-                onClick={handleCheckout} 
-                style={{ 
-                  width: '100%', 
-                  backgroundColor: '#56ccf2', 
-                  color: '#fff', 
-                  border: 'none', 
-                  borderRadius: '12px', 
-                  padding: '15px 20px', 
-                  fontSize: '18px', 
-                  fontWeight: 'bold', 
-                  cursor: 'pointer',
-                  display: 'flex', 
-                  justifyContent: 'space-between', 
-                  alignItems: 'center',
-                  boxShadow: '0 4px 12px rgba(86, 204, 242, 0.3)'
-                }}
-              >
-                <span style={{ fontSize: '16px', backgroundColor: 'rgba(255,255,255,0.2)', padding: '4px 10px', borderRadius: '20px' }}>
-                  {cart.reduce((sum, item) => sum + item.quantity, 0)}
-                </span>
+          <div className="checkout-wrapper">
+            <button onClick={handleCheckout} className="checkout-btn">
+              <span className="checkout-qty-badge">
+                {cart.reduce((sum, item) => sum + item.quantity, 0)}
+              </span>
                 <span>Go to Checkout</span>
                 <span>₪{calculateTotal().toFixed(2)}</span>
               </button>

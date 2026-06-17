@@ -1,0 +1,246 @@
+.menu-loading {
+    padding: 20px;
+  }
+  
+  .menu-container {
+    padding: 20px;
+    font-family: sans-serif;
+    display: flex;
+    gap: 30px;
+    direction: ltr;
+  }
+  
+  .menu-main {
+    flex: 2;
+  }
+  
+  .restaurant-header {
+    margin-bottom: 30px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  
+  .restaurant-title-row {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 10px;
+  }
+  
+  .restaurant-title {
+    margin: 0;
+    font-size: 32px;
+  }
+  
+  .restaurant-rating {
+    background-color: #f8f8f8;
+    padding: 5px 12px;
+    border-radius: 15px;
+    font-weight: bold;
+    font-size: 16px;
+    color: #333;
+  }
+  
+  .restaurant-desc {
+    color: #666;
+    margin: 0 0 5px 0;
+    font-size: 16px;
+  }
+  
+  .restaurant-meta {
+    color: #999;
+    font-size: 14px;
+    display: block;
+    margin-bottom: 15px;
+  }
+  
+  .delete-btn {
+    padding: 10px 15px;
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+  .menu-title {
+    font-size: 22px;
+    margin-bottom: 20px;
+  }
+  
+  .empty-menu {
+    color: #777;
+  }
+  
+  .menu-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+  
+  .menu-item-card {
+    border: 1px solid #e6e6e6;
+    padding: 20px;
+    border-radius: 12px;
+    background-color: #f9f9f9;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  .item-name {
+    margin: 0 0 8px 0;
+    font-size: 18px;
+  }
+  
+  .item-desc {
+    color: #666;
+    font-size: 14px;
+    margin: 0 0 15px 0;
+    line-height: 1.4;
+  }
+  
+  .item-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .item-price {
+    font-weight: bold;
+    font-size: 16px;
+    color: #2c3e50;
+  }
+  
+  .add-btn {
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: none;
+    background-color: #000;
+    color: #fff;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+  .cart-sidebar {
+    flex: 1;
+    border-left: 1px solid #eee;
+    padding-left: 20px;
+    min-width: 320px;
+    display: flex;
+    flex-direction: column;
+    height: 80vh;
+    position: relative;
+  }
+  
+  .cart-header {
+    border-bottom: 1px solid #eee;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+  }
+  
+  .cart-title {
+    font-size: 22px;
+    margin: 0;
+    font-weight: bold;
+    color: #1e272e;
+  }
+  
+  .cart-items-container {
+    flex: 1;
+    overflow-y: auto;
+    padding-bottom: 80px;
+  }
+  
+  .empty-cart {
+    color: #777;
+    text-align: center;
+    margin-top: 40px;
+  }
+  
+  .cart-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .cart-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #f9f9f9;
+  }
+  
+  .cart-item-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+  
+  .cart-item-qty {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    border: 1px solid #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: #2c3e50;
+    background-color: #fff;
+  }
+  
+  .cart-item-name {
+    font-weight: bold;
+    font-size: 16px;
+    color: #1e272e;
+  }
+  
+  .cart-item-desc {
+    color: #777;
+    font-size: 13px;
+  }
+  
+  .cart-item-price {
+    font-weight: 600;
+    font-size: 15px;
+    color: #2c3e50;
+  }
+  
+  .checkout-wrapper {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #fff;
+    padding-top: 10px;
+  }
+  
+  .checkout-btn {
+    width: 100%;
+    background-color: #56ccf2;
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    padding: 15px 20px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 12px rgba(86, 204, 242, 0.3);
+  }
+  
+  .checkout-qty-badge {
+    font-size: 16px;
+    background-color: rgba(255,255,255,0.2);
+    padding: 4px 10px;
+    border-radius: 20px;
+  }
