@@ -21,16 +21,13 @@ function RestaurantMenu() {
     if (id) {
       // Gets the restaurant details (name, description, address)
       fetch(`http://localhost:3000/api/restaurants/${id}`)
-        .then(res => res.json())
-        .then(data => setRestaurant(data))
+      .then(res => res.json())
+       .then(data => {
+          setRestaurant(data);
+          setProducts(data.menu || []); 
+        })
         .catch(err => console.error(err));
-
-      // Brings the products of that restaurant
-      fetch(`http://localhost:3000/api/restaurants/${id}/products`)
-        .then(res => res.json())
-        .then(data => setProducts(data))
-        .catch(err => console.error(err));
-    }
+      }
   }, [id]);
 
   // Protection in case the data from the server is still loading
