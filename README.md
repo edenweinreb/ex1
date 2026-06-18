@@ -62,4 +62,25 @@ The React application (`ex4-react`) is logically divided into modular components
 The entire application stack—including the React frontend, Node.js server, and TCP server—is containerized. Open your terminal in the root directory of the project and run the following exact command to build and start all services:
 
 ```bash
+# Build and start all containers
 docker-compose up --build
+```
+
+### Accessing the Application
+According to the project requirements, the Node.js web server directly serves the React application upon accessing its home page. 
+
+Once the Docker containers are successfully running, open your web browser and navigate to the server's root address:
+
+```text
+http://localhost:3000
+```
+<img width="2560" height="1440" alt="image" src="https://github.com/user-attachments/assets/b8ab3bcf-63e9-422f-81f6-9ef271888de7" />
+<img width="2560" height="1440" alt="image" src="https://github.com/user-attachments/assets/604a4089-8a8f-4f0a-9066-b5cf67a2be34" />
+<img width="2560" height="1440" alt="image" src="https://github.com/user-attachments/assets/2305191a-056e-434b-ae34-80e539a584c2" />
+<img width="2560" height="1440" alt="image" src="https://github.com/user-attachments/assets/46e4fefb-5117-40c9-a940-0de75ee6d7f6" />
+<img width="2560" height="1440" alt="image" src="https://github.com/user-attachments/assets/8ed64eb3-5c35-47a2-8c17-e955f38f4f89" />
+<img width="2560" height="1440" alt="image" src="https://github.com/user-attachments/assets/875b3ddb-b67c-459b-878c-5ab840d52ae3" />
+
+
+
+
