@@ -75,11 +75,11 @@ Once the Docker containers are successfully running, open your web browser and n
 http://localhost:3000
 ```
 <img width="812" height="376" alt="image" src="https://github.com/user-attachments/assets/e6377e66-c119-44de-a5da-e73e47629226" />
-<img width="2560" height="1440" alt="image" src="https://github.com/user-attachments/assets/604a4089-8a8f-4f0a-9066-b5cf67a2be34" />
-<img width="2560" height="1440" alt="image" src="https://github.com/user-attachments/assets/2305191a-056e-434b-ae34-80e539a584c2" />
-<img width="2560" height="1440" alt="image" src="https://github.com/user-attachments/assets/46e4fefb-5117-40c9-a940-0de75ee6d7f6" />
-<img width="2560" height="1440" alt="image" src="https://github.com/user-attachments/assets/8ed64eb3-5c35-47a2-8c17-e955f38f4f89" />
-<img width="2560" height="1440" alt="image" src="https://github.com/user-attachments/assets/875b3ddb-b67c-459b-878c-5ab840d52ae3" />
+<img width="814" height="383" alt="image" src="https://github.com/user-attachments/assets/8e6d42b8-e571-4229-8749-42c4cbf7146d" />
+<img width="815" height="386" alt="image" src="https://github.com/user-attachments/assets/b711f3ad-45ed-4a20-96a4-89172cab803b" />
+<img width="817" height="390" alt="image" src="https://github.com/user-attachments/assets/3d7ff925-cc0f-4f63-9de1-7a4709508218" />
+<img width="825" height="384" alt="image" src="https://github.com/user-attachments/assets/128d15f0-93eb-4da3-b9d7-4f1783f57fc4" />
+<img width="863" height="377" alt="image" src="https://github.com/user-attachments/assets/3d140e6e-c0c3-4144-a201-2e52a7194cc2" />
 
 
 
