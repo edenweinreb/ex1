@@ -74,7 +74,7 @@ Once the Docker containers are successfully running, open your web browser and n
 ```text
 http://localhost:3000
 ```
-<img width="2560" height="1440" alt="image" src="https://github.com/user-attachments/assets/b8ab3bcf-63e9-422f-81f6-9ef271888de7" />
+<img width="812" height="376" alt="image" src="https://github.com/user-attachments/assets/e6377e66-c119-44de-a5da-e73e47629226" />
 <img width="2560" height="1440" alt="image" src="https://github.com/user-attachments/assets/604a4089-8a8f-4f0a-9066-b5cf67a2be34" />
 <img width="2560" height="1440" alt="image" src="https://github.com/user-attachments/assets/2305191a-056e-434b-ae34-80e539a584c2" />
 <img width="2560" height="1440" alt="image" src="https://github.com/user-attachments/assets/46e4fefb-5117-40c9-a940-0de75ee6d7f6" />
