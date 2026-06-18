@@ -116,9 +116,9 @@ function Register() {
             onChange={(e) => setVerifyPassword(e.target.value)}
           />
  
-          <div className="pic-row">
+          <div className="file-upload-wrapper">
             {previewUrl && <img src={previewUrl} alt="Preview" className="pic-preview" />}
-            <button type="button" onClick={() => fileInputRef.current.click()}>
+            <button type="button" className="btn-upload-custom" onClick={() => fileInputRef.current.click()}>
               {previewUrl ? 'Change Photo' : 'Upload Photo'}
             </button>
             <input

@@ -13,10 +13,20 @@ import OrderDetail from './components/orders/OrderDetail';
 
 
 function App() {
+  const [user, setUser] = React.useState(() => {
+    const savedUser = localStorage.getItem('user');
+    return savedUser ? JSON.parse(savedUser) : null;
+  });
+
+  const handleLogout = () => {
+    localStorage.clear();
+    setUser(null);
+    window.location.href = '/login';
+  };
   return (
     <BrowserRouter>
       {/* Top navigation rendered on every page */}
-      <Header />
+      <Header currentUser={user} onLogout={handleLogout} />
 
       {/* SPA route definitions */}
       <Routes>

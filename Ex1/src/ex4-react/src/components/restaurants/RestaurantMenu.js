@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import './RestaurantMenu.css';
 
 function RestaurantMenu() {
   const { id } = useParams(); // Automatically extracts the ID from the URL

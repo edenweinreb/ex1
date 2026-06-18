@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import RestaurantMenu from '../restaurants/RestaurantMenu';
 import { useNavigate } from 'react-router-dom';
+import './Home.css';
 
 function Home() {
   const [restaurants, setRestaurants] = useState([]);
@@ -141,7 +142,9 @@ function Home() {
               <p>{r.description}</p>
               <div className="restaurant-card-footer">
                 <span>⭐ {r.rating} ★</span>
-                <span>📍 Distance score: {r.distance !== Infinity ? r.distance.toFixed(4) : 'N/A'}</span>
+                <span style={{ color: '#888', fontWeight: '500' }}>
+                  📍 {r.distance !== Infinity ? `${r.distance.toFixed(1)} km` : 'N/A'}
+                </span>
               </div>
             </div>
           ))}
