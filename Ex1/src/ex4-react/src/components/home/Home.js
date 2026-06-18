@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import RestaurantMenu from '../restaurants/RestaurantMenu';
 import { useNavigate } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import './Home.css';
 
 function Home() {
@@ -9,11 +10,21 @@ function Home() {
   const [selectedCuisine, setSelectedCuisine] = useState('');
   const [sortBy, setSortBy] = useState('distance');
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
 
   const [currentUser] = useState(() => {
     const savedUser = localStorage.getItem('user');
     return savedUser ? JSON.parse(savedUser) : null;
   });
+
+  useEffect(() => {
+    const query = searchParams.get('search');
+    if (query !== null) {
+      setSearchTerm(query);
+    } else {
+      setSearchTerm('');
+    }
+  }, [searchParams]);
 
 
   // Mathematical function to calculate distance using coordinates (Pythagoras)
@@ -98,17 +109,8 @@ function Home() {
 
   return (
     <div className="home-container">      
-      <h2>Restaurants</h2>
-      
-      <div className="home-controls">
-        {/* Search Input Field */}
-        <input
-          type="text"
-          placeholder="Search for a restaurant..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="home-search-input"
-        />
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '25px' }}>
+        <h2 style={{ margin: 0 }}>Restaurants</h2>
 
         {/* Dropdown Menu for sorting functionality */}
         <select 

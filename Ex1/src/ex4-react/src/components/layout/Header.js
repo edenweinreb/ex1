@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Link} from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import "./Header.css";
 
 function Header({ currentUser, onLogout }) {
@@ -10,17 +10,25 @@ function Header({ currentUser, onLogout }) {
   // Manage application theme state
   const [isDarkMode, setIsDarkMode] = useState(false);
 
-
+  const navigate = useNavigate();
 
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
   };
 
-  const handleFocusSearch = () => {
-    if (searchInputRef.current) {
-      searchInputRef.current.focus();
-    }
-  };
+ const handleSearchSubmit = () => {
+  if (searchQuery.trim()) {
+    navigate(`/?search=${encodeURIComponent(searchQuery)}`);
+  } else {
+    navigate('/');
+  }
+};
+
+const handleKeyDown = (e) => {
+  if (e.key === 'Enter') {
+    handleSearchSubmit();
+  }
+};
 
   const toggleTheme = () => {
     setIsDarkMode((prevMode) => {
@@ -49,9 +57,10 @@ function Header({ currentUser, onLogout }) {
           ref={searchInputRef} 
           value={searchQuery} 
           onChange={handleSearchChange} 
+          onKeyDown={handleKeyDown}
           placeholder="Search restaurants..." 
         />
-        <button className="btn-search" onClick={handleFocusSearch}>Search</button>
+        <button className="btn-search" onClick={handleSearchSubmit}>Search</button>
       </div>
 
       {/* 3. User Controls & Theme */}
