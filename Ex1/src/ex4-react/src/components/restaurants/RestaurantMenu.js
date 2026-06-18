@@ -11,10 +11,8 @@ function RestaurantMenu() {
   const [cart, setCart] = useState([]);
 
   const [currentUser] = useState(() => {
-    return {
-      role: localStorage.getItem('role'),
-      token: localStorage.getItem('token')
-       };
+    const savedUser = localStorage.getItem('user');
+    return savedUser ? JSON.parse(savedUser) : null;
   });
 
   useEffect(() => {
@@ -96,6 +94,7 @@ function RestaurantMenu() {
         if (res.status === 201) {
           alert('Order placed successfully!');
           setCart([]); // Clear the cart state upon success
+          navigate('/history');
         } else {
           alert('Failed to place order.');
         }

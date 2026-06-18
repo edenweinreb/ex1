@@ -7,12 +7,13 @@ const { products } = require('../controllers/productController');
 // Temporary array for storing orders
 const orders = [];
 const populateOrderItems = (order) => {
+  const restaurant = restaurants.find(r => r.id === order.restaurantId);
   // Passing through the array of product IDs and replacing them with an object that includes an ID, name, and price
   const populatedItems = order.items.map(item => {
-    const product = products.find(p => p.id === item.productId);
+    const product = restaurant ? restaurant.menu.find(p => p.id === item.productId) : null;
     return product 
-        ? { id: product.id, name: product.name, price: product.price, quantity: item.quantity } 
-        : { id: item.productId, error: "Product not found", quantity: item.quantity };
+       ? { id: product.id, name: product.name, price: product.price, quantity: item.quantity }
+       : { id: item.productId, error: "Product not found", quantity: item.quantity };
 });
 
   // Returns the updated order object
@@ -42,7 +43,7 @@ const createOrder = async (req, res) => {
       //const foundItems = [];
 
       for (const item of items) {
-        const product = products.find(p => p.id === item.productId && p.restaurantId === restaurantId);
+        const product = restaurant.menu.find(p => p.id === item.productId);
         if (!product) {
             return res.status(400).json({ error: `Product ID '${item.productId}' not found in this restaurant` });
         }
