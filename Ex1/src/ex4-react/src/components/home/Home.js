@@ -141,20 +141,30 @@ function Home() {
         ))}
       </div>
 
-      {/* Dynamic Render Section displaying the filtered and sorted restaurants */}
+{/* Dynamic Render Section displaying the filtered and sorted restaurants */}
       <h3>Available Restaurants</h3>
       {sortedRestaurants.length === 0 ? <p>No restaurants found matching your criteria.</p> : (
         <div className="home-restaurants-grid">
           {sortedRestaurants.slice(0, 30).map(r => (
             <div key={r.id} onClick={() => navigate(`/restaurants/${r.id}`)} className="restaurant-card">
-              <h4>{r.name}</h4>
-              <p>{r.description}</p>
-              <div className="restaurant-card-footer">
-                <span>⭐ {r.rating} ★</span>
-                <span style={{ color: '#888', fontWeight: '500' }}>
-                  📍 {r.distance !== Infinity ? `${r.distance.toFixed(1)} km` : 'N/A'}
-                </span>
+              
+              <img 
+                src={r.image || "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600"} 
+                alt={r.name} 
+                className="restaurant-card-img" 
+              />
+              
+              <div className="restaurant-card-content">
+                <h4>{r.name}</h4>
+                <p>{r.description}</p>
+                <div className="restaurant-card-footer">
+                  <span>⭐ {r.averageRating ? r.averageRating.toFixed(1) : 'New'} ★</span>
+                  <span style={{ color: '#888', fontWeight: '500' }}>
+                    📍 {r.distance !== Infinity ? `${r.distance.toFixed(1)} km` : 'N/A'}
+                  </span>
+                </div>
               </div>
+
             </div>
           ))}
         </div>

@@ -201,10 +201,21 @@
   background-color: #ffffff;
   border: 1px solid #eee;
   border-radius: 16px;
-  padding: 24px;
+  overflow: hidden; 
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
   cursor: pointer;
   transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.restaurant-card-img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.restaurant-card-content {
+  padding: 20px; 
 }
 
 .restaurant-card:hover {
