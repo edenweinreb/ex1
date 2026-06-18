@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import RestaurantMenu from '../restaurants/RestaurantMenu';
 import { useNavigate } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
+import './Home.css';
 
 function Home() {
   const [restaurants, setRestaurants] = useState([]);
@@ -8,11 +10,21 @@ function Home() {
   const [selectedCuisine, setSelectedCuisine] = useState('');
   const [sortBy, setSortBy] = useState('distance');
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
 
   const [currentUser] = useState(() => {
     const savedUser = localStorage.getItem('user');
     return savedUser ? JSON.parse(savedUser) : null;
   });
+
+  useEffect(() => {
+    const query = searchParams.get('search');
+    if (query !== null) {
+      setSearchTerm(query);
+    } else {
+      setSearchTerm('');
+    }
+  }, [searchParams]);
 
 
   // Mathematical function to calculate distance using coordinates (Pythagoras)
@@ -63,17 +75,24 @@ function Home() {
 
   // Defined categories for the visual circle buttons (matching the provided UI design)
   const categories = [
-    { name: 'Cafes', type: 'coffee', img: 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=150' },
-    { name: 'Breakfast', type: 'breakfast', img: 'https://images.unsplash.com/photo-1525351484163-7529414344d8?w=150' },
+    { name: 'Bakery', type: 'bakery', img: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=150' },
     { name: 'Desserts', type: 'dessert', img: 'https://images.unsplash.com/photo-1551024601-bec78aea704b?w=150' },
     { name: 'Burgers', type: 'burger', img: 'https://images.unsplash.com/photo-1550547660-d9450f859349?w=150' },
-    { name: 'Pizza', type: 'pizza', img: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=150' }
+    { name: 'Pizza', type: 'pizza', img: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=150' },
+    { name: 'Middle Eastern', type: 'middle-eastern', img: 'https://images.unsplash.com/photo-1541518763669-27fef04b14ea?w=400' },
+    { name: 'Healthy', type: 'healthy', img: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=150' },
+    { name: 'Asian', type: 'asian', img: 'https://images.unsplash.com/photo-1526318896980-cf78c088247c?w=400' },
+    { name: 'Sushi', type: 'sushi', img: 'https://images.unsplash.com/photo-1579871494447-9811cf80d66c?w=150' }
+
   ];
 
   // Apply search and cuisine filters
   const filteredRestaurants = restaurants.filter(restaurant => {
-    const matchesSearch = restaurant.name.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCuisine = selectedCuisine ? restaurant.cuisineType === selectedCuisine : true;
+    const matchesSearch = restaurant.name ? restaurant.name.toLowerCase().includes(searchTerm.toLowerCase()) : false;
+    const matchesCuisine = selectedCuisine 
+      ? restaurant.cuisineType && restaurant.cuisineType.toLowerCase() === selectedCuisine.toLowerCase()
+      : true;
+      
     return matchesSearch && matchesCuisine;
   });
 
@@ -90,17 +109,8 @@ function Home() {
 
   return (
     <div className="home-container">      
-      <h2>Restaurants</h2>
-      
-      <div className="home-controls">
-        {/* Search Input Field */}
-        <input
-          type="text"
-          placeholder="Search for a restaurant..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="home-search-input"
-        />
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '25px' }}>
+        <h2 style={{ margin: 0 }}>Restaurants</h2>
 
         {/* Dropdown Menu for sorting functionality */}
         <select 
@@ -131,18 +141,30 @@ function Home() {
         ))}
       </div>
 
-      {/* Dynamic Render Section displaying the filtered and sorted restaurants */}
+{/* Dynamic Render Section displaying the filtered and sorted restaurants */}
       <h3>Available Restaurants</h3>
       {sortedRestaurants.length === 0 ? <p>No restaurants found matching your criteria.</p> : (
         <div className="home-restaurants-grid">
           {sortedRestaurants.slice(0, 30).map(r => (
             <div key={r.id} onClick={() => navigate(`/restaurants/${r.id}`)} className="restaurant-card">
-              <h4>{r.name}</h4>
-              <p>{r.description}</p>
-              <div className="restaurant-card-footer">
-                <span>⭐ {r.rating} ★</span>
-                <span>📍 Distance score: {r.distance !== Infinity ? r.distance.toFixed(4) : 'N/A'}</span>
+              
+              <img 
+                src={r.image || "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600"} 
+                alt={r.name} 
+                className="restaurant-card-img" 
+              />
+              
+              <div className="restaurant-card-content">
+                <h4>{r.name}</h4>
+                <p>{r.description}</p>
+                <div className="restaurant-card-footer">
+                  <span>⭐ {r.averageRating ? r.averageRating.toFixed(1) : 'New'} ★</span>
+                  <span style={{ color: '#888', fontWeight: '500' }}>
+                    📍 {r.distance !== Infinity ? `${r.distance.toFixed(1)} km` : 'N/A'}
+                  </span>
+                </div>
               </div>
+
             </div>
           ))}
         </div>

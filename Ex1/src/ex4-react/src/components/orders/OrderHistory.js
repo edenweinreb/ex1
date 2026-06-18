@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import './OrderHistory.css';
 
 function OrderHistory() {
   const [orders, setOrders] = useState([]);

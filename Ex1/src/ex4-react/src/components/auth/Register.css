@@ -223,3 +223,62 @@ body.dark-mode .pic-placeholder {
   background-color: #3a3a3a;
   border-color: #555;
 }
+
+.register-card input, 
+.register-card select {
+  padding: 12px 14px; 
+  border: 1.5px solid #ddd; 
+  border-radius: 8px; 
+  font-size: 0.95rem; 
+  outline: none;
+  width: 100%; 
+  box-sizing: border-box;
+  margin-bottom: 12px; 
+  transition: border-color 0.2s;
+}
+
+.register-card input:focus, 
+.register-card select:focus {
+  border-color: #00c2e8; 
+  box-shadow: 0 0 0 3px rgba(0, 194, 232, 0.1); 
+}
+
+file-upload-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 24px;
+  width: 100%;
+}
+
+.btn-upload-custom {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px;
+  background-color: #fafafa;
+  color: #00c2e8;
+  border: 2px dashed #00c2e8;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-upload-custom:hover {
+  background-color: #f0fbff;
+  border-color: #00a0be;
+  color: #00a0be;
+}
+
+body.dark-mode .btn-upload-custom {
+  background-color: #2a2a2a;
+  border-color: #00c2e8;
+}
+
+body.dark-mode .btn-upload-custom:hover {
+  background-color: #333;
+}
