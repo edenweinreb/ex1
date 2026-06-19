@@ -4,6 +4,12 @@ const crypto = require('crypto');
 const users = [];
 
 const createUser = (userData) => {
+    const existingUser = users.find(user => user.name === userData.name);
+
+    if (existingUser) {
+        throw new Error ('Username already exists');
+    }
+
     const newUser = {
         id: crypto.randomUUID(),
         ...userData

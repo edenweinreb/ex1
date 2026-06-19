@@ -70,7 +70,7 @@ function Register() {
           navigate('/login');
         } else {
           const data = await response.json();
-          setError(data.message || 'Registration failed.');
+          setError(data.error || data.message || 'Registration failed.');
         }
       };
       reader.readAsDataURL(profilePic);
