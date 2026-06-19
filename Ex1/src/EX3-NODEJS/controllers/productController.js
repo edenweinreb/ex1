@@ -42,6 +42,11 @@ const createProduct = (req, res) => {
   );
   products.push(product);
 
+  if (!restaurantExists.menu) {
+    restaurantExists.menu = [];
+  }
+  restaurantExists.menu.push(product);
+
   // Return 201 Created with Location header
   res.status(201).location(`/api/restaurants/${req.params.id}/products/${product.id}`).send();
 };

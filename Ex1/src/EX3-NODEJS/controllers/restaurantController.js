@@ -27,7 +27,7 @@ const createRestaurant = (req, res) => {
   const restaurant = new Restaurant({ name, address, description, phone, cuisineType, lat, lng });
   restaurants.push(restaurant);
   // Return 201 Created with a Location header pointing to the new restaurant
-  res.status(201).location(`/api/restaurants/${restaurant.id}`).send();
+  res.status(201).location(`/api/restaurants/${restaurant.id}`).json(restaurant);
 };
 
 // GET /api/restaurants/:id - returns a single restaurant by id
