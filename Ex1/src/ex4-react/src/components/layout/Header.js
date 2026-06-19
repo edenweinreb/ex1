@@ -16,19 +16,19 @@ function Header({ currentUser, onLogout }) {
     setSearchQuery(e.target.value);
   };
 
- const handleSearchSubmit = () => {
-  if (searchQuery.trim()) {
-    navigate(`/?search=${encodeURIComponent(searchQuery)}`);
-  } else {
-    navigate('/');
-  }
-};
+  const handleSearchSubmit = () => {
+    if (searchQuery.trim()) {
+      navigate(`/?search=${encodeURIComponent(searchQuery)}`);
+    } else {
+      navigate('/');
+    }
+  };
 
-const handleKeyDown = (e) => {
-  if (e.key === 'Enter') {
-    handleSearchSubmit();
-  }
-};
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      handleSearchSubmit();
+    }
+  };
 
   const toggleTheme = () => {
     setIsDarkMode((prevMode) => {
@@ -42,7 +42,11 @@ const handleKeyDown = (e) => {
     });
   };
 
-
+  // Wrapper function to handle logout state clear and navigation
+  const handleLogoutClick = () => {
+    onLogout(); 
+    navigate('/'); 
+  };
 
   return (
     <nav className="navbar" >
@@ -72,19 +76,39 @@ const handleKeyDown = (e) => {
 
         {/* Conditional Rendering: Check if user is logged in */}
         {currentUser ? (
-          <div className="profile-section">
+          <div className="profile-section" style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+            
+            {/* 1. Order History Link */}
+            <Link to="/history" className="btn-history" style={{ textDecoration: 'none', fontWeight: 'bold' }}>
+              Order History
+            </Link>
+
+            {/* 2. Profile Picture */}
             {currentUser.profilePic ? (
-              <img src={currentUser.profilePic} alt="Profile" className="profile-pic" />
+              <img src={currentUser.profilePic} alt="Profile" className="profile-pic" style={{ marginLeft: '10px' }} />
             ) : (
-              <div className="profile-placeholder">
+              <div className="profile-placeholder" style={{ marginLeft: '10px' }}>
                 {currentUser.name ? currentUser.name.charAt(0).toUpperCase() : 'U'}
               </div>
             )}
-            <span className="user-name">{currentUser.name || currentUser.displayName}</span>
-            <button onClick={onLogout} className="btn-logout">Logout</button>
+            
+            {/* 3. User Name */}
+            <span className="user-name" style={{ marginRight: '5px' }}>
+              {currentUser.name || currentUser.displayName}
+            </span>
+            
+            {/* 4. Logout Button */}
+            <button onClick={handleLogoutClick} className="btn-logout" style={{ marginLeft: '15px' }}>Logout</button>
+            
           </div>
         ) : (
-          <div className="profile-section">
+          <div className="profile-section" style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+            
+            {/* Guest Greeting */}
+            <span className="user-name" style={{ fontWeight: 'bold', color: 'var(--wolt-text-dark)' }}>
+              Hello, Guest
+            </span>
+
             <Link to="/login" className="btn-login-link">Login</Link>
             <Link to="/register" className="btn-register-link">Register</Link>
           </div>

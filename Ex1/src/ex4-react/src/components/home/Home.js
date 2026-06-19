@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import RestaurantMenu from '../restaurants/RestaurantMenu';
-import { useNavigate } from 'react-router-dom';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import './Home.css';
 
 function Home() {
@@ -26,54 +24,37 @@ function Home() {
     }
   }, [searchParams]);
 
-
   // Mathematical function to calculate distance using coordinates (Pythagoras)
   const calculateDistance = (lat1, lng1, lat2, lng2) => {
-    // If user is not logged in or doesn't have profile coordinates, stop and wait
-    if (!lat1 || !lng1 || !lat2 || !lng2) return Infinity; // Return Infinity if coordinates are missing
+    if (!lat1 || !lng1 || !lat2 || !lng2) return Infinity; 
     const deltaLat = lat1 - lat2;
     const deltaLng = lng1 - lng2;
     return Math.sqrt(deltaLat * deltaLat + deltaLng * deltaLng);
   };
 
-  // Fetch restaurants from the server and compute distances when currentUser is available
+  // Fetch restaurants ALWAYS (even for guests)
   useEffect(() => {
-    if (!currentUser || !currentUser.lat || !currentUser.lng) return;
-
     fetch('http://localhost:3000/api/restaurants')
       .then(res => res.json())
       .then(data => {
+        // Check if we have a logged-in user with valid coordinates
+        const hasLocation = currentUser && currentUser.lat && currentUser.lng;
+
         // Map through restaurants and inject the calculated distance score
         const restaurantsWithDistance = data.map(rest => ({
           ...rest,
-          distance: calculateDistance(currentUser.lat, currentUser.lng, rest.lat, rest.lng)
+          distance: hasLocation 
+            ? calculateDistance(currentUser.lat, currentUser.lng, rest.lat, rest.lng)
+            : Infinity
         }));
+        
         setRestaurants(restaurantsWithDistance);
       })
       .catch(err => console.error("Error fetching restaurants:", err));
   }, [currentUser]);
 
-  // If the user is not logged in at all, deny access and show a message
-  if (!currentUser) {
-    return (
-      <div style={{ padding: '40px', textAlign: 'center' }}>
-        <h2>Access Denied</h2>
-        <p>Please log in to view restaurants tailored to your profile.</p>
-      </div>
-    );
-  }
 
-  // If the user is logged in but hasn't set coordinates in their profile
-  if (!currentUser.lat || !currentUser.lng) {
-    return (
-      <div style={{ padding: '40px', textAlign: 'center' }}>
-        <h2>Missing Location Data</h2>
-        <p>Notice: No coordinates found in your profile. Please update your profile location to calculate distances.</p>
-      </div>
-    );
-  }
-
-  // Defined categories for the visual circle buttons (matching the provided UI design)
+  // Defined categories for the visual circle buttons
   const categories = [
     { name: 'Bakery', type: 'bakery', img: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=150' },
     { name: 'Desserts', type: 'dessert', img: 'https://images.unsplash.com/photo-1551024601-bec78aea704b?w=150' },
@@ -83,7 +64,6 @@ function Home() {
     { name: 'Healthy', type: 'healthy', img: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=150' },
     { name: 'Asian', type: 'asian', img: 'https://images.unsplash.com/photo-1526318896980-cf78c088247c?w=400' },
     { name: 'Sushi', type: 'sushi', img: 'https://images.unsplash.com/photo-1579871494447-9811cf80d66c?w=150' }
-
   ];
 
   // Apply search and cuisine filters
@@ -96,23 +76,32 @@ function Home() {
     return matchesSearch && matchesCuisine;
   });
 
-  // Sort the dynamic list based on the dropdown selection (sortBy)
+  // Sort the dynamic list based on the dropdown selection
   const sortedRestaurants = [...filteredRestaurants].sort((a, b) => {
     if (sortBy === 'distance') {
-      return a.distance - b.distance; // Closest first
+      return a.distance - b.distance; 
     }
     if (sortBy === 'rating') {
-      return b.rating - a.rating; // Highest rated first
+      const ratingA = a.averageRating || 0;
+      const ratingB = b.averageRating || 0;
+      return ratingB - ratingA; 
     }
     return 0;
   });
 
   return (
     <div className="home-container">      
+      
+      {/* Show a non-blocking warning ONLY if the user is logged in but missing coordinates */}
+      {currentUser && (!currentUser.lat || !currentUser.lng) && (
+        <div style={{ backgroundColor: '#fff3cd', padding: '15px', borderRadius: '5px', marginBottom: '20px', textAlign: 'center', color: '#856404' }}>
+          Notice: No coordinates found in your profile. Please update your profile to see nearby restaurants.
+        </div>
+      )}
+
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '25px' }}>
         <h2 style={{ margin: 0 }}>Restaurants</h2>
 
-        {/* Dropdown Menu for sorting functionality */}
         <select 
           value={sortBy} 
           onChange={(e) => setSortBy(e.target.value)}
@@ -123,7 +112,6 @@ function Home() {
         </select>
       </div>
 
-      {/* Visual UI Categories (Horizontal scrollable circle list) */}
       <div className="home-categories">
         {categories.map((cat) => (
           <div 
@@ -141,7 +129,6 @@ function Home() {
         ))}
       </div>
 
-{/* Dynamic Render Section displaying the filtered and sorted restaurants */}
       <h3>Available Restaurants</h3>
       {sortedRestaurants.length === 0 ? <p>No restaurants found matching your criteria.</p> : (
         <div className="home-restaurants-grid">
