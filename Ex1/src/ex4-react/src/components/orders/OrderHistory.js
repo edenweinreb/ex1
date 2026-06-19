@@ -13,8 +13,10 @@ function OrderHistory() {
   });
 
   useEffect(() => {
-    // Fetch all orders from the server
-    fetch('http://localhost:3000/api/orders', {
+    if (!currentUser || !currentUser.id) return;
+
+    // Fetch all user orders from the server
+    fetch(`http://localhost:3000/api/orders/user/${currentUser.id}`, {
       headers: {
         'x-user-id': currentUser?.id
       }

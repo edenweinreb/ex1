@@ -19,6 +19,7 @@ const populateOrderItems = (order) => {
   // Returns the updated order object
   return {
     id: order.id,
+    userId: order.userId,
     restaurantId: order.restaurantId,
     items: populatedItems,
     totalAmount: order.totalAmount,
@@ -88,6 +89,20 @@ const getOrderById = (req, res) => {
   
     res.status(200).json(populateOrderItems(order));
   };
+
+  // GET - Get all orders for a specific user
+  const getOrdersByUserId = (req, res) => {
+    const { userId } = req.params; // Get the user ID from the URL
+
+    // Find all orders that belong to this user
+    const userOrders = orders.filter(o => o.userId === userId);
+
+    // Return the complete array of orders
+    res.status(200).json(userOrders.map(populateOrderItems));
+
+    console.log("Searching history for user ID:", userId);
+    console.log("All saved orders in server:", orders);
+  };
   
   // PATCH - Update an order
   const updateOrder = (req, res) => {
@@ -124,6 +139,7 @@ const getOrderById = (req, res) => {
     createOrder,
     getOrders,
     getOrderById,
+    getOrdersByUserId,
     updateOrder,
     deleteOrder,
     orders
