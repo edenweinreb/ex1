@@ -84,7 +84,6 @@ http://localhost:3000
 <img width="1268" height="554" alt="image" src="https://github.com/user-attachments/assets/efc7a083-f563-46a2-815b-bcf324e39ec0" />
 <img width="1262" height="521" alt="image" src="https://github.com/user-attachments/assets/a8f2cb43-7434-4437-be4a-96ae260cedc3" />
 <img width="1270" height="589" alt="image" src="https://github.com/user-attachments/assets/6fab8ca4-b478-46b8-88f3-67b4f256e94d" />
-<img width="1256" height="539" alt="image" src="https://github.com/user-attachments/assets/a611fe50-287a-4f4b-92f0-e54e6eea7045" />
 
 
 
