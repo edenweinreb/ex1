@@ -25,8 +25,18 @@ const registerUser = (req, res) => {
         return res.status(400).json({ error: "Latitude and longitude are required" });
     }
 
-    const newUser = userModel.createUser(userData);
-    res.status(201).json(newUser);
+    try {
+        // Add the user
+        const newUser = userModel.createUser(userData);
+        res.status(201).json(newUser);
+    } catch (error) {
+        // Catch the specific error coming from the model
+        if (error.message === 'Username already exists') {
+            return res.status(400).json({ error: "Username already exists" });
+        }
+        // General server error if something else went wrong
+        return res.status(500).json({ error: "Internal server error" });
+    }
 };
 
 const getUser = (req, res) => {
