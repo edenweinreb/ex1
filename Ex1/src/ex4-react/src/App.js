@@ -9,6 +9,8 @@ import ProtectedRoute from './components/auth/ProtectedRoute';
 import RestaurantMenu from './components/restaurants/RestaurantMenu';
 import OrderHistory from './components/orders/OrderHistory';
 import OrderDetail from './components/orders/OrderDetail';
+import AddRestaurant from './components/restaurants/AddRestaurant';
+
 
 function App() {
   const [user, setUser] = React.useState(() => {
@@ -38,6 +40,9 @@ function App() {
         
         {/* Pass setUser to Login to allow real-time Header updates */}
         <Route path="/login" element={<Login setUser={setUser} />} />
+
+        <Route path="/add-restaurant" element={<AddRestaurant />} />
+        
 
         {/* Protected Routes */}
         <Route path="/history" element={
