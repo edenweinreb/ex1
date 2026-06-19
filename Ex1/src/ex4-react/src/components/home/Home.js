@@ -129,6 +129,14 @@ function Home() {
         ))}
       </div>
 
+    {currentUser?.role === 'owner' && (
+      <button 
+        onClick={() => navigate('/add-restaurant')} 
+        style={{ marginBottom: '20px', padding: '10px 20px', backgroundColor: '#2ecc71', color: 'white', border: 'none', borderRadius: '8px', cursor: 'pointer' }}
+     >
+        + Add New Restaurant
+    </button>
+  )}
       <h3>Available Restaurants</h3>
       {sortedRestaurants.length === 0 ? <p>No restaurants found matching your criteria.</p> : (
         <div className="home-restaurants-grid">
