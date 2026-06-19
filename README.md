@@ -87,6 +87,13 @@ http://localhost:3000
 <img width="440" height="292" alt="Screenshot 2026-06-19 153142" src="https://github.com/user-attachments/assets/686ce015-b5ae-435c-b8f6-6997aec3c0c7" />
 <img width="334" height="325" alt="Screenshot 2026-06-19 153237" src="https://github.com/user-attachments/assets/17c3b52c-abef-4719-80fd-4cace68fb4ce" />
 
+Owner functionality:
+<img width="795" height="344" alt="image" src="https://github.com/user-attachments/assets/50817c3a-9bfa-462a-96d3-ccc91e226c69" />
+<img width="781" height="344" alt="image" src="https://github.com/user-attachments/assets/cdede8a1-a2f8-4b3d-91a5-a6d578228f23" />
+<img width="782" height="345" alt="image" src="https://github.com/user-attachments/assets/4cdd2e9a-97fd-4ba0-a9c0-a940e7bf595e" />
+
+
+
 
 
 
