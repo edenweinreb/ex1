@@ -1,120 +1,145 @@
-/* src/components/layout/Header.css */
 
+:root {
+  --wolt-blue: #009de0;
+  --wolt-blue-hover: #0081b8;
+  --wolt-bg-light: #ffffff;
+  --wolt-text-dark: #202125;
+  --wolt-gray-light: #f3f3f5;
+  --wolt-gray-text: #707070;
+}
+
+/* Dark Mode Variables */
+body.dark-mode {
+  --wolt-bg-light: #202125;
+  --wolt-text-dark: #ffffff;
+  --wolt-gray-light: #2a2b2f;
+  --wolt-gray-text: #a0a0a0;
+}
+
+/* Navbar Container */
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 20px;
-  border-bottom: 1px solid #ccc;
-  transition: background-color 0.3s, color 0.3s;
-  background-color: white;
+  padding: 15px 30px;
+  background-color: var(--wolt-bg-light);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   position: sticky;
   top: 0;
-  z-index: 100;
+  z-index: 1000;
+  color: var(--wolt-text-dark);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+/* Logo */
+.navbar-logo {
+  color: var(--wolt-blue);
+  text-decoration: none;
+  font-size: 28px;
+  font-weight: 900;
+  letter-spacing: -0.5px;
+}
+
+/* Search Bar */
 .search-bar {
   display: flex;
-  gap: 5px;
-  flex: 0.5;
+  align-items: center;
+  background-color: var(--wolt-gray-light);
+  border-radius: 8px;
+  padding: 5px 5px 5px 15px;
+  flex: 0 1 400px;
+  transition: background-color 0.3s ease;
 }
 
 .search-bar input {
-  padding: 5px 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  width: 100%;
+  border: none;
+  background: transparent;
   outline: none;
+  width: 100%;
+  font-size: 16px;
+  color: var(--wolt-text-dark);
 }
 
+/* Primary Buttons */
+.btn-search,
+.btn-login-link {
+  background-color: var(--wolt-blue);
+  color: #ffffff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+
+.btn-search:hover,
+.btn-login-link:hover {
+  background-color: var(--wolt-blue-hover);
+}
+
+/* Secondary Buttons */
+.btn-theme,
+.btn-logout,
+.btn-register-link {
+  background-color: transparent;
+  color: var(--wolt-blue);
+  border: 2px solid var(--wolt-blue);
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.btn-theme:hover,
+.btn-logout:hover,
+.btn-register-link:hover {
+  background-color: rgba(0, 157, 224, 0.1);
+}
+
+/* User Controls Wrapper */
 .user-controls {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 20px;
 }
 
-.profile-section {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
+/* Profile Section */
 .profile-pic {
   width: 40px;
   height: 40px;
   border-radius: 50%;
   object-fit: cover;
-}
-
-.navbar-logo {
-  font-size: 1.8rem;
-  font-weight: 800;
-  color: #00c2e8;
-  text-decoration: none;
-}
-
-.search-bar input:focus {
-  border-color: #00c2e8;
-}
-
-.btn-search {
-  padding: 5px 15px;
-  background-color: #00c2e8;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-weight: bold;
+  border: 2px solid var(--wolt-blue);
 }
 
 .profile-placeholder {
   width: 40px;
   height: 40px;
-  background-color: #f0f0f0;
-  color: #333;
   border-radius: 50%;
+  background-color: var(--wolt-blue);
+  color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: bold;
-  font-size: 1.2rem;
-  border: 1px solid #ddd;
+  font-size: 18px;
 }
 
 .user-name {
   font-weight: 600;
-  color: #333;
+  font-size: 16px;
 }
 
-.btn-theme, .btn-logout {
-  padding: 6px 12px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: 600;
-  border: none;
+/* Links */
+.btn-history {
+  color: var(--wolt-text-dark);
+  transition: color 0.2s ease;
 }
 
-.btn-theme {
-  background-color: #f0f0f0;
-  color: #333;
+.btn-history:hover {
+  color: var(--wolt-blue);
 }
-
-.btn-logout {
-  background-color: #ffe5e5;
-  color: #d32f2f;
-}
-
-.btn-login-link, .btn-register-link {
-  text-decoration: none;
-  font-weight: bold;
-  color: #00c2e8;
-  padding: 8px 16px;
-}
-
-body.dark-mode .navbar {
-  background-color: #1a1a1a;
-  border-bottom-color: #333;
-}
-body.dark-mode .user-name { color: #f0f0f0; }
-body.dark-mode .btn-theme { background-color: #333; color: #f0f0f0; }
-body.dark-mode .search-bar input { background-color: #333; border-color: #555; color: #fff; }

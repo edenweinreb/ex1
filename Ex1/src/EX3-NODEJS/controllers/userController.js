@@ -69,7 +69,8 @@ const loginUser = (req, res) => {
         token,
         role: user.role,
         lat: user.lat,
-        lng: user.lng
+        lng: user.lng,
+        id: user.id || user.name
     });
 };
 
