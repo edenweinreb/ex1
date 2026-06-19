@@ -90,7 +90,10 @@ http://localhost:3000
 ## Owner functionality
 <img width="795" height="344" alt="image" src="https://github.com/user-attachments/assets/50817c3a-9bfa-462a-96d3-ccc91e226c69" />
 <img width="781" height="344" alt="image" src="https://github.com/user-attachments/assets/cdede8a1-a2f8-4b3d-91a5-a6d578228f23" />
+<img width="959" height="445" alt="image" src="https://github.com/user-attachments/assets/dcd91eb9-339d-43ec-a7cd-f9a198b8ce1f" />
 <img width="782" height="345" alt="image" src="https://github.com/user-attachments/assets/4cdd2e9a-97fd-4ba0-a9c0-a940e7bf595e" />
+<img width="983" height="445" alt="image" src="https://github.com/user-attachments/assets/637ee6c4-4de2-4409-8d92-17a9aa6ac03b" />
+
 
 
 
