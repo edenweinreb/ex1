@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 
-// ייבוא פונקציית האימות מהקונטרולר של המשתמשים
 const { requireAuth } = require('../controllers/userController');
 
 const { 

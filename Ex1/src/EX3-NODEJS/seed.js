@@ -1,6 +1,6 @@
 const Restaurant = require('./models/restaurant');
 const Product = require('./models/product');
-const initialRestaurants = require('./path-to-your-json-file'); 
+const initialRestaurants = require('./controllers/initialData');
 
 const seedDatabase = async () => {
     try {

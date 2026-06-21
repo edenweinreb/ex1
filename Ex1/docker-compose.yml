@@ -13,7 +13,7 @@ services:
     volumes:
       - ./data:/app/data
     environment:
-      - MONGO_URI=mongodb://mongodb:27017/my_database_name
+      - MONGO_URI=mongodb://mongodb:27017/my_database
     command: ["./myapp", "9090"]
     depends_on:
       - mongodb
