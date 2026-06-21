@@ -16,12 +16,15 @@ const sendCommand = (command) => {
       client.end();
     });
 
-    client.on('error', () => resolve(null));
+    client.on('error', (err) => {
+      // Log connection errors to assist with Docker network debugging
+      console.error(`TCP Connection Error to Ex2 server: ${err.message}`);
+      resolve(null);
+    });
   });
 };
 
 // Notify Ex2 that a user viewed a product
-// Tries PATCH first (existing user), falls back to POST (new user)
 const addViewedProduct = async (userId, productNumericId) => {
   const patchResponse = await sendCommand(`PATCH ${userId} ${productNumericId}`);
 

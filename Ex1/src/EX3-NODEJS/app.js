@@ -1,10 +1,11 @@
-//const express = require('express');
-//const app = express();
-
 const path = require('path');
 const express = require('express');
-const app = express();
 
+// Import DB connection and seed function
+const connectDB = require('./db');
+const seedDatabase = require('./seed');
+
+const app = express();
 const port = 3000;
 
 app.disable('etag');
@@ -53,8 +54,14 @@ app.use((err, req, res, next) => {
     res.status(500).json({ error: "Internal Server Error" });
 });
 
-// Start the server
-app.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}`);
+// Connect to DB, seed, and start server
+connectDB().then(async () => {
+    await seedDatabase();
+    
+    app.listen(port, () => {
+        console.log(`Server is running on http://localhost:${port}`);
+    });
+}).catch(err => {
+    console.error("Database connection failed:", err);
 });
 

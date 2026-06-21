@@ -1,18 +1,14 @@
-const userModel = require('../models/userModel');
+const User = require('../models/userModel');
 const jwt = require('jsonwebtoken');
 const key = process.env.JWT_SECRET || "some-secret-key";
 
-const registerUser = (req, res) => {
+const registerUser = async (req, res) => {
     if (!req.body) {
         return res.status(400).json({ error: "Request body is missing" });
     }
 
     const userData = req.body;
     
-    if (!userData.name) {
-        return res.status(400).json({ error: "Name is required" });
-    }
-
     if (!userData.name || !userData.password || !userData.address) {
         return res.status(400).json({ error: "Name, password, and address are required" });
     }
@@ -26,35 +22,37 @@ const registerUser = (req, res) => {
     }
 
     try {
-        // Add the user
-        const newUser = userModel.createUser(userData);
+        const newUser = await User.create(userData);
         res.status(201).json(newUser);
     } catch (error) {
-        // Catch the specific error coming from the model
-        if (error.message === 'Username already exists') {
-            return res.status(400).json({ error: "Username already exists" });
+        if (error.code === 11000) {
+            return res.status(400).json({ error: 'Username already exists' });
         }
-        // General server error if something else went wrong
         return res.status(500).json({ error: "Internal server error" });
     }
 };
 
-const getUser = (req, res) => {
+const getUser = async (req, res) => {
     if (!req.params || !req.params.id) {
         return res.status(400).json({ error: "User ID is required" });
     }
 
-    const userId = req.params.id;
-    const user = userModel.getUserById(userId);
+    try {
+        const userId = req.params.id;
+        const user = await User.findById(userId);
 
-    if (!user) {
-        return res.status(404).json({ error: "User not found" });
+        if (!user) {
+            return res.status(404).json({ error: "User not found" });
+        }
+
+        res.status(200).json(user);
+    } catch (error) {
+        // Catch CastError if the provided ID is not a valid MongoDB ObjectId
+        return res.status(500).json({ error: "Invalid ID format or server error" });
     }
-
-    res.status(200).json(user);
 };
 
-const loginUser = (req, res) => {
+const loginUser = async (req, res) => {
     if (!req.body) {
         return res.status(400).json({ error: "Request body is missing" });
     }
@@ -65,23 +63,25 @@ const loginUser = (req, res) => {
         return res.status(400).json({ error: "Name and password are required" });
     }
 
-    const user = userModel.authenticateUser(name, password);
+    try {
+        const user = await User.findOne({ name: name, password: password });
 
-    if (!user) {
-        return res.status(404).json({ error: "Invalid username or password" }); 
-    }
+        if (!user) {
+            return res.status(404).json({ error: "Invalid username or password" }); 
+        }
 
-    // Create JWT including role so protected routes can check permissions
-    const token = jwt.sign({ id: user.id, role: user.role }, key);
+        const token = jwt.sign({ id: user._id, role: user.role }, key);
  
-    // Return token + role + lat/lng so the client can save them
-    res.status(200).json({
-        token,
-        role: user.role,
-        lat: user.lat,
-        lng: user.lng,
-        id: user.id || user.name
-    });
+        res.status(200).json({
+            token,
+            role: user.role,
+            lat: user.lat,
+            lng: user.lng,
+            id: user._id
+        });
+    } catch (error) {
+        return res.status(500).json({ error: "Internal server error during login" });
+    }
 };
 
 module.exports = {

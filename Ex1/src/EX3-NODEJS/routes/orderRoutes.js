@@ -1,7 +1,9 @@
 const express = require('express');
 const router = express.Router();
 
-// Import the new functions from the controller as well
+// ייבוא פונקציית האימות מהקונטרולר של המשתמשים
+const { requireAuth } = require('../controllers/userController');
+
 const { 
   createOrder, 
   getOrders, 
@@ -11,11 +13,10 @@ const {
   deleteOrder 
 } = require('../controllers/orderController');
 
-router.post('/', createOrder);
-router.get('/', getOrders);
+router.post('/', requireAuth, createOrder);
+router.get('/user/:userId', requireAuth, getOrdersByUserId);
 
-// New routes with the ID parameter:
-router.get('/user/:userId', getOrdersByUserId);
+router.get('/', getOrders);
 router.get('/:id', getOrderById);
 router.patch('/:id', updateOrder);
 router.delete('/:id', deleteOrder);

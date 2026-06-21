@@ -1,11 +1,22 @@
 services:
+  mongodb:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
   server:
     build:
       context: .
       dockerfile: Dockerfile.server
     volumes:
       - ./data:/app/data
+    environment:
+      - MONGO_URI=mongodb://mongodb:27017/my_database_name
     command: ["./myapp", "9090"]
+    depends_on:
+      - mongodb
 
   webserver:
     build:
@@ -15,13 +26,15 @@ services:
       - "3000:3000"
     depends_on:
       - server
-    # Map the local Node.js directory to the container's /app directory
-    # The second line protects the container's installed node_modules
-    # volumes:
-    #   - ./src/EX3-NODEJS:/app
-    #  - /app/node_modules
-    # Explicitly run the Node.js application
     command: ["node", "app.js"]
+
+  client:
+    build:
+      context: .
+      dockerfile: Dockerfile.client
+    depends_on:
+      # Ensure the C++ server starts before the Python client connects
+      - server
 
   tests:
     build:
@@ -29,3 +42,7 @@ services:
       dockerfile: Dockerfile.tests
     depends_on:
       - server
+      - mongodb
+
+volumes:
+  mongo-data:

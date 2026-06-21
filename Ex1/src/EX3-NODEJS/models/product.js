@@ -1,16 +1,31 @@
-const crypto = require('crypto');
+const mongoose = require('mongoose');
 
-class Product {
-  constructor({ name, description, price, restaurantId }, numericId) {
-    // UUID for Ex3 REST API
-    this.id = crypto.randomUUID();
-    // Integer ID for Ex2 TCP server
-    this.numericId = numericId;
-    this.restaurantId = restaurantId;
-    this.name = name;
-    this.description = description;
-    this.price = price;
-  }
-}
+const productSchema = new mongoose.Schema({
+  numericId: {
+    type: Number,
+    required: true,
+    unique: true 
+  },
+  restaurantId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Restaurant',
+    required: true
+  },
+  name: {
+    type: String,
+    required: true
+  },
+  description: {
+    type: String
+  },
+  price: {
+    type: Number,
+    required: true,
+    min: 0 
+  },
+  image: { type: String }
+}, {
+  timestamps: true 
+});
 
-module.exports = Product;
+module.exports = mongoose.model('Product', productSchema);
