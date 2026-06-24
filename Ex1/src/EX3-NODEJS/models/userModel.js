@@ -22,13 +22,13 @@ const getUserById = (id) => {
     return users.find(user => user.id === id);
 };
 
-// Find user by name and password
-const authenticateUser = (name, password) => {
-    return users.find(user => user.name === name && user.password === password);
+// Find user by name
+const getUserByName = (name) => {
+    return users.find(user => user.name === name);
 };
 
 module.exports = {
     createUser,
     getUserById,
-    authenticateUser
+    getUserByName
 };

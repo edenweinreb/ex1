@@ -20,10 +20,23 @@ export default function LoginScreen() {
     }
 
     try {
-      // Future network request (Task AE-192)
-      /*
-      const response = await fetch('http://localhost:3000/api/users', { ... });
-      */
+        const response = await fetch(`${API_URL}/users/register`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password }),
+          });
+    
+          const data = await response.json();
+    
+          if (!response.ok) {
+            setError(data.error || 'Invalid credentials.');
+            return;
+          }
+    
+          // Saving the token in a global variable
+          global.token = data.token; 
+          
+          router.replace('/');
       
       // Switch to home screen
       router.replace('/'); 
