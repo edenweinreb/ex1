@@ -56,5 +56,5 @@
   "C_Cpp_Runner.showCompilationTime": false,
   "C_Cpp_Runner.useLinkTimeOptimization": false,
   "C_Cpp_Runner.msvcSecureNoWarnings": false,
-  "cmake.sourceDirectory": "C:/cs - study/year 2/Advenced Programing/REX1/ex1/Ex1"
+  "cmake.sourceDirectory": "${workspaceFolder}"
 }
