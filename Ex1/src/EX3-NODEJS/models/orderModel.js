@@ -1,15 +1,33 @@
-const crypto = require('crypto');
+const mongoose = require('mongoose');
 
-class Order {
-  constructor({ userId, restaurantId, items, totalAmount, status = 'pending' }) {
-    this.id = crypto.randomUUID();
-    this.userId = userId;
-    this.restaurantId = restaurantId; // Reference to the restaurant from which the order was placed
-    this.items = items;               // Array of items/dishes
-    this.totalAmount = totalAmount;   // Total payment amount
-    this.status = status;             // Order status
-    this.createdAt = new Date();
+// Define the Order schema structure
+const orderSchema = new mongoose.Schema({
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+  },
+  restaurantId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Restaurant',
+    required: true
+  },
+  items: {
+    type: Array, // Array of items/dishes
+    required: true
+  },
+  totalAmount: {
+    type: Number, // Total payment amount
+    required: true
+  },
+  status: {
+    type: String, // Order status
+    default: 'pending'
   }
-}
+}, {
+  // Automatically manage createdAt and updatedAt fields
+  timestamps: true 
+});
 
-module.exports = Order;
+// Export the Mongoose model
+module.exports = mongoose.model('Order', orderSchema);

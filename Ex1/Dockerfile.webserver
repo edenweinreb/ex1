@@ -11,7 +11,7 @@ RUN npm run build
 
 
 
-FROM node:18-slim
+FROM node:20-slim
 WORKDIR /app
 
 COPY src/EX3-NODEJS/package*.json ./
