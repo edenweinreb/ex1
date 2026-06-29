@@ -1,59 +1,68 @@
 const Order = require('../models/orderModel');
-const { restaurants } = require('../controllers/restaurantController');
-const { products } = require('../controllers/productController');
+const Restaurant = require('../models/restaurant');
+const Product = require('../models/product');
 
+// Helper function to populate product details asynchronously
+const populateOrderItems = async (order) => {
+  // Promise.all is used to wait for all inner async DB queries to finish
+  const populatedItems = await Promise.all(order.items.map(async (item) => {
+    try {
+      const product = await Product.findById(item.productId);
+      if (product) {
+        return { 
+            id: product._id, 
+            name: product.name, 
+            price: product.price, 
+            quantity: item.quantity 
+        };
+      }
+      return { id: item.productId, error: "Product not found", quantity: item.quantity };
+    } catch (err) {
+      return { id: item.productId, error: "Invalid product ID", quantity: item.quantity };
+    }
+  }));
 
-
-// Temporary array for storing orders
-const orders = [];
-const populateOrderItems = (order) => {
-  const restaurant = restaurants.find(r => r.id === order.restaurantId);
-  // Passing through the array of product IDs and replacing them with an object that includes an ID, name, and price
-  const populatedItems = order.items.map(item => {
-    const product = restaurant ? restaurant.menu.find(p => p.id === item.productId) : null;
-    return product 
-       ? { id: product.id, name: product.name, price: product.price, quantity: item.quantity }
-       : { id: item.productId, error: "Product not found", quantity: item.quantity };
-});
-
-  // Returns the updated order object
+  // Convert Mongoose document to a plain JS object before modifying
+  const orderObj = order.toObject ? order.toObject() : order;
+  
   return {
-    id: order.id,
-    userId: order.userId,
-    restaurantId: order.restaurantId,
+    id: orderObj._id,
+    userId: orderObj.userId,
+    restaurantId: orderObj.restaurantId,
     items: populatedItems,
-    totalAmount: order.totalAmount,
-    status: order.status,
-    createdAt: order.createdAt
+    totalAmount: orderObj.totalAmount,
+    status: orderObj.status,
+    createdAt: orderObj.createdAt
   };
 };
 
 const createOrder = async (req, res) => {
   try {
       const { restaurantId, items } = req.body;
-      //const userId = req.user.id;
-      const userId = req.headers['x-user-id'];
+      const userId = req.headers['x-user-id']; 
 
-      // Check if the restaurant exist
-      const restaurant = restaurants.find(r => r.id === restaurantId);
+      // Verify the restaurant exists in the DB
+      const restaurant = await Restaurant.findById(restaurantId);
       if (!restaurant) {
           return res.status(404).json({ error: "Restaurant not found" });
       }
 
       let totalAmount = 0;
-      //const foundItems = [];
 
+      // Iterate over items and fetch current prices from the DB
       for (const item of items) {
-        const product = restaurant.menu.find(p => p.id === item.productId);
-        if (!product) {
+        const product = await Product.findById(item.productId);
+        
+        // Ensure product exists and belongs to the requested restaurant
+        if (!product || product.restaurantId.toString() !== restaurantId.toString()) {
             return res.status(400).json({ error: `Product ID '${item.productId}' not found in this restaurant` });
         }
-        // Multiply product price by its selected quantity
+        
         totalAmount += (product.price * item.quantity);
       }
 
-      // Create a new order object from the class
-      const newOrder = new Order({
+      // Create a new order document
+      const newOrder = await Order.create({
           userId,
           restaurantId,
           items,
@@ -61,86 +70,99 @@ const createOrder = async (req, res) => {
           status: 'pending'
       });
       
-      orders.push(newOrder);
-      
       res.status(201).json({ message: 'Order created successfully', order: newOrder });
 
   } catch (error) {
-    console.error("DEBUG ERROR:", error);
-    res.status(500).json({ error: "Server error", details: error.message });
-      //res.status(500).json({ error: "Server error during order creation" });
+      console.error("DEBUG ERROR:", error);
+      res.status(500).json({ error: "Server error", details: error.message });
   }
 };
 
 // GET - Get all orders
-const getOrders = (req, res) => {
-    const populatedOrders = orders.map(order => populateOrderItems(order));
-    res.status(200).json(populatedOrders);
+const getOrders = async (req, res) => {
+    try {
+        const orders = await Order.find();
+        
+        // Populate items for each order asynchronously
+        const populatedOrders = await Promise.all(orders.map(order => populateOrderItems(order)));
+        res.status(200).json(populatedOrders);
+    } catch (error) {
+        res.status(500).json({ error: "Failed to fetch orders" });
+    }
 };
 
 // GET - Get a specific order by ID
-const getOrderById = (req, res) => {
-    const { id } = req.params; // Gets the ID from the URL
-    const order = orders.find(o => o.id === id);
-  
-    if (!order) {
-      return res.status(404).json({ message: 'Order not found' });
+const getOrderById = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const order = await Order.findById(id);
+      
+        if (!order) {
+          return res.status(404).json({ message: 'Order not found' });
+        }
+      
+        const populatedOrder = await populateOrderItems(order);
+        res.status(200).json(populatedOrder);
+    } catch (error) {
+        res.status(500).json({ error: "Invalid order ID format or server error" });
     }
-  
-    res.status(200).json(populateOrderItems(order));
-  };
+};
 
-  // GET - Get all orders for a specific user
-  const getOrdersByUserId = (req, res) => {
-    const { userId } = req.params; // Get the user ID from the URL
+// GET - Get all orders for a specific user
+const getOrdersByUserId = async (req, res) => {
+    try {
+        const { userId } = req.params;
 
-    // Find all orders that belong to this user
-    const userOrders = orders.filter(o => o.userId === userId);
+        // Query the DB for orders matching the userId
+        const userOrders = await Order.find({ userId: userId });
 
-    // Return the complete array of orders
-    res.status(200).json(userOrders.map(populateOrderItems));
+        const populatedOrders = await Promise.all(userOrders.map(populateOrderItems));
+        res.status(200).json(populatedOrders);
 
-    console.log("Searching history for user ID:", userId);
-    console.log("All saved orders in server:", orders);
-  };
-  
-  // PATCH - Update an order
-  const updateOrder = (req, res) => {
-    const { id } = req.params;
-    const order = orders.find(o => o.id === id);
-  
-    if (!order) {
-      return res.status(404).json({ message: 'Order not found' });
+    } catch (error) {
+        res.status(500).json({ error: "Failed to fetch user orders" });
     }
+};
   
-    // Updates only the fields sent in the request body (for example: status)
-    Object.assign(order, req.body);
-  
-    res.status(204).json({ message: 'Order updated', order });
-  };
-  
-  // DELETE - Delete an order
-  const deleteOrder = (req, res) => {
-    const { id } = req.params;
-    const orderIndex = orders.findIndex(o => o.id === id);
-  
-    if (orderIndex === -1) {
-      return res.status(404).json({ message: 'Order not found' });
+// PATCH - Update an order
+const updateOrder = async (req, res) => {
+    try {
+        const { id } = req.params;
+        
+        // Find by ID and update. { new: true } returns the updated document.
+        const updatedOrder = await Order.findByIdAndUpdate(id, req.body, { new: true });
+      
+        if (!updatedOrder) {
+          return res.status(404).json({ message: 'Order not found' });
+        }
+      
+        res.status(200).json({ message: 'Order updated', order: updatedOrder });
+    } catch (error) {
+        res.status(500).json({ error: "Failed to update order" });
     }
+};
   
-    // Remove the order from the array
-    orders.splice(orderIndex, 1);
+// DELETE - Delete an order
+const deleteOrder = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const deletedOrder = await Order.findByIdAndDelete(id);
+      
+        if (!deletedOrder) {
+          return res.status(404).json({ message: 'Order not found' });
+        }
+      
+        res.status(204).json({ message: 'Order deleted successfully' });
+    } catch (error) {
+        res.status(500).json({ error: "Failed to delete order" });
+    }
+};
   
-    res.status(204).json({ message: 'Order deleted successfully' });
-  };
-  
-  
-  module.exports = {
+module.exports = {
     createOrder,
     getOrders,
     getOrderById,
     getOrdersByUserId,
     updateOrder,
-    deleteOrder,
-    orders
-  };
+    deleteOrder
+};

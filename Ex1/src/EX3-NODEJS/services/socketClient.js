@@ -6,30 +6,37 @@ const EX2_SERVER_PORT = 9090;
 const EX2_SERVER_HOST = process.env.EX2_HOST || 'server';
 
 const sendCommandToEx2 = (command) => {
-    const client = new net.Socket();
+    // Return a Promise so controllers can use 'await'
+    return new Promise((resolve) => {
+        const client = new net.Socket();
 
-    client.connect(EX2_SERVER_PORT, EX2_SERVER_HOST, () => {
-        client.write(command + '\n');
-    });
+        client.connect(EX2_SERVER_PORT, EX2_SERVER_HOST, () => {
+            client.write(command + '\n');
+        });
 
-    client.on('data', (data) => {
-        client.destroy(); 
-    });
+        client.on('data', (data) => {
+            const response = data.toString().trim();
+            client.destroy(); 
+            resolve(response); 
+        });
 
-    client.on('error', (err) => {
-        // Prevent the Node server from crashing if the C++ server is down
-        console.error('Ex2 server connection error:', err.message);
+        client.on('error', (err) => {
+            console.error('Ex2 server connection error:', err.message);
+            resolve(null); 
+        });
     });
 };
 
-const reportProductView = (userId, productId) => {
-    const command = `POST ${userId} ${productId}`;
-    sendCommandToEx2(command);
+const reportProductView = async (userId, productNumericId) => {
+    const uId = userId.toString();
+    const command = `POST ${uId} ${productNumericId}`;
+    return await sendCommandToEx2(command);
 };
 
-const reportProductPurchase = (userId, productId) => {
-    const command = `PATCH ${userId} ${productId}`;
-    sendCommandToEx2(command);
+const reportProductPurchase = async (userId, productNumericId) => {
+    const uId = userId.toString();
+    const command = `PATCH ${uId} ${productNumericId}`;
+    return await sendCommandToEx2(command);
 };
 
 module.exports = {

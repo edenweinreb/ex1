@@ -5,6 +5,7 @@ RUN apt-get update && apt-get install -y cmake
 COPY . /usr/src/myapp
 WORKDIR /usr/src/myapp
 
+# Build the C++ executable
 RUN cmake -B build && cmake --build build
 
 FROM gcc:latest AS server
@@ -13,4 +14,8 @@ COPY --from=builder /usr/src/myapp/build/myapp /app/myapp
 COPY --from=builder /usr/src/myapp/data /app/data
 
 WORKDIR /app
+
+# Expose port for internal network communication
+EXPOSE 9090
+
 CMD ["./myapp"]

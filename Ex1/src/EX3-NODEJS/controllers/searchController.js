@@ -1,30 +1,36 @@
-const { restaurants } = require('../controllers/restaurantController');
-const { products } = require('../controllers/productController');
+const Restaurant = require('../models/restaurant');
+const Product = require('../models/product');
 
-const search = (req, res) => {
-    const query = req.params.query.toLowerCase();
+const search = async (req, res) => {
+    try {
+        const query = req.params.query;
 
-    if (!restaurants || !products) {
-        console.error("Database is missing! Check imports.");
-        return res.status(500).json({ error: "Database not initialized" });
+        // Create a case-insensitive regular expression for partial matching
+        const searchRegex = new RegExp(query, 'i');
+
+        // Prepare the search condition: match either name OR description
+        const searchCondition = {
+            $or: [
+                { name: { $regex: searchRegex } },
+                { description: { $regex: searchRegex } }
+            ]
+        };
+
+        // Run both searches concurrently to improve response time
+        const [matchedRestaurants, matchedProducts] = await Promise.all([
+            Restaurant.find(searchCondition),
+            Product.find(searchCondition)
+        ]);
+
+        res.status(200).json({
+            restaurants: matchedRestaurants,
+            products: matchedProducts
+        });
+        
+    } catch (error) {
+        console.error("Search error:", error);
+        res.status(500).json({ error: "Failed to perform search" });
     }
-
-    const matchedRestaurants = restaurants.filter(restaurant => {
-        const nameMatch = restaurant.name?.toLowerCase().includes(query);
-        const descMatch = restaurant.description?.toLowerCase().includes(query);
-        return nameMatch || descMatch;
-    });
-
-    const matchedProducts = products.filter(product => {
-        const nameMatch = product.name?.toLowerCase().includes(query);
-        const descMatch = product.description?.toLowerCase().includes(query);
-        return nameMatch || descMatch;
-    });
-
-    res.status(200).json({
-        restaurants: matchedRestaurants,
-        products: matchedProducts
-    });
-}
+};
 
 module.exports = { search };

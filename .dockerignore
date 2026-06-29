@@ -1,0 +1,8 @@
+# Ignore everything we don't need for the build
+node_modules
+build
+dist
+.git
+.vscode
+*.log
+.cmake

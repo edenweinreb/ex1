@@ -1,7 +1,19 @@
-const crypto = require('crypto');
+const mongoose = require('mongoose');
 
-// In-memory data store for users
-const users = [];
+const userSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+    unique: true // Automatically prevents duplicate names
+  },
+  password: {
+    type: String,
+    required: true
+  }
+  // Add any other fields you need here (e.g., profileImage)
+}, {
+  timestamps: true
+});
 
 const createUser = (userData) => {
     const existingUser = users.find(user => user.name === userData.name);
@@ -32,3 +44,4 @@ module.exports = {
     getUserById,
     getUserByName
 };
+module.exports = mongoose.model('User', userSchema);
