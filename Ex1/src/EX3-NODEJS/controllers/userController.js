@@ -12,7 +12,6 @@ const registerUser = async (req, res) => {
     const userData = req.body;
 
     // Validate required fields
-    
     if (!userData.name || !userData.password || !userData.address) {
         return res.status(400).json({ error: "Name, password, and address are required" });
     }
@@ -33,25 +32,18 @@ const registerUser = async (req, res) => {
         userData.password = await bcrypt.hash(userData.password, salt);
 
         // Create and save the new user
-        const newUser = await userModel.createUser(userData);
+        const newUser = await User.create(userData);
 
         // Generate JWT token after successful registration
         const token = jwt.sign(
-            { id: newUser.id, role: newUser.role },
+            { id: newUser._id, role: newUser.role },
             key
         );
 
         res.status(201).json({ user: newUser, token });
     } catch (error) {
-        if (error.message === 'Username already exists') {
+        if (error.code === 11000 || error.message === 'Username already exists') {
             return res.status(400).json({ error: "Username already exists" });
-        }
-
-        const newUser = await User.create(userData);
-        res.status(201).json(newUser);
-    } catch (error) {
-        if (error.code === 11000) {
-            return res.status(400).json({ error: 'Username already exists' });
         }
         return res.status(500).json({ error: "Internal server error" });
     }
@@ -63,17 +55,11 @@ const getUser = async (req, res) => {
         return res.status(400).json({ error: "User ID is required" });
     }
 
-    const userId = req.params.id;
-    const user = await userModel.getUserById(userId);
-
-    // User not found
-    if (!user) {
-        return res.status(404).json({ error: "User not found" });
-    }
     try {
         const userId = req.params.id;
         const user = await User.findById(userId);
 
+        // User not found
         if (!user) {
             return res.status(404).json({ error: "User not found" });
         }
@@ -100,7 +86,7 @@ const loginUser = async (req, res) => {
 
     try {
         // Find user by username
-        const user = await userModel.getUserByName(name);
+        const user = await User.findOne({ name });
 
         // Prevent revealing whether username exists
         if (!user) {
@@ -116,29 +102,15 @@ const loginUser = async (req, res) => {
 
         // Generate JWT token for authenticated user
         const token = jwt.sign(
-            { id: user.id, role: user.role },
+            { id: user._id, role: user.role },
             key
         );
 
-        // Return user information needed by the client
-        const user = await User.findOne({ name: name, password: password });
-
-        if (!user) {
-            return res.status(404).json({ error: "Invalid username or password" }); 
-        }
-
-        const token = jwt.sign({ id: user._id, role: user.role }, key);
- 
         res.status(200).json({
             token,
             role: user.role,
             lat: user.lat,
             lng: user.lng,
-            id: user.id || user.name
-        });
-    } catch (error) {
-        return res.status(500).json({ error: "Internal server error" });
-    }
             id: user._id
         });
     } catch (error) {
