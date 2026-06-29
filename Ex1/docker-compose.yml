@@ -35,6 +35,7 @@ services:
     depends_on:
       # Ensure the C++ server starts before the Python client connects
       - server
+    command: ["python3", "Client.py", "server", "9090"]
 
   tests:
     build:
