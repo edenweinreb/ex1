@@ -50,10 +50,23 @@ export default function RegisterScreen() {
     }
 
     try {
-      // Future network request (Task AE-192)
-      /*
-      const response = await fetch('http://localhost:3000/api/users', { ... });
-      */
+        const response = await fetch(`${process.env.EXPO_PUBLIC_API_URL}/users/register`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 
+              username, displayName, password, role, 
+              lat: Number(lat), lng: Number(lng), address 
+            }),
+          });
+    
+          const data = await response.json();
+    
+          if (!response.ok) {
+            setError(data.error || 'Registration failed.');
+            return;
+          }
+    
+          router.replace('/login');
       
       router.replace('/login');
     } catch (err) {
