@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, Alert, ActivityIndicator } from 'react-native';
 import { useRouter } from 'expo-router';
-import { Ionicons } from '@expo-vector-icons';
 import { styles } from '../../styles/admin.styles';
 import { COLORS } from '../../styles/Theme';
 
@@ -108,7 +107,6 @@ export default function AdminDashboardScreen() {
                 style={[styles.actionBtn, styles.deleteBtn]}
                 onPress={() => handleDelete(r.id || r._id)}
               >
-                <Ionicons name="trash-outline" size={18} color="#d32f2f" />
               </TouchableOpacity>
 
             </View>

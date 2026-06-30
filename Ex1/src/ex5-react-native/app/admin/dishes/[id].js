@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, ScrollView, TouchableOpacity, Alert, ActivityIndicator } from 'react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
-import { Ionicons } from '@expo-vector-icons';
 import { styles } from '../../../styles/dishes.styles';
 import { COLORS } from '../../../styles/Theme';
 
@@ -157,7 +156,6 @@ export default function ManageDishesScreen() {
               style={styles.deleteBtn}
               onPress={() => handleDeleteProduct(item.id || item._id)}
             >
-              <Ionicons name="trash-outline" size={20} color="#d32f2f" />
             </TouchableOpacity>
           </View>
         ))
