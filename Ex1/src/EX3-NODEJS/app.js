@@ -39,7 +39,7 @@ app.get('/api/ping', (req, res) => {
 });
 
 app.use('/api', (req, res) => {
-    res.status(404).json({ error: "Route not found" });
+    res.status(404).json({ error: "TEST Route not found" });
 });
   
 

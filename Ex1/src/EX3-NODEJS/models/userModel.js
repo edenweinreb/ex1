@@ -9,6 +9,26 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true
+  },
+  address: {
+    type: String,
+    required: true
+  },
+  role: {
+    type: String,
+    required: true
+  },
+  lat: {
+    type: Number,
+    required: true
+  },
+  lng: {
+    type: Number,
+    required: true
+  },
+  profileImage: {
+    type: String,
+    default: ""
   }
   // Add any other fields you need here (e.g., profileImage)
 }, {

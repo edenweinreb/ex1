@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import * as ImagePicker from 'expo-image-picker';
 import { View, Text, TextInput, TouchableOpacity, ScrollView, Image } from 'react-native';
-import { useRouter } from 'expo-router';
+import { useRouter, useFocusEffect } from 'expo-router';
 import { authStyles as styles } from '../styles/auth.style'; 
 
 export default function RegisterScreen() {
@@ -19,9 +19,25 @@ export default function RegisterScreen() {
   const [lng, setLng] = useState('');
   const [address, setAddress] = useState('');
 
+  useFocusEffect(
+    useCallback(() => {
+      setUsername('');
+      setDisplayName('');
+      setPassword('');
+      setVerifyPassword('');
+      setProfilePic('');
+      setPreviewUrl('');
+      setLat('');
+      setLng('');
+      setAddress('');
+      setRole('user');
+      setError('');
+    }, [])
+  );
+
   const handleFileChange = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: [Images],
+        mediaTypes: ['images'],
         allowsEditing: true,
         quality: 1,
       });
@@ -50,12 +66,13 @@ export default function RegisterScreen() {
     }
 
     try {
-        const response = await fetch(`${process.env.EXPO_PUBLIC_API_URL}/users/register`, {
+        const response = await fetch(`${process.env.EXPO_PUBLIC_API_URL}/users`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ 
-              username, displayName, password, role, 
-              lat: Number(lat), lng: Number(lng), address 
+              name: username, displayName, password, role, 
+              lat: Number(lat), lng: Number(lng), address,
+              profileImage: previewUrl 
             }),
           });
     
@@ -83,6 +100,7 @@ export default function RegisterScreen() {
       <TextInput
         style={styles.input}
         placeholder="Username"
+        placeholderTextColor="#888"
         value={username}
         onChangeText={setUsername}
         autoCapitalize="none"
@@ -91,6 +109,7 @@ export default function RegisterScreen() {
       <TextInput
         style={styles.input}
         placeholder="Display Name"
+        placeholderTextColor="#888"
         value={displayName}
         onChangeText={setDisplayName}
       />
@@ -98,6 +117,7 @@ export default function RegisterScreen() {
       <TextInput
         style={styles.input}
         placeholder="Password (min 8 chars, letters & numbers)"
+        placeholderTextColor="#888"
         value={password}
         onChangeText={setPassword}
         secureTextEntry
@@ -106,6 +126,7 @@ export default function RegisterScreen() {
       <TextInput
         style={styles.input}
         placeholder="Confirm Password"
+        placeholderTextColor="#888"
         value={verifyPassword}
         onChangeText={setVerifyPassword}
         secureTextEntry
@@ -122,6 +143,7 @@ export default function RegisterScreen() {
       <TextInput
         style={styles.input}
         placeholder="Latitude (e.g. 32.18)"
+        placeholderTextColor="#888"
         value={lat}
         onChangeText={setLat}
         keyboardType="numeric"
@@ -130,6 +152,7 @@ export default function RegisterScreen() {
       <TextInput
         style={styles.input}
         placeholder="Longitude (e.g. 34.87)"
+        placeholderTextColor="#888"
         value={lng}
         onChangeText={setLng}
         keyboardType="numeric"
@@ -138,6 +161,7 @@ export default function RegisterScreen() {
       <TextInput
         style={styles.input}
         placeholder="Address"
+        placeholderTextColor="#888"
         value={address}
         onChangeText={setAddress}
       />
