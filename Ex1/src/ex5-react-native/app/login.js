@@ -54,6 +54,7 @@ export default function LoginScreen() {
       <TextInput
         style={styles.input}
         placeholder="Username"
+        placeholderTextColor="#888"
         value={username}
         onChangeText={setUsername}
         autoCapitalize="none"
@@ -62,6 +63,7 @@ export default function LoginScreen() {
       <TextInput
         style={styles.input}
         placeholder="Password"
+        placeholderTextColor="#888"
         value={password}
         onChangeText={setPassword}
         secureTextEntry

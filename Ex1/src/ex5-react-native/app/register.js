@@ -83,6 +83,7 @@ export default function RegisterScreen() {
       <TextInput
         style={styles.input}
         placeholder="Username"
+        placeholderTextColor="#888"
         value={username}
         onChangeText={setUsername}
         autoCapitalize="none"
@@ -91,6 +92,7 @@ export default function RegisterScreen() {
       <TextInput
         style={styles.input}
         placeholder="Display Name"
+        placeholderTextColor="#888"
         value={displayName}
         onChangeText={setDisplayName}
       />
@@ -98,6 +100,7 @@ export default function RegisterScreen() {
       <TextInput
         style={styles.input}
         placeholder="Password (min 8 chars, letters & numbers)"
+        placeholderTextColor="#888"
         value={password}
         onChangeText={setPassword}
         secureTextEntry
@@ -106,6 +109,7 @@ export default function RegisterScreen() {
       <TextInput
         style={styles.input}
         placeholder="Confirm Password"
+        placeholderTextColor="#888"
         value={verifyPassword}
         onChangeText={setVerifyPassword}
         secureTextEntry
@@ -122,6 +126,7 @@ export default function RegisterScreen() {
       <TextInput
         style={styles.input}
         placeholder="Latitude (e.g. 32.18)"
+        placeholderTextColor="#888"
         value={lat}
         onChangeText={setLat}
         keyboardType="numeric"
@@ -130,6 +135,7 @@ export default function RegisterScreen() {
       <TextInput
         style={styles.input}
         placeholder="Longitude (e.g. 34.87)"
+        placeholderTextColor="#888"
         value={lng}
         onChangeText={setLng}
         keyboardType="numeric"
@@ -138,6 +144,7 @@ export default function RegisterScreen() {
       <TextInput
         style={styles.input}
         placeholder="Address"
+        placeholderTextColor="#888"
         value={address}
         onChangeText={setAddress}
       />
