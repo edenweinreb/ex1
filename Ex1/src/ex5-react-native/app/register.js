@@ -49,12 +49,13 @@ export default function RegisterScreen() {
       return;
     }
 
+    //console.log("URL IS:", process.env.EXPO_PUBLIC_API_URL);
     try {
-        const response = await fetch(`${process.env.EXPO_PUBLIC_API_URL}/users/register`, {
+        const response = await fetch(`${process.env.EXPO_PUBLIC_API_URL}/users`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ 
-              username, displayName, password, role, 
+              name: username, displayName, password, role, 
               lat: Number(lat), lng: Number(lng), address 
             }),
           });
@@ -70,6 +71,7 @@ export default function RegisterScreen() {
       
       router.replace('/login');
     } catch (err) {
+      //console.log("Detailed error:", err);
       setError('Server error. Please try again.');
     }
   };

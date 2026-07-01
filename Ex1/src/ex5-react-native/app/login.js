@@ -18,12 +18,12 @@ export default function LoginScreen() {
       setError('Username and password are required.');
       return;
     }
-
+    console.log("TRYING TO FETCH:", `${process.env.EXPO_PUBLIC_API_URL}/users/login`);
     try {
-        const response = await fetch(`${API_URL}/users/register`, {
+        const response = await fetch(`${process.env.EXPO_PUBLIC_API_URL}/users/login`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username, password }),
+            body: JSON.stringify({ name: username, password }),
           });
     
           const data = await response.json();
@@ -41,9 +41,11 @@ export default function LoginScreen() {
       // Switch to home screen
       router.replace('/'); 
     } catch (err) {
+      console.log("Detailed error:", err);
       setError('Server error. Please try again.');
     }
   };
+
 
   return (
     <View style={styles.scrollContainer}>
