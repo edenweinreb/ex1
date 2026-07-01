@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
-import { useRouter } from 'expo-router';
+import { useRouter, useFocusEffect } from 'expo-router';
 import { authStyles as styles } from '../styles/auth.style'; 
 
 export default function LoginScreen() {
@@ -9,6 +9,14 @@ export default function LoginScreen() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+
+  useFocusEffect(
+    useCallback(() => {
+      setUsername('');
+      setPassword('');
+      setError('');
+    }, [])
+  );
 
   const handleLogin = async () => {
     setError(''); // Reset previous errors
@@ -33,8 +41,9 @@ export default function LoginScreen() {
             return;
           }
     
-          // Saving the token in a global variable
+          // Saving the token and userId in a global variable
           global.token = data.token; 
+          global.userId = data.id;
           
           router.replace('/');
       

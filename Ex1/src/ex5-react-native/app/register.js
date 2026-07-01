@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import * as ImagePicker from 'expo-image-picker';
 import { View, Text, TextInput, TouchableOpacity, ScrollView, Image } from 'react-native';
-import { useRouter } from 'expo-router';
+import { useRouter, useFocusEffect } from 'expo-router';
 import { authStyles as styles } from '../styles/auth.style'; 
 
 export default function RegisterScreen() {
@@ -18,6 +18,21 @@ export default function RegisterScreen() {
   const [lat, setLat] = useState('');
   const [lng, setLng] = useState('');
   const [address, setAddress] = useState('');
+
+  useFocusEffect(
+    useCallback(() => {
+      setUsername('');
+      setDisplayName('');
+      setPassword('');
+      setVerifyPassword('');
+      setProfilePic('');
+      setLat('');
+      setLng('');
+      setAddress('');
+      setRole('user');
+      setError('');
+    }, [])
+  );
 
   const handleFileChange = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
