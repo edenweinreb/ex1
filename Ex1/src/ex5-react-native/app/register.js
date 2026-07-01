@@ -21,7 +21,7 @@ export default function RegisterScreen() {
 
   const handleFileChange = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: [Images],
+        mediaTypes: ['images'],
         allowsEditing: true,
         quality: 1,
       });
