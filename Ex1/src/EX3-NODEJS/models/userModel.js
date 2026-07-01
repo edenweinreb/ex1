@@ -25,6 +25,10 @@ const userSchema = new mongoose.Schema({
   lng: {
     type: Number,
     required: true
+  },
+  profileImage: {
+    type: String,
+    default: ""
   }
   // Add any other fields you need here (e.g., profileImage)
 }, {
