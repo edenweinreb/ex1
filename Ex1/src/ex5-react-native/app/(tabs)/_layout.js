@@ -1,7 +1,6 @@
 import { Tabs } from 'expo-router';
 import { View, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Ionicons } from '@expo-vector-icons';
 import { styles } from '../../styles/tabs._layout.styles'; 
 import { COLORS } from '../../styles/Theme'; 
 
@@ -22,10 +21,7 @@ export default function TabsLayout() {
         <Tabs.Screen 
           name="index" 
           options={{
-            tabBarLabel: 'Restaurants',
-            tabBarIcon: ({ color, size }) => (
-              <Ionicons name="restaurant" size={size} color={color} />
-            ),
+            tabBarLabel: 'Restaurants'
           }} 
         />
         
@@ -33,9 +29,6 @@ export default function TabsLayout() {
           name="profile" 
           options={{
             tabBarLabel: 'Profile',
-            tabBarIcon: ({ color, size }) => (
-              <Ionicons name="person" size={size} color={color} />
-            ),
           }} 
         />
         

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, TextInput, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
-import { Ionicons } from '@expo-vector-icons';
 import { styles } from '../../styles/index.styles'; 
 import { COLORS } from '../../styles/Theme'; 
 
@@ -46,7 +45,6 @@ export default function DashboardScreen() {
       
       {/* Search Bar */}
       <View style={styles.searchContainer}>
-        <Ionicons name="search" size={20} color={COLORS.textMuted} style={styles.searchIcon} />
         <TextInput
           style={styles.searchInput}
           placeholder="Search restaurants..."
