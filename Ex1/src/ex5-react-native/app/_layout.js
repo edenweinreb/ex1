@@ -59,6 +59,19 @@ export default function RootLayout() {
             title: 'Manage Menu',
           }}
         />
+        <Drawer.Screen
+        name="restaurant/[id]"
+        options={{
+          drawerItemStyle: { display: 'none' }, // שורת הקסם שמעלימה את הכפתור
+        }}
+      />
+
+      <Drawer.Screen
+        name="+not-found"
+        options={{
+          drawerItemStyle: { display: 'none' },
+        }}
+      />
       </Drawer>
     </GestureHandlerRootView>
   );

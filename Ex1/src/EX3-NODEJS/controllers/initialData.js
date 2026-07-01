@@ -166,7 +166,7 @@ const initialRestaurants = [
     image: "https://images.unsplash.com/photo-1600891964092-4316c288032e?w=600",
     menu: [
       { id: "m19", name: "Ribeye Steak", description: "300g premium aged beef cooked to perfection", price: 140, image: "https://images.unsplash.com/photo-1600891964092-4316c288032e?w=400" },
-      { id: "m20", name: "Creamy Mashed Potatoes", description: "Silky smooth potatoes with butter and cream", price: 30, image: "https://images.unsplash.com/photo-1616421008064-07d2f9d50b4a?w=400" }
+      { id: "m20", name: "Creamy Mashed Potatoes", description: "Silky smooth potatoes with butter and cream", price: 30, image: "https://images.unsplash.com/photo-1644704170910-a0cdf183649b?w=400" }
     ]
   },
   { 
@@ -200,7 +200,7 @@ const initialRestaurants = [
     image: "https://images.unsplash.com/photo-1551024601-bec78aea704b?w=600",
     menu: [
       { id: "m23", name: "Buttermilk Pancakes", description: "Stack of 3 fluffy pancakes with maple syrup", price: 38, image: "https://images.unsplash.com/photo-1551024601-bec78aea704b?w=400" },
-      { id: "m24", name: "Chocolate Chip Waffle", description: "Belgian waffle loaded with chocolate chips and whipped cream", price: 42, image: "https://images.unsplash.com/photo-1562376552-0d160a2f9fa6?w=400" }
+      { id: "m24", name: "Chocolate Chip Waffle", description: "Belgian waffle loaded with chocolate chips and whipped cream", price: 42, image: "https://images.unsplash.com/photo-1525059696034-4967a8e1dca2?w=400" }
     ]
   },
   { 

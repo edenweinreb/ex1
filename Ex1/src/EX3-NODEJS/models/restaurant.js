@@ -34,7 +34,14 @@ const restaurantSchema = new mongoose.Schema({
     type: Number,
     default: 0
   },
-  image: { type: String }
+  image: { type: String },
+  menu: [{
+    id: String,
+    name: String,
+    description: String,
+    price: Number,
+    image: String
+  }]
 }, {
   timestamps: true // Automatically manage createdAt and updatedAt
 });
