@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, TextInput, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { styles } from '../../styles/index.styles'; 
 import { COLORS } from '../../styles/Theme'; 
+import { useRouter } from 'expo-router';
 
 export default function DashboardScreen() {
   const [restaurants, setRestaurants] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCuisine, setSelectedCuisine] = useState('');
   const [isLoading, setIsLoading] = useState(true);
+  const router = useRouter();
 
   // Home screen categories
   const categories = [
@@ -17,16 +19,29 @@ export default function DashboardScreen() {
     { name: 'Pizza', type: 'pizza', img: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=150' },
   ];
 
-  useEffect(() => {
-    // Fetch data from the server using the environment variable defined in .env
+useEffect(() => {
     fetch(`${process.env.EXPO_PUBLIC_API_URL}/restaurants`)
       .then(res => res.json())
       .then(data => {
-        setRestaurants(data);
+        // Log to terminal to see the actual response structure from the server
+        console.log("Data from server:", data);
+        
+        // Safety net: check where the array is located in the response
+        if (Array.isArray(data)) {
+          setRestaurants(data);
+        } else if (data && Array.isArray(data.restaurants)) {
+          setRestaurants(data.restaurants); // Handle object wrapper like { restaurants: [...] }
+        } else if (data && Array.isArray(data.data)) {
+          setRestaurants(data.data); // Handle generic object wrapper like { data: [...] }
+        } else {
+          setRestaurants([]); // Fallback to empty array to prevent .filter() crash
+        }
+        
         setIsLoading(false);
       })
       .catch(err => {
         console.error("Error fetching restaurants:", err);
+        setRestaurants([]); // Fallback to empty array on network error
         setIsLoading(false);
       });
   }, []);
@@ -78,7 +93,7 @@ export default function DashboardScreen() {
       ) : (
         <View style={styles.restaurantsGrid}>
           {filteredRestaurants.map(r => (
-            <TouchableOpacity key={r.id || r._id} style={styles.restaurantCard}>
+            <TouchableOpacity key={r.id || r._id} style={styles.restaurantCard} onPress={() => router.push(`/restaurant/${r.id || r._id}`)}>
               <Image 
                 source={{ uri: r.image || "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600" }} 
                 style={styles.restaurantImg} 
