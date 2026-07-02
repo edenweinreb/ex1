@@ -64,7 +64,7 @@ export default function RootLayout() {
         <Drawer.Screen
         name="restaurant/[id]"
         options={{
-          drawerItemStyle: { display: 'none' }, // שורת הקסם שמעלימה את הכפתור
+          drawerItemStyle: { display: 'none' },
         }}
       />
 

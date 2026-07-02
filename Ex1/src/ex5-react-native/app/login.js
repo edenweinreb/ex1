@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
-import { useRouter } from 'expo-router';
+import { useRouter, useFocusEffect } from 'expo-router';
 import { authStyles as styles } from '../styles/auth.style'; 
 
 export default function LoginScreen() {
@@ -10,6 +10,14 @@ export default function LoginScreen() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
+  useFocusEffect(
+    useCallback(() => {
+      setUsername('');
+      setPassword('');
+      setError('');
+    }, [])
+  );
+
   const handleLogin = async () => {
     setError(''); // Reset previous errors
 
@@ -18,12 +26,12 @@ export default function LoginScreen() {
       setError('Username and password are required.');
       return;
     }
-
+    console.log("TRYING TO FETCH:", `${process.env.EXPO_PUBLIC_API_URL}/users/login`);
     try {
-        const response = await fetch(`${API_URL}/users/register`, {
+        const response = await fetch(`${process.env.EXPO_PUBLIC_API_URL}/users/login`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username, password }),
+            body: JSON.stringify({ name: username, password }),
           });
     
           const data = await response.json();
@@ -33,17 +41,20 @@ export default function LoginScreen() {
             return;
           }
     
-          // Saving the token in a global variable
+          // Saving the token and userId in a global variable
           global.token = data.token; 
+          global.userId = data.id;
           
           router.replace('/');
       
       // Switch to home screen
       router.replace('/'); 
     } catch (err) {
+      console.log("Detailed error:", err);
       setError('Server error. Please try again.');
     }
   };
+
 
   return (
     <View style={styles.scrollContainer}>
@@ -54,6 +65,7 @@ export default function LoginScreen() {
       <TextInput
         style={styles.input}
         placeholder="Username"
+        placeholderTextColor="#888"
         value={username}
         onChangeText={setUsername}
         autoCapitalize="none"
@@ -62,6 +74,7 @@ export default function LoginScreen() {
       <TextInput
         style={styles.input}
         placeholder="Password"
+        placeholderTextColor="#888"
         value={password}
         onChangeText={setPassword}
         secureTextEntry
