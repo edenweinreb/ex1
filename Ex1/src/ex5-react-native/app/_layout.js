@@ -1,11 +1,13 @@
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Drawer } from 'expo-router/drawer';
 import { COLORS } from '../styles/Theme';
+import { CartProvider } from '../components/CartContext';
 
 export default function RootLayout() {
   return (
     // GestureHandlerRootView is required for the drawer swipe gestures to work properly
     <GestureHandlerRootView style={{ flex: 1 }}>
+      <CartProvider>
       <Drawer
         screenOptions={{
           headerShown: true, // Shows the top bar with the hamburger icon
@@ -73,6 +75,7 @@ export default function RootLayout() {
         }}
       />
       </Drawer>
+      </CartProvider>
     </GestureHandlerRootView>
   );
 }
