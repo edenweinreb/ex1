@@ -1,22 +1,27 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Image, ScrollView, ActivityIndicator, TouchableOpacity } from 'react-native';
-import { useLocalSearchParams } from 'expo-router';
-import { COLORS } from '../../styles/Theme'; 
-import { useNavigation } from 'expo-router';
+import { View, Text, Image, ScrollView, ActivityIndicator, TouchableOpacity } from 'react-native';
+import { useLocalSearchParams, useRouter, useNavigation } from 'expo-router';
 import { styles } from '../../styles/[id].styles'; 
-
+import DishCard from '../../components/DishCard'; 
+import { useCart } from '../../components/CartContext';
 
 export default function RestaurantScreen() {
   const navigation = useNavigation();
+  const router = useRouter();
   const { id } = useLocalSearchParams(); 
+  
   const [restaurant, setRestaurant] = useState(null);
   const [menu, setMenu] = useState([]); 
   const [isLoading, setIsLoading] = useState(true);
+  
+  const { cartItems } = useCart();
+  const cartTotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
 
   useEffect(() => {
     setIsLoading(true);
     setRestaurant(null);
     setMenu([]);
+
     fetch(`${process.env.EXPO_PUBLIC_API_URL}/restaurants/${id}`)
       .then(res => res.json())
       .then(data => {
@@ -57,38 +62,55 @@ export default function RestaurantScreen() {
   }
 
   return (
-    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-      <Image source={{ uri: restaurant.image }} style={styles.headerImage} />
-      
-      <View style={styles.detailsContainer}>
-        <Text style={styles.title}>{restaurant.name}</Text>
-        <Text style={styles.description}>{restaurant.description}</Text>
-        <Text style={styles.infoText}>⭐ {restaurant.averageRating} | 📍 {restaurant.address}</Text>
-      </View>
+    <View style={{ flex: 1, backgroundColor: '#fff' }}>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <Image source={{ uri: restaurant.image }} style={styles.headerImage} />
+        
+        <View style={styles.detailsContainer}>
+          <Text style={styles.title}>{restaurant.name}</Text>
+          <Text style={styles.description}>{restaurant.description}</Text>
+          <Text style={styles.infoText}>⭐ {restaurant.averageRating} | 📍 {restaurant.address}</Text>
+        </View>
 
-      <View style={styles.divider} />
+        <View style={styles.divider} />
 
-      <Text style={styles.menuTitle}>Menu</Text>
-      
-      {menu.length === 0 ? (
-        <Text style={styles.emptyMenuText}>No items available in the menu yet.</Text>
-      ) : (
-        menu.map((dish) => (
-          <TouchableOpacity key={dish.id || dish._id} style={styles.dishCard}>
-            <View style={styles.dishInfo}>
-              <Text style={styles.dishName}>{dish.name}</Text>
-              <Text style={styles.dishDesc} numberOfLines={2}>{dish.description}</Text>
-              <Text style={styles.dishPrice}>₪{dish.price}</Text>
-            </View>
-            {dish.image && (
-              <Image source={{ uri: dish.image }} style={styles.dishImage} />
-            )}
-          </TouchableOpacity>
-        ))
+        <Text style={styles.menuTitle}>Menu</Text>
+        
+        {menu.length === 0 ? (
+          <Text style={styles.emptyMenuText}>No items available in the menu yet.</Text>
+        ) : (
+          menu.map((dish) => (
+            <DishCard key={dish.id || dish._id} dish={dish} restaurantId={id} />
+          ))
+        )}
+        
+        <View style={{ height: 100 }} />
+      </ScrollView>
+
+      {cartItems.length > 0 && (
+        <TouchableOpacity 
+          style={{
+            position: 'absolute',
+            bottom: 30,
+            left: 20,
+            right: 20,
+            backgroundColor: '#00C2E8',
+            padding: 16,
+            borderRadius: 8,
+            alignItems: 'center',
+            shadowColor: '#000',
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: 0.2,
+            shadowRadius: 4,
+            elevation: 5,
+          }}
+          onPress={() => router.push('/cart')}
+        >
+          <Text style={{ color: '#fff', fontSize: 18, fontWeight: 'bold' }}>
+            View Cart ({cartItems.length}) - ₪{cartTotal.toFixed(2)}
+          </Text>
+        </TouchableOpacity>
       )}
-      
-      <View style={styles.bottomSpacer} />
-    </ScrollView>
+    </View>
   );
 }
-
