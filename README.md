@@ -1,31 +1,42 @@
-# Ex4 - Advanced Programming: Full Stack Web Application
+# Full Stack Web & Mobile Application (Wolt Clone) - Ex4 & Ex5
 
 ## Description
-This project expands on the previous exercise by introducing a dynamic React frontend application inspired by Wolt. The system now consists of a RESTful web server built with Node.js and Express, an Ex2 TCP server for product view tracking, and a new React client that consumes the API and presents a complete user interface.
+This project is a comprehensive full-stack application inspired by Wolt[cite: 1, 2]. It consists of a RESTful backend server built with Node.js and Express, a TCP server for product view tracking, a React web frontend[cite: 2], and a newly integrated React Native mobile application. The backend has been upgraded to persistently store all data in a MongoDB database rather than in-memory arrays.
 
-## New Features & Architecture (Exercise 4)
-* **React Frontend:** A component-based React application utilizing `React Router` for seamless single-page navigation without page refreshes.
-* **User Authentication:** Registration and login functionality using JWT (JSON Web Tokens). Protected routes ensure that only authenticated users can access certain views or perform specific actions.
-* **Dynamic Data Fetching:** The frontend dynamically fetches and displays real data from the Ex3 Node.js server using asynchronous requests (`fetch`), without relying on hard-coded information.
-* **Theme Toggle:** The application features a button in the top menu to toggle between Light mode and Dark mode seamlessly.
-* **Form Validation:** Client-side and server-side validation are implemented for user inputs, ensuring proper data formatting (e.g., password complexity) and visual feedback before submission.
+The entire development lifecycle was managed using Agile methodologies via JIRA and strict GitHub collaborative workflows.
 
-## Frontend Project Structure
-The React application (`ex4-react`) is logically divided into modular components:
-* **`components/auth/`**: Contains `Login`, `Register`, and `ProtectedRoute` components for session management and JWT verification.
-* **`components/home/`**: Contains the main `Home` view displaying nearby and promoted restaurants.
-* **`components/layout/`**: Contains the `Header` component.
-* **`components/orders/`** & **`components/restaurants/`**: Handle the logic and views for browsing menus, executing orders, and viewing order history.
+---
 
-## API Endpoints
+## New Features & Architecture (Exercise 5)
 
-### Authentication
+* **React Native Mobile App:** A dedicated mobile application built with React Native. The visual design is inspired by the real Wolt mobile experience.
+* **Functionality Parity:** The mobile client replicates the core functionality and all screens of the Ex4 web client[cite: 1].
+* **MongoDB & Mongoose Integration:** The Node.js server has been refactored to transition from in-memory arrays to persistent data storage using MongoDB and Mongoose[cite: 1].
+* **Input Form Validation:** Comprehensive validation on the Login and Registration screens[cite: 1]. All fields are mandatory, and specific logic is enforced (e.g., password complexity of at least 8 characters combining letters and numbers) with clear visual feedback[cite: 1].
+* **Media & Image Handling:** Support for profile image attachment during registration, allowing users to select an existing image from their device's phone or camera[cite: 1].
+* **Agile Management (JIRA):** Application features and tasks were organized hierarchically into Epics, User Stories, and Tasks[cite: 1]. The development process involved Sprint planning, assigning a Scrum Master, and tracking issues dynamically using state transitions (in progress, code review, done) and dependency mapping (is blocked by)[cite: 1].
+* **Strict Git Workflow:** Development was done exclusively via feature branches merged into the main branch through Pull Requests[cite: 1]. Every PR required mandatory code reviews and approvals from all other team members before merging[cite: 1].
+
+---
+
+## Existing Features & Component Structure (Exercise 4)
+
+* **React Web Frontend:** A component-based React application utilizing `React Router` for dynamic navigation without full-page reloads[cite: 2].
+* **User Authentication:** Registration and login functionality using JSON Web Tokens (JWT)[cite: 2]. Protected frontend routes prevent unauthenticated access to certain views[cite: 2].
+* **Dynamic Data Fetching:** Asynchronous architecture leveraging the `fetch` API to query dynamic real-time data from the Node.js server[cite: 2].
+* **Theme Toggle:** Built-in Light/Dark mode switcher available within the top menu[cite: 2].
+
+---
+
+## API Endpoints Reference
+
+### Authentication[cite: 2]
 | Method | URL | Description |
 |--------|-----|-------------|
 | POST | /api/users | Create a new user |
 | POST | /api/tokens | Generate a JWT for a registered user |
 
-### Restaurants
+### Restaurants[cite: 2]
 | Method | URL | Description |
 |--------|-----|-------------|
 | GET | /api/restaurants | Get all restaurants |
@@ -34,7 +45,7 @@ The React application (`ex4-react`) is logically divided into modular components
 | PATCH | /api/restaurants/:id | Update a restaurant |
 | DELETE | /api/restaurants/:id | Delete a restaurant |
 
-### Products
+### Products[cite: 2]
 | Method | URL | Description |
 |--------|-----|-------------|
 | GET | /api/restaurants/:id/products | Get all products |
@@ -43,7 +54,7 @@ The React application (`ex4-react`) is logically divided into modular components
 | PATCH | /api/restaurants/:id/products/:pId | Update a product |
 | DELETE | /api/restaurants/:id/products/:pId | Delete a product |
 
-### Orders
+### Orders[cite: 2]
 | Method | URL | Description |
 |--------|-----|-------------|
 | GET | /api/orders | Get all orders of logged in user |
@@ -52,52 +63,49 @@ The React application (`ex4-react`) is logically divided into modular components
 | PATCH | /api/orders/:id | Update an order |
 | DELETE | /api/orders/:id | Delete an order |
 
-## How to Run
+---
+
+## How to Run the Project
 
 ### Prerequisites
-- Docker
-- Docker Compose
+- Docker & Docker Compose[cite: 1, 2]
+- Node.js & npm
+- Expo Go application installed on your mobile device.
 
-### Execution Command
-The entire application stack—including the React frontend, Node.js server, and TCP server—is containerized. Open your terminal in the root directory of the project and run the following exact command to build and start all services:
+### Step 1: Environment Configuration (`.env`)
+To enable the React Native application to communicate with your locally running backend server, you must provide your local machine's IP address.
+1. Navigate to the React Native project root (`ex5-react-native`).
+2. Create a file named `.env`.
+3. Add your local IP address configuration (replace `<YOUR_LOCAL_IP>` with your actual machine IP):
+   ```env
+   EXPO_PUBLIC_API_URL=http://<YOUR_LOCAL_IP>:3000
+
+   ### Step 2: Spinning up the Backend Services (Docker)
+The backend services are containerized. Open your terminal in the root directory of the project and execute the following command:
 
 ```bash
 # Build and start all containers
 docker-compose up --build
-```
+### Step 3: Running the React Native App (Two Terminals)
+To launch the Expo development packager for the mobile client, open two separate terminal windows.
 
-### Accessing the Application
-According to the project requirements, the Node.js web server directly serves the React application upon accessing its home page. 
+#### Terminal 1: Build & Dependencies
+In the first terminal, ensure all required npm packages are installed:
+```bash
+# Install dependencies
+npm install
 
-Once the Docker containers are successfully running, open your web browser and navigate to the server's root address:
+#### Terminal 2: Project Startup & Code Scan
+In the second terminal, navigate directly into the Exercise 5 folder and start the environment:
+```bash
+# Navigate to the react-native directory
+cd ex5-react-native
 
-```text
-http://localhost:3000
-```
-<img width="1265" height="586" alt="image" src="https://github.com/user-attachments/assets/2e5c6572-17d6-4976-923e-d4546bec6817" />
-<img width="1262" height="592" alt="image" src="https://github.com/user-attachments/assets/9243a238-9398-4521-9f7a-0306920f96ed" />
-<img width="1264" height="521" alt="image" src="https://github.com/user-attachments/assets/c75d6030-8030-43e7-8654-593b7e330e3c" />
-<img width="1256" height="582" alt="image" src="https://github.com/user-attachments/assets/aa26824e-0af7-4d54-944a-8b8ea6ca5982" />
-<img width="1271" height="580" alt="image" src="https://github.com/user-attachments/assets/08270120-cf9f-47b3-bfee-81126ce90397" />
-<img width="1264" height="581" alt="image" src="https://github.com/user-attachments/assets/27046a38-a545-423d-bd1d-816e31c57191" />
-<img width="1274" height="562" alt="image" src="https://github.com/user-attachments/assets/9ebb77ef-1749-4ea0-9498-047ed11dca57" />
-<img width="1268" height="554" alt="image" src="https://github.com/user-attachments/assets/efc7a083-f563-46a2-815b-bcf324e39ec0" />
-<img width="1262" height="521" alt="image" src="https://github.com/user-attachments/assets/a8f2cb43-7434-4437-be4a-96ae260cedc3" />
-<img width="1270" height="589" alt="image" src="https://github.com/user-attachments/assets/6fab8ca4-b478-46b8-88f3-67b4f256e94d" />
-<img width="440" height="292" alt="Screenshot 2026-06-19 153142" src="https://github.com/user-attachments/assets/686ce015-b5ae-435c-b8f6-6997aec3c0c7" />
-<img width="334" height="325" alt="Screenshot 2026-06-19 153237" src="https://github.com/user-attachments/assets/17c3b52c-abef-4719-80fd-4cace68fb4ce" />
+# Start the Expo server and generate QR code
+npm start
 
-## Owner functionality
-<img width="795" height="344" alt="image" src="https://github.com/user-attachments/assets/50817c3a-9bfa-462a-96d3-ccc91e226c69" />
-<img width="781" height="344" alt="image" src="https://github.com/user-attachments/assets/cdede8a1-a2f8-4b3d-91a5-a6d578228f23" />
-<img width="959" height="445" alt="image" src="https://github.com/user-attachments/assets/dcd91eb9-339d-43ec-a7cd-f9a198b8ce1f" />
-<img width="782" height="345" alt="image" src="https://github.com/user-attachments/assets/4cdd2e9a-97fd-4ba0-a9c0-a940e7bf595e" />
-<img width="983" height="445" alt="image" src="https://github.com/user-attachments/assets/637ee6c4-4de2-4409-8d92-17a9aa6ac03b" />
-
-
-
-
-
-
-
-
+## Project Documentation & Artifacts
+A dedicated `wiki` folder is included in the root of the repository, containing thorough explanations, usage workflows, and step-by-step verification screenshots demonstrating:
+* The compilation and running of the entire environment using Docker Compose.
+* The login and registration processes with input validations.
+* The creation, editing, and deletion of restaurants, products, and orders across the clients.
