@@ -1,14 +1,35 @@
+import { useRouter } from 'expo-router';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Drawer } from 'expo-router/drawer';
+import { DrawerContentScrollView, DrawerItemList, DrawerItem } from '@react-navigation/drawer';
 import { COLORS } from '../styles/Theme';
 import { CartProvider } from '../components/CartContext';
 
 export default function RootLayout() {
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    await AsyncStorage.removeItem('userId');
+    await AsyncStorage.removeItem('token');
+    router.replace('/login');
+  };
+
   return (
     // GestureHandlerRootView is required for the drawer swipe gestures to work properly
     <GestureHandlerRootView style={{ flex: 1 }}>
       <CartProvider>
       <Drawer
+        drawerContent={(props) => (
+          <DrawerContentScrollView {...props}>
+            <DrawerItemList {...props} />
+            <DrawerItem
+              label="Logout"
+              labelStyle={{ color: '#d9534f', fontWeight: 'bold' }}
+              onPress={handleLogout}
+            />
+          </DrawerContentScrollView>
+        )}
         screenOptions={{
           headerShown: true, // Shows the top bar with the hamburger icon
           drawerActiveTintColor: COLORS.primary, // Highlights the active screen in cyan
@@ -65,6 +86,13 @@ export default function RootLayout() {
         name="restaurant/[id]"
         options={{
           drawerItemStyle: { display: 'none' },
+        }}
+      />
+        <Drawer.Screen
+        name="order/[id]"
+        options={{
+          drawerItemStyle: { display: 'none' }, // מסתיר אותו מהתפריט הצדדי כדי שלא יופיע ככפתור
+          title: 'Order Details',
         }}
       />
 

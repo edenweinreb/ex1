@@ -3,6 +3,7 @@ import { View, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from '../../styles/tabs._layout.styles'; 
 import { COLORS } from '../../styles/Theme'; 
+import { FontAwesome } from '@expo/vector-icons';
 
 export default function TabsLayout() {
   return (
@@ -23,6 +24,16 @@ export default function TabsLayout() {
           options={{
             tabBarLabel: 'Restaurants'
           }} 
+        />
+
+        <Tabs.Screen
+          name="orders"
+          options={{
+            title: 'Orders',
+            tabBarIcon: ({ color }) => (
+              <FontAwesome name="list-alt" size={24} color={color} />
+            ),
+          }}
         />
         
         <Tabs.Screen 

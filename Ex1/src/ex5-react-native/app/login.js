@@ -2,6 +2,7 @@ import React, { useState, useCallback } from 'react';
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import { useRouter, useFocusEffect } from 'expo-router';
 import { authStyles as styles } from '../styles/auth.style'; 
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function LoginScreen() {
   const router = useRouter();
@@ -26,7 +27,6 @@ export default function LoginScreen() {
       setError('Username and password are required.');
       return;
     }
-    console.log("TRYING TO FETCH:", `${process.env.EXPO_PUBLIC_API_URL}/users/login`);
     try {
         const response = await fetch(`${process.env.EXPO_PUBLIC_API_URL}/users/login`, {
             method: 'POST',
@@ -35,6 +35,8 @@ export default function LoginScreen() {
           });
     
           const data = await response.json();
+          //
+          console.log("Login response data:", data);
     
           if (!response.ok) {
             setError(data.error || 'Invalid credentials.');
@@ -44,7 +46,9 @@ export default function LoginScreen() {
           // Saving the token and userId in a global variable
           global.token = data.token; 
           global.userId = data.id;
-          
+          await AsyncStorage.setItem('userId', String(data.id));
+          await AsyncStorage.setItem('token', String(data.token));
+                
           router.replace('/');
       
       // Switch to home screen

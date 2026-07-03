@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { View, Text, StyleSheet, Image, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { useRouter, useFocusEffect } from 'expo-router';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function ProfileScreen() {
   const router = useRouter();
@@ -18,6 +19,14 @@ export default function ProfileScreen() {
       // Retrieving data from the server by ID
       const fetchUserData = async () => {
         try {
+          const storedUserId = await AsyncStorage.getItem('userId');
+          
+          if (!storedUserId) {
+            setUserData(null);
+            setIsLoading(false);
+            return;
+          }
+          
           const res = await fetch(`${process.env.EXPO_PUBLIC_API_URL}/users/${global.userId}`);
           if (res.ok) {
             const data = await res.json();

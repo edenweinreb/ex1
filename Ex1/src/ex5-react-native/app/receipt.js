@@ -4,7 +4,6 @@ import { useRouter, useLocalSearchParams } from 'expo-router';
 
 export default function ReceiptScreen() {
   const router = useRouter();
-  // שולפים את הנתונים שנעביר מהעגלה (מספר הזמנה וסכום)
   const { orderId, total } = useLocalSearchParams();
 
   return (
