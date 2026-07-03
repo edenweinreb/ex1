@@ -94,6 +94,7 @@ In the first terminal, ensure all required npm packages are installed:
 ```bash
 # Install dependencies
 npm install
+npx expo install @react-native-async-storage/async-storage
 
 #### Terminal 2: Project Startup & Code Scan
 In the second terminal, navigate directly into the Exercise 5 folder and start the environment:
