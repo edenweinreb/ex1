@@ -74,6 +74,14 @@ export default function RootLayout() {
           drawerItemStyle: { display: 'none' },
         }}
       />
+      <Drawer.Screen
+        name="receipt"
+        options={{
+          drawerItemStyle: { display: 'none' },
+          title: 'Order Receipt', 
+          headerLeft: () => null, 
+        }}
+      />
       </Drawer>
       </CartProvider>
     </GestureHandlerRootView>
