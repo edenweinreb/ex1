@@ -57,7 +57,7 @@ useEffect(() => {
 
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-      
+
       {/* Search Bar */}
       <View style={styles.searchContainer}>
         <TextInput
