@@ -13,7 +13,6 @@ export default function CartScreen() {
   // Function to handle the checkout process
   const handleCheckout = async () => {
     try {
-      // מושכים את הטוקן מהמשתנה הגלובלי שיצרת במסך ההתחברות!
       const token = global.token;
 
       // Check if user is logged in (has a token), otherwise stop the process
@@ -25,7 +24,7 @@ export default function CartScreen() {
 
       // Prepare the order data to match the backend Mongoose schema
       const orderData = {
-        userId: global.userId, // <--- הנה התוספת החדשה שלנו!
+        userId: global.userId,
         restaurantId: cartItems[0].restaurantId,
         items: cartItems.map(item => ({
           productId: item.id || item._id,
