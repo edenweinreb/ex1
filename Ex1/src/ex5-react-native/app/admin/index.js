@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, Alert, ActivityIndicator } from 'react-native';
-import { useRouter } from 'expo-router';
+import { useRouter, useFocusEffect } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons';
 import { styles } from '../../styles/admin.styles';
 import { COLORS } from '../../styles/Theme';
 
@@ -25,10 +26,12 @@ export default function AdminDashboardScreen() {
     }
   };
 
-  // Fetch data when the screen mounts
-  useEffect(() => {
-    fetchRestaurants();
-  }, []);
+  // Re-fetch data every time the screen comes into focus
+  useFocusEffect(
+    useCallback(() => {
+      fetchRestaurants();
+    }, [])
+  );
 
   // Function to handle restaurant deletion
   const handleDelete = (id) => {
@@ -71,7 +74,7 @@ export default function AdminDashboardScreen() {
         <Text style={styles.headerTitle}>Manage Restaurants</Text>
         <TouchableOpacity 
           style={styles.addBtn}
-          onPress={() => router.push('/admin/create')} // Navigation to the Create screen
+          onPress={() => router.push('/admin/create')}
         >
           <Text style={styles.addBtnText}>+ Add New</Text>
         </TouchableOpacity>
@@ -107,6 +110,7 @@ export default function AdminDashboardScreen() {
                 style={[styles.actionBtn, styles.deleteBtn]}
                 onPress={() => handleDelete(r.id || r._id)}
               >
+                <Ionicons name="trash" size={18} color="red" />
               </TouchableOpacity>
 
             </View>

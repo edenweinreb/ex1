@@ -52,7 +52,7 @@ export default function CreateRestaurantScreen() {
       }
 
       Alert.alert('Success', 'Restaurant added successfully!');
-      router.back(); // Navigate back to the previous screen upon success
+      router.back();// Navigate back to the previous screen upon  - refresh the screen
 
     } catch (error) {
       console.error('Error submitting:', error);
