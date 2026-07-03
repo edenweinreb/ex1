@@ -5,14 +5,28 @@ import { useRouter } from 'expo-router';
 
 export default function CartScreen() {
   const { cartItems, removeFromCart, clearCart } = useCart();
-
-  const totalAmount = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
   const router = useRouter();
 
+  // Calculate the total amount of the cart
+  const totalAmount = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
+  // Function to handle the checkout process
   const handleCheckout = async () => {
     try {
+      // מושכים את הטוקן מהמשתנה הגלובלי שיצרת במסך ההתחברות!
+      const token = global.token;
+
+      // Check if user is logged in (has a token), otherwise stop the process
+      if (!token) {
+        alert('Please login to place an order! 🔒');
+        router.push('/login'); 
+        return;
+      }
+
+      // Prepare the order data to match the backend Mongoose schema
       const orderData = {
-        restaurantId: cartItems[0].restaurantId, 
+        userId: global.userId, // <--- הנה התוספת החדשה שלנו!
+        restaurantId: cartItems[0].restaurantId,
         items: cartItems.map(item => ({
           productId: item.id || item._id,
           name: item.name,
@@ -22,20 +36,30 @@ export default function CartScreen() {
         totalAmount: totalAmount
       };
 
+      // Send the POST request to the server
       const response = await fetch(`${process.env.EXPO_PUBLIC_API_URL}/orders`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}` 
         },
         body: JSON.stringify(orderData)
       });
 
+      // Handle the server response
       if (response.ok) {
-        alert('Order placed successfully! 🎉');
+        const responseData = await response.json(); 
+        
         clearCart(); 
-        router.push('/'); 
+        
+        router.push({
+          pathname: '/receipt',
+          params: { orderId: responseData.order._id, total: totalAmount }
+        });
       } else {
-        alert('Failed to place order. Please try again.');
+        const errorData = await response.json();
+        console.error("Server Error Response:", errorData);
+        alert(`Server Error: ${errorData.message || 'Check terminal for details'}`);
       }
     } catch (error) {
       console.error("Checkout error:", error);
@@ -43,6 +67,7 @@ export default function CartScreen() {
     }
   };
 
+  // Render an empty cart state
   if (cartItems.length === 0) {
     return (
       <View style={styles.centerContainer}>
@@ -51,6 +76,7 @@ export default function CartScreen() {
     );
   }
 
+  // Render the cart with selected items
   return (
     <View style={styles.container}>
       <ScrollView style={styles.itemsList}>
@@ -92,24 +118,12 @@ const styles = StyleSheet.create({
   centerContainer: { flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#fff' },
   emptyText: { fontSize: 20, color: '#666' },
   itemsList: { flex: 1, padding: 16 },
-  cartItem: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingVertical: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: '#eee',
-  },
+  cartItem: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: '#eee' },
   itemInfo: { flex: 1 },
   itemName: { fontSize: 18, fontWeight: '600' },
   itemPrice: { fontSize: 16, color: '#666', marginTop: 4 },
   removeText: { color: 'red', fontWeight: 'bold' },
-  footer: {
-    padding: 20,
-    backgroundColor: '#fff',
-    borderTopWidth: 1,
-    borderTopColor: '#eee',
-  },
+  footer: { padding: 20, backgroundColor: '#fff', borderTopWidth: 1, borderTopColor: '#eee' },
   totalText: { fontSize: 22, fontWeight: 'bold', marginBottom: 15, textAlign: 'center' },
   buttonsRow: { flexDirection: 'row', justifyContent: 'space-between' },
   clearButton: { padding: 15, borderRadius: 8, backgroundColor: '#ffe6e6', flex: 0.3, alignItems: 'center' },

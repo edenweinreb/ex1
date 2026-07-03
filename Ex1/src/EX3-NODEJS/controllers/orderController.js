@@ -38,35 +38,29 @@ const populateOrderItems = async (order) => {
 
 const createOrder = async (req, res) => {
   try {
-      const { restaurantId, items } = req.body;
-      const userId = req.headers['x-user-id']; 
+      const { restaurantId, items, userId, totalAmount } = req.body; 
 
-      // Verify the restaurant exists in the DB
       const restaurant = await Restaurant.findById(restaurantId);
       if (!restaurant) {
           return res.status(404).json({ error: "Restaurant not found" });
       }
 
-      let totalAmount = 0;
-
-      // Iterate over items and fetch current prices from the DB
+      /*
+      let calculatedTotalAmount = 0;
       for (const item of items) {
         const product = await Product.findById(item.productId);
-        
-        // Ensure product exists and belongs to the requested restaurant
         if (!product || product.restaurantId.toString() !== restaurantId.toString()) {
-            return res.status(400).json({ error: `Product ID '${item.productId}' not found in this restaurant` });
+            return res.status(400).json({ error: `Product ID '${item.productId}' not found...` });
         }
-        
-        totalAmount += (product.price * item.quantity);
+        calculatedTotalAmount += (product.price * item.quantity);
       }
+      */
 
-      // Create a new order document
       const newOrder = await Order.create({
           userId,
           restaurantId,
           items,
-          totalAmount,
+          totalAmount, 
           status: 'pending'
       });
       
