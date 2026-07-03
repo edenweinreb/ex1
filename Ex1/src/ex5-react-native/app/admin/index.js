@@ -72,7 +72,7 @@ export default function AdminDashboardScreen() {
                 headers: {
                   'Content-Type': 'application/json',
                   // Passed the user ID to verify admin rights in backend (like the Web version)
-                  'x-user-id': currentUser?.id 
+                  'x-user-id': currentUser?.id || currentUser?._id
                 }
               });
               
