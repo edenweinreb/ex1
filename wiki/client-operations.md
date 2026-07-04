@@ -29,13 +29,36 @@ After successful checkout, an order receipt is generated with a unique Order ID 
 
 ![Order Confirmed](images/order-confirmed.PNG)
 
+### 5. Order History & Tracking
+Users can navigate to the Orders tab to view their past and current orders. This screen displays the order status, total price, and allows users to rate the restaurant.
+
+![Order History](images/order-history.png)
+
+By clicking on a specific order, users can access the Order Details screen, which provides a breakdown of the specific items ordered, the exact timestamp, and the final price.
+
+![Order Details](images/order-details.png)
+
 ---
 
 ## Owner Flow: Restaurant Management (CRUD)
 
 Users with the **Owner** role have access to an administrative dashboard to manage their businesses.
 
-### Managing Restaurants
-Owners can view all their properties, edit existing details, delete a restaurant, or add a new one to the platform.
+### 1. The Manager Dashboard
+Owners can view all their properties and manage them from a centralized list.
 
 ![Manage Restaurants](images/manage-restaurants.PNG)
+
+### 2. Adding a New Restaurant
+Owners can dynamically add a new restaurant to the platform by providing details such as name, cuisine type, address, and coordinates.
+
+![Add New Restaurant](images/add-restaurant.png)
+
+Once successfully created, the new restaurant immediately appears in the management list.
+
+![Updated Restaurant List](images/restaurant-list-updated.jpeg)
+
+### 3. Editing an Existing Restaurant
+By clicking "Edit" on any restaurant, owners can update its properties, change its description, or proceed to manage its specific menu items.
+
+![Edit Restaurant](images/edit-restaurant.png)
