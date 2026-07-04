@@ -58,7 +58,8 @@ export default function OrderHistory() {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
-        'x-user-id': userId
+        'x-user-id': userId ,
+        'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify({ userRatingScore: score })
     })
@@ -70,63 +71,63 @@ export default function OrderHistory() {
   };
 
   // Renders a single order card
-  const renderItem = ({ item }) => (
-    <TouchableOpacity
-      style={styles.card}
-      onPress={() => router.push(`/order/${item._id}`)}
-    >
-      <View style={styles.cardTop}>
-        <View>
-          <Text style={[styles.statusBadge, item.status === 'pending' ? styles.pending : styles.completed]}>
-            {item.status || 'pending'}
-          </Text>
-
-          <Text style={styles.orderId}>Order #{item._id ? item._id.substring(0, 8) : 'N/A'}</Text>
-
-          <Text style={styles.orderDate}>
-            {item.createdAt ? new Date(item.createdAt).toLocaleDateString() : ''}
-          </Text>
+  const renderItem = ({ item }) => {
+    const orderId = item.id || item._id;
+  
+    return (
+      <TouchableOpacity
+        style={styles.card}
+        onPress={() => router.push(`/order/${orderId}`)}
+      >
+        <View style={styles.cardTop}>
+          <View>
+            <Text style={[styles.statusBadge, item.status === 'pending' ? styles.pending : styles.completed]}>
+              {item.status || 'pending'}
+            </Text>
+  
+            <Text style={styles.orderId}>Order #{orderId ? orderId.substring(0, 8) : 'N/A'}</Text>
+  
+            <Text style={styles.orderDate}>
+              {item.createdAt ? new Date(item.createdAt).toLocaleDateString() : ''}
+            </Text>
+          </View>
+  
+          <Text style={styles.orderPrice}>₪{item.totalAmount ? item.totalAmount.toFixed(2) : '0.00'}</Text>
         </View>
-
-        <Text style={styles.orderPrice}>₪{item.totalAmount ? item.totalAmount.toFixed(2) : '0.00'}</Text>
-      </View>
-
-      {/* Restaurant rating section */}
-      <View style={styles.ratingSection}>
-        <Text style={styles.ratingTitle}>Rate this restaurant:</Text>
-
-        <View style={styles.ratingStars}>
-          {[1, 2, 3, 4, 5].map(star => (
-            <TouchableOpacity
-              key={star}
-              onPress={() => rateRestaurant(item.restaurantId, star)}
-            >
-              <Text style={styles.starIcon}>★</Text>
-            </TouchableOpacity>
-          ))}
+  
+        <View style={styles.ratingSection}>
+          <Text style={styles.ratingTitle}>Rate this restaurant:</Text>
+          <View style={styles.ratingStars}>
+            {[1, 2, 3, 4, 5].map(star => (
+              <TouchableOpacity
+                key={star}
+                onPress={() => rateRestaurant(item.restaurantId, star)}
+              >
+                <Text style={styles.starIcon}>★</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
         </View>
-      </View>
-    </TouchableOpacity>
-  );
+      </TouchableOpacity>
+    );
+  };
 
   return (
     <View style={styles.container}>
-      {/* Back button */}
-      <TouchableOpacity
-        onPress={() => navigation.goBack()}
-        style={styles.backBtn}
-      >
-        <Text style={styles.backBtnText}>← Back</Text>
-      </TouchableOpacity>
-
-      <Text style={styles.title}>Order History</Text>
-
-      {orders.length === 0 ? (
-        <Text style={styles.empty}>No orders yet.</Text>
+      {!userId ? (
+        <View style={styles.emptyContainer}>
+          <Text style={styles.emptyText}>Please log in to view orders</Text>
+          <TouchableOpacity 
+            style={styles.emptyButton}
+            onPress={() => router.push('/login')} 
+          >
+            <Text style={styles.emptyButtonText}>Login</Text>
+          </TouchableOpacity>
+        </View>
       ) : (
         <FlatList
-          data={Array.isArray(orders) ? orders.slice(0, 10) : []}
-          keyExtractor={(item) => item._id ? item._id.toString() : Math.random().toString()}
+          data={Array.isArray(orders) ? [...orders].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).slice(0, 10) : []}
+          keyExtractor={(item) => (item.id || item._id || Math.random()).toString()}
           renderItem={renderItem}
           contentContainerStyle={styles.listContainer}
           ListEmptyComponent={
@@ -134,7 +135,7 @@ export default function OrderHistory() {
               <Text style={styles.emptyText}>No orders yet</Text>
               <TouchableOpacity 
                 style={styles.emptyButton}
-                onPress={() => navigation.navigate('index')} 
+                onPress={() => router.push('/')} 
               >
                 <Text style={styles.emptyButtonText}>Start Ordering</Text>
               </TouchableOpacity>
