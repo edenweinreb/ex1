@@ -7,11 +7,13 @@ export function CartProvider({ children }) {
 
   const addToCart = (dish, restaurantId) => {
     setCartItems(prevItems => {
-      const existingItem = prevItems.find(item => item.id === dish.id || item._id === dish._id);
-      
+      const dishId = dish._id || dish.id;
+
+      const existingItem = prevItems.find(item => (item._id || item.id) === dishId);
+     
       if (existingItem) {
         return prevItems.map(item =>
-          (item.id === dish.id || item._id === dish._id)
+          (item._id || item.id) === dishId
             ? { ...item, quantity: item.quantity + 1 }
             : item
         );
@@ -22,7 +24,7 @@ export function CartProvider({ children }) {
   };
 
   const removeFromCart = (dishId) => {
-    setCartItems(prevItems => prevItems.filter(item => item.id !== dishId && item._id !== dishId));
+    setCartItems(prevItems => prevItems.filter(item => (item._id || item.id) !== dishId));
   };
 
   const clearCart = () => {
