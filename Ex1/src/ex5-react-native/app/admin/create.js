@@ -31,12 +31,18 @@ export default function CreateRestaurantScreen() {
       return;
     }
 
+    if (!global.token) {
+      Alert.alert('Error', 'Please login first! No token found.');
+      return;
+    }
+    
     setIsLoading(true);
 
     try {
       const restRes = await fetch(`${process.env.EXPO_PUBLIC_API_URL}/restaurants`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json' ,
+                   'Authorization': `Bearer ${global.token}` },
         body: JSON.stringify({
           ...formData,
           lat: parseFloat(formData.lat), // Convert to number like in the Web version

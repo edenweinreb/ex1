@@ -12,6 +12,12 @@ export default function RootLayout() {
   const handleLogout = async () => {
     await AsyncStorage.removeItem('userId');
     await AsyncStorage.removeItem('token');
+    await AsyncStorage.removeItem('role');
+
+    global.token = null;
+    global.userId = null;
+    global.role = null;
+
     router.replace('/login');
   };
 
@@ -55,6 +61,7 @@ export default function RootLayout() {
           options={{
             drawerLabel: 'Admin Dashboard',
             title: 'Manage Restaurants',
+            drawerItemStyle: global.role !== 'owner' ? { display: 'none' } : {},
           }}
         />
 
@@ -91,7 +98,7 @@ export default function RootLayout() {
         <Drawer.Screen
         name="order/[id]"
         options={{
-          drawerItemStyle: { display: 'none' }, // מסתיר אותו מהתפריט הצדדי כדי שלא יופיע ככפתור
+          drawerItemStyle: { display: 'none' }, 
           title: 'Order Details',
         }}
       />
@@ -106,8 +113,8 @@ export default function RootLayout() {
         name="receipt"
         options={{
           drawerItemStyle: { display: 'none' },
-          title: 'Order Receipt', 
-          headerLeft: () => null, 
+          title: 'Order Receipt',
+          headerLeft: () => null,
         }}
       />
       </Drawer>

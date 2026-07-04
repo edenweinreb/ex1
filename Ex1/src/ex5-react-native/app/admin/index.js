@@ -47,7 +47,8 @@ export default function AdminDashboardScreen() {
                 method: 'DELETE',
                 headers: {
                   'Content-Type': 'application/json',
-                  'x-user-id': global.userId
+                  'x-user-id': global.userId,
+                  'Authorization': `Bearer ${global.token}`
                 }
               });
              

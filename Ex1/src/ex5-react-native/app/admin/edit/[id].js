@@ -63,7 +63,8 @@ export default function EditRestaurantScreen() {
       // Sending a PATCH request to update only the changed fields
       const res = await fetch(`${process.env.EXPO_PUBLIC_API_URL}/restaurants/${id}`, {
         method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json',
+                   'Content-Type': 'application/json', 'Authorization': `Bearer ${global.token}`  },
         body: JSON.stringify({
           ...formData,
           lat: formData.lat ? parseFloat(formData.lat) : undefined,
