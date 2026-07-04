@@ -38,6 +38,14 @@ By clicking on a specific order, users can access the Order Details screen, whic
 
 ![Order Details](images/order-details.png)
 
+order history by different client:
+
+![Order History](images/order-history2.png)
+
+ ### 6. Role-Based Access (Customer Menu)
+The application enforces strict role-based access. Regular customers have a restricted navigation menu containing only standard features (Home, Cart, and Authentication). They do not have the ability to view the management dashboard, add, or edit any restaurant details. 
+
+![Customer Menu](images/customer-menu.png)
 ---
 
 ## Owner Flow: Restaurant Management (CRUD)
@@ -62,3 +70,21 @@ Once successfully created, the new restaurant immediately appears in the managem
 By clicking "Edit" on any restaurant, owners can update its properties, change its description, or proceed to manage its specific menu items.
 
 ![Edit Restaurant](images/edit-restaurant.png)
+
+ For example, modifying the restaurant's name:
+
+![Editing Restaurant Name](images/edit-name-typing.png)
+
+Upon saving, a success confirmation is displayed:
+
+![Edit Success](images/edit-success-popup.png)
+
+The changes are immediately reflected across all client views. The manager's dashboard updates instantly:
+
+![Manager List Updated](images/manager-list-updated.png)
+
+Customers will also dynamically see the updated details on the home screen and inside the restaurant's menu:
+
+![Home Screen Updated](images/home-screen-updated.png)
+
+![Restaurant Menu Updated](images/restaurant-menu-updated.png)
