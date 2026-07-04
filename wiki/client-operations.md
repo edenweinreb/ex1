@@ -40,7 +40,7 @@ By clicking on a specific order, users can access the Order Details screen, whic
 
 order history by different client:
 
-![Order History](images/order-history2.png)
+![Order History](images/order-history-2.png)
 
  ### 6. Role-Based Access (Customer Menu)
 The application enforces strict role-based access. Regular customers have a restricted navigation menu containing only standard features (Home, Cart, and Authentication). They do not have the ability to view the management dashboard, add, or edit any restaurant details. 
