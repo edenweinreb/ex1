@@ -8,6 +8,7 @@ To start the backend architecture, navigate to the project's root directory in y
 
 ```bash
 docker-compose up --build
+```
 
 ![Docker Compose Command](images/dockercompose.PNG)
 
@@ -17,7 +18,9 @@ Once the Docker Compose process completes, you will see all the services (MongoD
 
 Next, to run the React Native mobile application, open a second terminal instance and start the Expo bundler:
 
+```
 npx expo start -c
+```
 
 The split terminal below shows the Docker containers running on the left, and the Expo bundler with the generated QR code on the right:
 
