@@ -10,7 +10,7 @@ To start the backend architecture, navigate to the project's root directory in y
 docker-compose up --build
 ```
 
-![Docker Compose Command](images/dockercompose.PNG)
+![Docker Compose Command](images/dockercompose.png)
 
 ## 2. Verifying Containers and Starting the Mobile Client
 
@@ -26,4 +26,4 @@ The split terminal below shows the Docker containers running on the left, and th
 
 Note: Scan the QR code using the Expo Go application on your mobile device to launch the client.
 
-![Running Terminals and Expo](images/running-2-treminals.PNG)
+![Running Terminals and Expo](images/running-2-treminals.png)
