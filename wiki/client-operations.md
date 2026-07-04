@@ -42,6 +42,10 @@ order history by different client:
 
 ![Order History](images/order-history2.png)
 
+ ### 6. Role-Based Access (Customer Menu)
+The application enforces strict role-based access. Regular customers have a restricted navigation menu containing only standard features (Home, Cart, and Authentication). They do not have the ability to view the management dashboard, add, or edit any restaurant details. 
+
+![Customer Menu](images/customer-menu.png)
 ---
 
 ## Owner Flow: Restaurant Management (CRUD)
